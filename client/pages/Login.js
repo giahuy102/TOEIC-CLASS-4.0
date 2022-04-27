@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
-
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import AuthService from '../services/AuthService';
-
 import { storeToken } from '../services/JWTStorage';
+
+import AppStyles from "../styles/SystemFontStyles.scss";
 
 export default function Login({ navigation }) {
     const [password, setPassword] = useState('');
@@ -18,18 +17,18 @@ export default function Login({ navigation }) {
 
 
     React.useLayoutEffect(() => {
-        navigation.setOptions({
-            headerLeft: () => {
-                // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
-                return (
-                    <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../assets/back_arrow.png')} />
+        // navigation.setOptions({
+        //     headerLeft: () => {
+        //         // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
+        //         return (
+        //             <TouchableOpacity onPress={() => navigation.pop()}>
+        //                 <Image source={require('../assets/back_arrow.png')} />
 
-                    </TouchableOpacity>
-                );
+        //             </TouchableOpacity>
+        //         );
 
-            },
-        });
+        //     },
+        // });
     }, [navigation]);
 
 
@@ -59,6 +58,9 @@ export default function Login({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <Text style={AppStyles.LoginHeaderText}>
+                {"Welcome Back!\n Please Login"}
+            </Text>
             <TextInput
                 style={styles.input}
                 placeholder='Enter email address'

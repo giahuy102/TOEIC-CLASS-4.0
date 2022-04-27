@@ -2,34 +2,35 @@ import react, { useState } from "react"
 import { Button, Text, StyleSheet, View, Image } from "react-native";
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
-console.log("SystemFontStyles", AppStyles);
+export default OnboardingScreen3 = ({ navigation }) => {
 
-export default OnboardingScreen1 = ({ navigation }) => {
+    const proceedToLoginPage = () => {
+        navigation.popToTop();
+        navigation.replace("Login");
+    }
+
     return (
         <View style={styles.container}>
             <View style={AppStyles.OnboaringUpperButtonView}>
-                <View>
-                </View>
-                <Button
-                    title="Skip"
-                    style={AppStyles.OnboardingButton}
-                    onPress={() => navigation.navigate('Onboarding3')}
-                />
             </View>
             <View style={AppStyles.OnboardingTextView}>
                 <Image
                     style={AppStyles.OnboardingImage}
-                    source={require('../../assets/onboardingImage/Onboarding1.png')}
+                    source={require('../../assets/onboardingImage/Onboarding3.png')}
                 />
-                <Text style={AppStyles.OnboardingHeader}>{"Classroom In\nYour Pocket"}</Text>
-                <Text style={AppStyles.OnboardingText}>{"Connect with your teacher and classmate, attend classroom on the go"}</Text>
+                <Text style={AppStyles.OnboardingHeader}>{"Push Each Other \nTo The Limit"}</Text>
+                <Text style={AppStyles.OnboardingText}>{"Challenge your classmate in real-time contest with random test to practice what you have learnt. "}</Text>
             </View>
             <View style={AppStyles.OnboaringBelowButtonView}>
-                <View></View>
                 <Button
-                    title="Next"
+                    title="Back"
                     style={AppStyles.OnboardingButton}
                     onPress={() => navigation.navigate('Onboarding2')}
+                />
+                <Button
+                    title="Login"
+                    style={AppStyles.OnboardingButton}
+                    onPress={() => proceedToLoginPage()}
                 />
             </View>
         </View>

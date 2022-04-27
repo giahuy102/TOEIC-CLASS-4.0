@@ -14,6 +14,7 @@ import AuthService from '../services/AuthService';
 
 import { useEffect } from 'react';
 export default function StartScreen({ navigation }) {
+  
   useEffect(() => {
     loadToken().then(value => {
       if (value) {

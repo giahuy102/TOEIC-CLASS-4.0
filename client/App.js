@@ -9,13 +9,12 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Homepage from './pages/Homepage';
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
+import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
+import OnboardingScreen3 from './pages/onboarding/OnboardingScreen3';
 
 import { loadToken } from './services/JWTStorage'
 import AuthService from './services/AuthService';
 
-import SystemStyles from "./styles/SystemStyles.scss";
-
-console.log("SystemStyles", SystemStyles);
 
 // function HomeScreen() {
 //   return (
@@ -68,6 +67,8 @@ export default function App({ navigation }) {
       >
         <Stack.Screen name="StartScreen" component={StartScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Onboarding1" component={OnboardingScreen1} options={{ headerShown: false }} />
+        <Stack.Screen name="Onboarding2" component={OnboardingScreen2} options={{ headerShown: false }} />
+        <Stack.Screen name="Onboarding3" component={OnboardingScreen3} options={{ headerShown: false }} />
 
         <Stack.Screen
           name="Login"

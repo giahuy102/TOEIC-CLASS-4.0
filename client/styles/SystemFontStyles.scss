@@ -1,0 +1,107 @@
+.container {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+}
+
+$primary-blue-400: #53B1FD;
+$primary-blue-500: #2E90FA;
+$primary-blue-600: #1570EF;
+
+$primary-grey-600: #475467;
+
+$primary-font: 'Roboto';
+
+%Heading1Font {
+    font-family: $primary-font;
+    font-weight: bold;
+    font-size: 36;
+}
+
+%Heading2Font {
+    font-family: $primary-font;
+    font-weight: bold;
+    font-size: 32;
+    letter-spacing: -1%;
+}
+
+%Heading3Font {
+    font-family: $primary-font;
+    font-weight: bold;
+    font-size: 28;
+}
+
+%TopBarTitleFont {
+    font-family: $primary-font;
+    font-weight: normal;
+    font-size: 20;
+}
+
+%PrimaryParagraphFont {
+    font-family: $primary-font;
+    font-weight: normal;
+    font-size: 17;
+}
+
+%SecondaryParagraphFont {
+    font-family: $primary-font;
+    font-weight: normal;
+    font-size: 12;
+}
+
+
+
+
+
+
+.OnboardingHeader {
+    @extend %Heading1Font;
+    text-align: center;
+}
+
+.OnboardingText {
+    @extend %PrimaryParagraphFont;
+    text-align: center;
+    margin: 10px;
+    color: $primary-grey-600;
+}
+
+.OnboardingTextView {
+    width: 80%;
+    align-items: center;
+}
+
+.OnboardingImage {
+    margin: 30px;
+}
+
+.OnboaringUpperButtonView {
+    margin-bottom: 60px;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.OnboaringBelowButtonView {
+    margin-top: 90px;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.OnboardingButton {
+    width: 300px;
+    height: 200px;
+    background-color: $primary-blue-600;
+    color: white;
+}
+
+
+
+.LoginHeaderText {
+    @extend %Heading1Font;
+    margin-bottom: 150px;
+    margin-top: -150px;
+}

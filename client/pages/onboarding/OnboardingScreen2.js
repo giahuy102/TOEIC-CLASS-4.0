@@ -2,9 +2,7 @@ import react, { useState } from "react"
 import { Button, Text, StyleSheet, View, Image } from "react-native";
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
-console.log("SystemFontStyles", AppStyles);
-
-export default OnboardingScreen1 = ({ navigation }) => {
+export default OnboardingScreen2 = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={AppStyles.OnboaringUpperButtonView}>
@@ -19,17 +17,21 @@ export default OnboardingScreen1 = ({ navigation }) => {
             <View style={AppStyles.OnboardingTextView}>
                 <Image
                     style={AppStyles.OnboardingImage}
-                    source={require('../../assets/onboardingImage/Onboarding1.png')}
+                    source={require('../../assets/onboardingImage/Onboarding2.png')}
                 />
-                <Text style={AppStyles.OnboardingHeader}>{"Classroom In\nYour Pocket"}</Text>
-                <Text style={AppStyles.OnboardingText}>{"Connect with your teacher and classmate, attend classroom on the go"}</Text>
+                <Text style={AppStyles.OnboardingHeader}>{"On-Screen\nExamination"}</Text>
+                <Text style={AppStyles.OnboardingText}>{"Multiple choice or text form with plugin image and audio options for convenient exam carrying. "}</Text>
             </View>
             <View style={AppStyles.OnboaringBelowButtonView}>
-                <View></View>
+                <Button
+                    title="Back"
+                    style={AppStyles.OnboardingButton}
+                    onPress={() => navigation.navigate('Onboarding1')}
+                />
                 <Button
                     title="Next"
                     style={AppStyles.OnboardingButton}
-                    onPress={() => navigation.navigate('Onboarding2')}
+                    onPress={() => navigation.navigate('Onboarding3')}
                 />
             </View>
         </View>
