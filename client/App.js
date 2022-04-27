@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
-
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import StartScreen from './pages/StartScreen';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Homepage from './pages/Homepage'
-import { useEffect } from 'react';
-
+import Homepage from './pages/Homepage';
+import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 
 import { loadToken } from './services/JWTStorage'
-
 import AuthService from './services/AuthService';
+
+import SystemStyles from "./styles/SystemStyles.scss";
+
+console.log("SystemStyles", SystemStyles);
 
 // function HomeScreen() {
 //   return (
@@ -38,7 +37,7 @@ import AuthService from './services/AuthService';
 const Stack = createNativeStackNavigator();
 
 
-export default function App({navigation}) {
+export default function App({ navigation }) {
 
   // const [startPage, setStartPage] = useState('StartScreen');
   // useEffect(() => {
@@ -53,37 +52,39 @@ export default function App({navigation}) {
   //     }
   //   })
   // });bc
-;
   const [username, setUsername] = useState('');
   // const test = () => console.log(2);
   return (
     <NavigationContainer>
-      <Stack.Navigator 
+      <Stack.Navigator
         initialRouteName='StartScreen'
         screenOptions={{
           headerTitleAlign: 'center',
           headerTitleStyle: styles.headerTitle
-        }} 
+        }}
 
 
-      
+
       >
-        <Stack.Screen name="StartScreen" component={StartScreen} options={{headerShown: false}} />
-        <Stack.Screen 
-          name="Login" 
+        <Stack.Screen name="StartScreen" component={StartScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Onboarding1" component={OnboardingScreen1} options={{ headerShown: false }} />
+
+        <Stack.Screen
+          name="Login"
           component={Login}
-          // options={
-          //   // {headerBackImageSource: require('./assets/back_arrow.png')}
-          //   {headerLeft: () => <Image source={require('./assets/back_arrow.png') }  />}
-          // }
-          // title="Login"
-          // options={{headerTitleAlign: 'center'}}
+        // options={
+        //   // {headerBackImageSource: require('./assets/back_arrow.png')}
+        //   {headerLeft: () => <Image source={require('./assets/back_arrow.png') }  />}
+        // }
+        // title="Login"
+        // options={{headerTitleAlign: 'center'}}
         />
+
         <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen 
-          name="Homepage" 
-          component={Homepage} 
-          options={{headerShown: false}}
+        <Stack.Screen
+          name="Homepage"
+          component={Homepage}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
