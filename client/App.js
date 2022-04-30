@@ -10,7 +10,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StartScreen from './pages/StartScreen';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Homepage from './pages/Homepage'
+import Homepage from './pages/Homepage';
+import ClassMember from './pages/ClassMember';
+import NewSection from './pages/NewSection';
+
 import { useEffect } from 'react';
 
 
@@ -85,6 +88,19 @@ export default function App({navigation}) {
           component={Homepage} 
           options={{headerShown: false}}
         />
+
+        <Stack.Screen
+          name="ClassMember"
+          component={ClassMember}
+          options={{ title: 'Class members' }}
+        />
+
+        <Stack.Screen
+          name="NewSection"
+          component={NewSection}
+          options={{ title: 'New section' }}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );

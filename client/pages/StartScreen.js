@@ -44,6 +44,20 @@ export default function StartScreen({navigation}) {
             />
           </View>
 
+          <View style={ styles.button }>
+            <Button 
+                title="Class Members"
+                onPress={() => navigation.navigate('ClassMember')}
+            />
+          </View>
+
+          <View style={ styles.button }>
+            <Button 
+                title="New section"
+                onPress={() => navigation.navigate('NewSection')}
+            />
+          </View>
+
         </View>
 
     );
