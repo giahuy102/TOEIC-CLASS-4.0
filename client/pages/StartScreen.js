@@ -14,16 +14,22 @@ import AuthService from '../services/AuthService';
 
 import { useEffect } from 'react';
 export default function StartScreen({ navigation }) {
-  
+
   useEffect(() => {
     loadToken().then(value => {
       if (value) {
         AuthService.getUser(value)
           .then(response => {
             console.log(response.data);
-            navigation.navigate('Homepage', {
-              username: response.data
-            });
+            navigation.navigate('ClassroomsStackScreen',
+              {
+                screen: 'MainTabScreen',
+                params: {
+                  screen: 'Profile',
+                  params: { username: response.data }
+                }
+              }
+            );
           }).catch(err => {
             console.log(err);
           })
@@ -43,19 +49,7 @@ export default function StartScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.button}>
-        <Button
-          title="Login"
-          onPress={() => navigation.navigate('Login')}
-        />
-      </View>
-      <View style={styles.button}>
-        <Button
-          title="Sign up"
-          onPress={() => navigation.navigate('Signup')}
-        />
-      </View>
-
+      <Text>{"TOEIC 4.0 By Mobile App"}</Text>
     </View>
 
   );
