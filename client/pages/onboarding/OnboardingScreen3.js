@@ -1,5 +1,5 @@
 import react, { useState } from "react"
-import { Button, Text, StyleSheet, View, Image } from "react-native";
+import { Pressable, Text, StyleSheet, View, Image } from "react-native";
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
 export default OnboardingScreen3 = ({ navigation }) => {
@@ -22,16 +22,18 @@ export default OnboardingScreen3 = ({ navigation }) => {
                 <Text style={AppStyles.OnboardingText}>{"Challenge your classmate in real-time contest with random test to practice what you have learnt. "}</Text>
             </View>
             <View style={AppStyles.OnboaringBelowButtonView}>
-                <Button
-                    title="Back"
+                <Pressable
                     style={AppStyles.OnboardingButton}
                     onPress={() => navigation.navigate('Onboarding2')}
-                />
-                <Button
-                    title="Login"
+                >
+                    <Text style={AppStyles.OnboardingButtonText}>Back</Text>
+                </Pressable>
+                <Pressable
                     style={AppStyles.OnboardingButton}
                     onPress={() => proceedToLoginPage()}
-                />
+                >
+                    <Text style={AppStyles.OnboardingButtonText}>Login</Text>
+                </Pressable>
             </View>
         </View>
     );

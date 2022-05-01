@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Pressable, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -71,10 +71,12 @@ export default function Singup({ navigation }) {
                     onChangeText={text => setPassword(text)}
                 />
                 <View style={styles.button}>
-                    <Button
-                        title="Submit"
+                    <Pressable
+                        style={AppStyles.SignupButton}
                         onPress={handleRegister}
-                    />
+                    >
+                        <Text style={AppStyles.SignupButtonText}>Submit</Text>
+                    </Pressable>
                 </View>
 
             </View>

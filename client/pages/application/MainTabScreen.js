@@ -5,8 +5,8 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Profile from "./Profile";
-import ClassroomsListScreen from "./ClassroomsListScreen";
-import ClassroomDetailScreen from "./ClassroomDetailScreen";
+import ClassroomsListScreen from "./classrooms/ClassroomsListScreen";
+import ClassroomDetailScreen from "./classrooms/ClassroomDetailScreen";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();

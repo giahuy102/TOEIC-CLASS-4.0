@@ -1,5 +1,5 @@
 import react, { useState } from "react"
-import { Button, Text, StyleSheet, View, Image } from "react-native";
+import { Pressable, Text, StyleSheet, View, Image } from "react-native";
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
 export default OnboardingScreen2 = ({ navigation }) => {
@@ -8,11 +8,12 @@ export default OnboardingScreen2 = ({ navigation }) => {
             <View style={AppStyles.OnboaringUpperButtonView}>
                 <View>
                 </View>
-                <Button
-                    title="Skip"
+                <Pressable
                     style={AppStyles.OnboardingButton}
                     onPress={() => navigation.navigate('Onboarding3')}
-                />
+                >
+                    <Text style={AppStyles.OnboardingButtonText}>Skip</Text>
+                </Pressable>
             </View>
             <View style={AppStyles.OnboardingTextView}>
                 <Image
@@ -23,16 +24,18 @@ export default OnboardingScreen2 = ({ navigation }) => {
                 <Text style={AppStyles.OnboardingText}>{"Multiple choice or text form with plugin image and audio options for convenient exam carrying. "}</Text>
             </View>
             <View style={AppStyles.OnboaringBelowButtonView}>
-                <Button
-                    title="Back"
+                <Pressable
                     style={AppStyles.OnboardingButton}
                     onPress={() => navigation.navigate('Onboarding1')}
-                />
-                <Button
-                    title="Next"
+                >
+                    <Text style={AppStyles.OnboardingButtonText}>Back</Text>
+                </Pressable>
+                <Pressable
                     style={AppStyles.OnboardingButton}
                     onPress={() => navigation.navigate('Onboarding3')}
-                />
+                >
+                    <Text style={AppStyles.OnboardingButtonText}>Next</Text>
+                </Pressable>
             </View>
         </View>
     );

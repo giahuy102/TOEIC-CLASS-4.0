@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import ClassroomDetailScreen from "./ClassroomDetailScreen";
+import ClassroomDetailScreen from "./classrooms/ClassroomDetailScreen";
 import MainTabScreen from "./MainTabScreen";
 
 import AppStyles from "../../styles/SystemFontStyles.scss";

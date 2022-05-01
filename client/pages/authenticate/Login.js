@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { Pressable, StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 
 import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -97,7 +97,7 @@ export default function Login({ navigation }) {
             <View><Text style={AppStyles.LoginHeaderText}>
                 {"Hello\nWelcome Back !"}
             </Text></View>
-            <View style={styles.container}>
+            <View style={AppStyles.container}>
                 <TextInput
                     style={AppStyles.LoginTextInput}
                     placeholder='Enter email address'
@@ -115,18 +115,20 @@ export default function Login({ navigation }) {
                     right={<TextInput.Icon name="eye" />}
                     onChangeText={text => setPassword(text)}
                 />
-                <View style={styles.button}>
-                    <Button
-                        title="Submit"
-                        onPress={handleLogin}
-                    />
-                </View>
+                <Pressable
+                    style={AppStyles.LoginButton}
+                    onPress={handleLogin}
+                >
+                    <Text style={[AppStyles.LoginButtonText, { width: 200, textAlign: 'center' }]}>Submit</Text>
+                </Pressable>
 
                 <Text style={AppStyles.LoginPromptToRegisterText}>Not having account yet! Register Now</Text>
-                <Button
-                    title={"Register Here"}
+                <Pressable
+                    style={AppStyles.PromptToRegisterButton}
                     onPress={() => { navigation.navigate("Signup") }}
-                />
+                >
+                    <Text style={AppStyles.LoginButtonText}>Register</Text>
+                </Pressable>
             </View>
         </>
     );

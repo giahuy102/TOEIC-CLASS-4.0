@@ -1,5 +1,5 @@
 import react, { useState } from "react"
-import { Button, Text, StyleSheet, View, Image } from "react-native";
+import { Pressable, Text, StyleSheet, View, Image } from "react-native";
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
 console.log("SystemFontStyles", AppStyles);
@@ -10,11 +10,12 @@ export default OnboardingScreen1 = ({ navigation }) => {
             <View style={AppStyles.OnboaringUpperButtonView}>
                 <View>
                 </View>
-                <Button
-                    title="Skip"
+                <Pressable
                     style={AppStyles.OnboardingButton}
                     onPress={() => navigation.navigate('Onboarding3')}
-                />
+                >
+                    <Text style={AppStyles.OnboardingButtonText}>Skip</Text>
+                </Pressable>
             </View>
             <View style={AppStyles.OnboardingTextView}>
                 <Image
@@ -26,11 +27,12 @@ export default OnboardingScreen1 = ({ navigation }) => {
             </View>
             <View style={AppStyles.OnboaringBelowButtonView}>
                 <View></View>
-                <Button
-                    title="Next"
-                    style={AppStyles.OnboardingButton}
+                <Pressable
+                    style={[AppStyles.OnboardingButton]}
                     onPress={() => navigation.navigate('Onboarding2')}
-                />
+                >
+                    <Text style={AppStyles.OnboardingButtonText}>Next</Text>
+                </Pressable>
             </View>
         </View>
     );
