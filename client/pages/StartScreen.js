@@ -12,6 +12,9 @@ import { loadToken } from '../services/JWTStorage'
 import AuthService from '../services/AuthService';
 
 import { useEffect } from 'react';
+
+
+
 export default function StartScreen({navigation}) {
   useEffect(() => {
     loadToken().then(value => {
@@ -58,7 +61,13 @@ export default function StartScreen({navigation}) {
             />
           </View>
 
+
+
+
+
         </View>
+
+
 
     );
 }

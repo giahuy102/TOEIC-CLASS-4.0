@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,33 +11,12 @@ import AuthService from '../services/AuthService';
 
 import { storeToken } from '../services/JWTStorage';
 
-
-import SectionImageTitle from '../components/SectionImageTitle'
-
 export default function Login({navigation}) {
 
-
-
-    React.useLayoutEffect(() => {
-        navigation.setOptions({
-            headerLeft: () => {
-                // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
-                return (
-                    <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../assets/back_arrow.png') }/>
-
-                    </TouchableOpacity>
-                );
-                
-            },
-        });
-    }, [navigation]);
     return (
-
         <View style={styles.container}>
-          <SectionImageTitle />
+            <Text>Section Text</Text>
         </View>
-
     );
 }
 
