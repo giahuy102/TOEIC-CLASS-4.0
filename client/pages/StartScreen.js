@@ -94,9 +94,53 @@ export default function StartScreen({ navigation }) {
   });
 
   return (
-    <View style={styles.container}>
-      <Text>{"TOEIC 4.0 By Mobile App"}</Text>
-    </View>
+    <View>
+      <View style={styles.container}>
+        <Text>{"TOEIC 4.0 By Mobile App"}</Text>
+      </View>
+
+      {/* <View style={styles.button}>
+        <Button
+          title="Login"
+          onPress={() => navigation.navigate('Login')}
+        />
+      </View>
+      <View style={styles.button}>
+        <Button
+          title="Sign up"
+          onPress={() => navigation.navigate('Signup')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Class Members"
+          onPress={() => navigation.navigate('ClassMember')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="New section"
+          onPress={() => navigation.navigate('NewSection')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Challenge"
+          onPress={() => navigation.navigate('Challenge')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Temp"
+          onPress={() => navigation.navigate('Temp')}
+        />
+      </View> */}
+
+    </View >
 
   );
 }
