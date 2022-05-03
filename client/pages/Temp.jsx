@@ -10,11 +10,15 @@ import data from './Challenge/DATA.json'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Challenge from './Challenge';
 import Login from './Login';
+// import Challenge from './Challenge.jsx';
+
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Tab = createMaterialTopTabNavigator();
+const Stack = createNativeStackNavigator();
 
 
-export default function Temp({ navigation }) {
+export default function Temp({ navigation, route }) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -23,7 +27,6 @@ export default function Temp({ navigation }) {
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../assets/back_arrow.png')} />
-
                     </TouchableOpacity>
                 );
 
@@ -32,14 +35,53 @@ export default function Temp({ navigation }) {
     }, [navigation]);
 
 
-
     return (
-        <View style={styles.container}>
-            <Tab.Navigator>
-                <Tab.Screen name="Home" component={Login} />
-                <Tab.Screen name="Settings" component={Challenge} />
-            </Tab.Navigator>
-        </View>
+
+        <Tab.Navigator
+            // screenOptions={({ route, navigation }) => ({
+            //     tabBarIcon: ({ focused, color, size }) => {
+            //         let iconName;
+            //         if (route.name === "ClassroomsListScreen") {
+            //             iconName = focused ? "school" : "school";
+            //         } else if (route.name === "Profile") {
+            //             iconName = focused ? "person" : "person";
+            //         } else if (route.name === "MoreSettingsScreen") {
+            //             iconName = focused ? "settings" : "settings";
+            //         }
+            //         return <Ionicons name={iconName} color={color} size={24} />
+            //     },
+            //     tabBarShowLabel: false,
+            //     tabBarActiveTintColor: '#2E90FA',
+            //     tabBarInactiveTintColor: 'grey',
+            // })}
+            initialRouteName='Home'
+            // tabBarOptions={{
+            //     activeTintColor: '#1570EF',
+            //     inactiveTintColor: '#98A2B3',
+            //     labelStyle: { fontWeight: 'bold' },
+            // }}
+            screenOptions={{
+                tabBarInactiveTintColor: '#98A2B3',
+                tabBarActiveTintColor: '#1570EF',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                },
+                // activeBackgroundColor: 'red',
+                // inactiveBackgroundColor: 'blue',
+                // headerStyle: {
+                //     backgroundColor: '#f4511e',
+                // },
+                // headerTintColor: '#fff',
+                // headerTitleStyle: {
+                //     fontWeight: 'bold',
+                // },
+            }}
+        >
+            <Tab.Screen name="ClassroomsListScreen" component={Challenge} options={{ title: "Challenging" }} />
+            <Tab.Screen name="Profile" component={Login} options={{ title: "Upcoming" }} />
+            <Tab.Screen name="MoreSettingsScreen" component={Login} options={{ title: "Ended" }} />
+        </Tab.Navigator>
+
     );
 }
 

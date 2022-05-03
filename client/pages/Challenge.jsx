@@ -86,8 +86,9 @@ export default function Challenge({ navigation }) {
             >
                 <Image
                     style={styles.floatingButton}
-                    source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
-                // source={IMAGENAME}
+                    // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
+                    // source={IMAGENAME}
+                    source={require('./Challenge/assets/plus.png')}
                 />
 
             </TouchableOpacity>

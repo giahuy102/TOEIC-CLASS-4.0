@@ -7,9 +7,9 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AuthService from '../services/AuthService';
+// import AuthService from '../services/AuthService';
 
-import { storeToken } from '../services/JWTStorage';
+// import { storeToken } from '../services/JWTStorage';
 
 export default function Challenge({ navigation }) {
     const [password, setPassword] = useState('');
@@ -23,7 +23,7 @@ export default function Challenge({ navigation }) {
                 // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../../assets/back_arrow.png')} />
+                        {/* <Image source={require('../../assets/back_arrow.png')} /> */}
 
                     </TouchableOpacity>
                 );
@@ -61,7 +61,7 @@ export default function Challenge({ navigation }) {
                             }
                         >
                             <Image
-                                source={require('../assets/user_role_icon.png')}
+                                // source={require('../assets/user_role_icon.png')}
                             />
                             <Text style={styles.sub_content}>Admin</Text>
                         </View>
@@ -76,7 +76,7 @@ export default function Challenge({ navigation }) {
                             }
                         >
                             <Image
-                                source={require('../assets/rank_member_icon.png')}
+                                // source={require('../assets/rank_member_icon.png')}
                             />
                             <Text style={styles.sub_content}>0</Text>
                         </View>
