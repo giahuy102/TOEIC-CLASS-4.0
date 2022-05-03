@@ -7,7 +7,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import data from './Challenge/DATA.json'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Challenge from './Challenge';
+import Login from './Login';
 
+const Tab = createMaterialTopTabNavigator();
 
 
 export default function Temp({ navigation }) {
@@ -31,7 +35,10 @@ export default function Temp({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text>Temp</Text>
+            <Tab.Navigator>
+                <Tab.Screen name="Home" component={Login} />
+                <Tab.Screen name="Settings" component={Challenge} />
+            </Tab.Navigator>
         </View>
     );
 }
