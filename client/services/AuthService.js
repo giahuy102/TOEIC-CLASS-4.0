@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ActionSheetIOS } from 'react-native';
-const API_URL = "http://192.168.0.104:3001/api/user/";
+const API_URL = "http://10.0.2.2:3001/api/user/";
 
 // import { useNavigate } from "react-router-dom";
 
-const AuthService = function() {
+const AuthService = function () {
     // let navigate = useNavigate();
     this.register = (username, email, password) => {
         return axios.post(API_URL + 'register', {
@@ -15,6 +15,7 @@ const AuthService = function() {
     }
 
     this.login = (email, password) => {
+        console.log(API_URL);
         return axios.post(API_URL + 'login', {
             email,
             password
