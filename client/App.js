@@ -17,6 +17,8 @@ import NewSection from './pages/NewSection';
 import Challenge from './pages/Challenge';
 import ChallengeTest from './pages/ChallengeTest';
 import ChallengeResult from './pages/ChallengeResult';
+import Temp from './pages/Temp';
+import ChallengeCreate from './pages/ChallengeCreate';
 
 import { useEffect } from 'react';
 
@@ -121,6 +123,18 @@ export default function App({ navigation }) {
           name="ChallengeResult"
           component={ChallengeResult}
           options={{ title: 'Result' }}
+        />
+
+        <Stack.Screen
+          name="Temp"
+          component={Temp}
+          options={{ title: 'Temp' }}
+        />
+
+        <Stack.Screen
+          name="ChallengeCreate"
+          component={ChallengeCreate}
+          options={{ title: 'Create new challenge' }}
         />
 
       </Stack.Navigator>

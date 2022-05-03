@@ -65,6 +65,13 @@ export default function StartScreen({ navigation }) {
         />
       </View>
 
+      <View style={styles.button}>
+        <Button
+          title="Temp"
+          onPress={() => navigation.navigate('Temp')}
+        />
+      </View>
+
     </View>
 
   );

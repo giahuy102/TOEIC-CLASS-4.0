@@ -12,7 +12,7 @@ import AuthService from '../services/AuthService';
 import { storeToken } from '../services/JWTStorage';
 
 import data from './Challenge/DATA.json'
-
+// import { IMAGENAME } from './Challenge/assets'
 
 export default function Challenge({ navigation }) {
 
@@ -78,8 +78,19 @@ export default function Challenge({ navigation }) {
                     );
                 }}
             >
-
             </FlatList>
+
+            <TouchableOpacity
+                style={styles.touchableOpacity}
+                onPress={() => navigation.navigate('ChallengeCreate')}
+            >
+                <Image
+                    style={styles.floatingButton}
+                    source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
+                // source={IMAGENAME}
+                />
+
+            </TouchableOpacity>
         </View>
     );
 }
@@ -136,5 +147,20 @@ const styles = StyleSheet.create({
 
     sub_content: {
         marginLeft: 5
+    },
+
+    touchableOpacity: {
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+    },
+    floatingButton: {
+        resizeMode: 'contain',
+        width: 50,
+        height: 50,
     }
 });
