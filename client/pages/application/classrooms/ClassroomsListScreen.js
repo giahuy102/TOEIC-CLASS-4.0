@@ -1,21 +1,37 @@
 import * as React from "react";
 import { useState } from "react";
-import { View, Text, StyleSheet, Modal, Alert, Pressable } from "react-native";
+import { View, ScrollView, Text, StyleSheet, Modal, Alert, Pressable } from "react-native";
 import { Button } from "react-native";
 
 import AddClassroomPopupModal from "./AddClassroomPopupModal";
 
 import AppStyles from "../../../styles/SystemFontStyles.scss";
 
+import fakeClassroomsList from "./fakedata/fakeClassroomsListData.json";
+
 export default function ClassroomsListScreen({ navigation, route }) {
     const [modalVisible, setModalVisible] = useState(false);
 
+    console.log("fakeClassroomsList", fakeClassroomsList);
+
+    const handleAccessToClassroomDetailScreen = (classroomDetailData) => {
+        navigation.navigate("ClassroomDetailScreen", { ...classroomDetailData });
+    };
+
     return (
-        <View style={AppStyles.container}>
-            <Button
-                title="Navigate to Classroom Detail Screen"
-                onPress={() => { navigation.navigate("ClassroomDetailScreen") }}
-            />
+        <View style={AppStyles.flexStartContainer}>
+            <View style={AppStyles.ClassroomsListSearchAndCategoriesButtonView}>
+
+            </View>
+
+            <ScrollView>
+                {fakeClassroomsList.map(({ id, teacherId, numberStudent, level, end_date, start_date, classname, status }) => (
+                    <Pressable key={id} onPress={() => handleAccessToClassroomDetailScreen({ id, teacherId, numberStudent, level, end_date, start_date, classname, status })}>
+                        <ClassroomsListItem id={id} teacherId={teacherId} numberStudent={numberStudent} level={level} end_date={end_date} start_date={start_date} classname={classname} status={status} />
+                    </Pressable>
+                ))}
+            </ScrollView>
+
             <Modal
                 animationType="fade"
                 hasBackDrop={false}
@@ -41,44 +57,10 @@ export default function ClassroomsListScreen({ navigation, route }) {
     )
 }
 
-const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22
-    },
-    modalView: {
-        margin: 20,
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowOffset: {
-            width: 0,
-            height: 0
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 10,
-        elevation: 0
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-    }
-});
+function ClassroomsListItem({ id, teacherId, numberStudent, level, end_date, start_date, classname, status }) {
+    return (
+        <View style={AppStyles.ClassroomsListItem}>
+            <Text style={AppStyles.ClassroomsListItemText}>{`${id}, ${teacherId}, ${numberStudent}, ${level}, ${end_date}, ${start_date}, ${classname}, ${status}`}</Text>
+        </View>
+    )
+}

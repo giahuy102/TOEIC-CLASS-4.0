@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ClassroomDetailScreen from "./classrooms/ClassroomDetailScreen";
 import MainTabScreen from "./MainTabScreen";
+import AboutUsScreen from "./AboutUsScreen";
 
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
@@ -19,9 +20,13 @@ export default function ClassroomsStackScreen({ navigation, route }) {
             }}
         >
             <Stack.Screen name="ClassroomDetailScreen" component={ClassroomDetailScreen} />
-
-            <Stack.Screen name="MainTabScreen" component={MainTabScreen} options={{ headerBackStyle: { display: 'None' } }} />
-
+            <Stack.Screen name="AboutUsScreen" component={AboutUsScreen} options={{
+                title: "About Us"
+            }} />
+            <Stack.Screen name="MainTabScreen" component={MainTabScreen} options={{
+                headerBackStyle: { display: 'None' },
+                title: "Toeic E-Class 4.0"
+            }} />
         </Stack.Navigator>
     )
 }

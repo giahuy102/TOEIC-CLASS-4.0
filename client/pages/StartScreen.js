@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { loadToken } from '../services/JWTStorage';
@@ -16,25 +16,69 @@ import { useEffect } from 'react';
 export default function StartScreen({ navigation }) {
 
   useEffect(() => {
-    loadToken().then(value => {
-      if (value) {
-        AuthService.getUser(value)
-          .then(response => {
-            console.log(response.data);
-            navigation.navigate('ClassroomsStackScreen',
-              {
-                screen: 'MainTabScreen',
-                params: {
-                  screen: 'Profile',
-                  params: { username: response.data }
+    // loadToken().then(value => {
+    //   if (value) {
+    //     AuthService.getUser(value)
+    //       .then(response => {
+    //         console.log(response.data);
+    //         navigation.popToTop();
+    //         navigation.navigate('ClassroomsStackScreen',
+    //           {
+    //             screen: 'MainTabScreen',
+    //             params: {
+    //               screen: 'Profile',
+    //               params: { username: response.data }
+    //             }
+    //           }
+    //         );
+    //       }).catch(err => {
+    //         console.log(err);
+    //       })
+    //   }
+    // })
+
+    const isUserLogin = async () => {
+      const loadTokenResponse = await loadToken();
+      if (loadTokenResponse) {
+        try {
+          const authServiceResponse = await AuthService.getUser(loadTokenResponse);
+          const userData = authServiceResponse.data;
+          // navigation.navigate('ClassroomsStackScreen',
+          //   {
+          //     screen: 'MainTabScreen',
+          //     params: {
+          //       screen: 'Profile',
+          //       params: { username: userData }
+          //     }
+          //   }
+          // );
+          navigation.dispatch(state => {
+            return CommonActions.reset({
+              index: 0,
+              routes: [{
+                name: 'ClassroomsStackScreen',
+                state: {
+                  routes: [{
+                    name: 'MainTabScreen',
+                    state: {
+                      routes: [{
+                        name: 'Profile',
+                        params: { username: userData }
+                      }]
+                    }
+                  }]
                 }
-              }
-            );
-          }).catch(err => {
-            console.log(err);
+              }]
+            })
           })
+          return;
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        await isOnboardingScreenOpen();
       }
-    })
+    }
 
     const isOnboardingScreenOpen = async () => {
       const isOnboardingTriggered = await isApplicationVisited();
@@ -44,7 +88,9 @@ export default function StartScreen({ navigation }) {
       }
     }
 
-    isOnboardingScreenOpen();
+    isUserLogin();
+
+
   });
 
   return (

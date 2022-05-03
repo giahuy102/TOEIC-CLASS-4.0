@@ -8,29 +8,28 @@ import AppStyles from "../../../styles/SystemFontStyles.scss";
 export default function AddClassroomPopupModal({ modalVisible, setModalVisible }) {
     const [studentNumber, setStudentNumber] = useState(0);
     const [toeicLevel, setToeicLevel] = useState(400);
+    const [classroomPassword, setClassroomPassword] = useState("");
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
-    const [date, setDate] = useState(new Date());
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
-
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        setDate(currentDate);
+    const onStartDateChange = (event, selectedDate) => {
+        setShowStartDatePicker(false);
+        setStartDate(selectedDate);
     }
 
-    const showMode = (currentMode) => {
-        setShow(true);
-        setMode(currentMode);
+    const onEndDateChange = (event, selectedDate) => {
+        setShowEndDatePicker(false);
+        setEndDate(selectedDate);
     }
 
-    const showDatePicker = () => {
-        showMode('date');
+    const handleAddNewClassroomSubmit = (event) => {
+        event.preventDefault();
+        const AddNewClassroomRequestPayload = { studentNumber, toeicLevel, startDate, endDate, classroomPassword };
+        console.log("Add New Classroom Payload", AddNewClassroomRequestPayload);
     }
 
-    const showTimePicker = () => {
-        showMode('time');
-    }
 
     return (
         <View style={AppStyles.AddClassroomModalView}>
@@ -56,22 +55,47 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
                     right={<TextInput.Icon name="school-outline" />}
                     onChangeText={(text) => setToeicLevel(text)}
                 />
-                <View>
-                    <Button onPress={showDatePicker} title="Show date picker!" />
+                <View style={AppStyles.AddClassroomModalSelectDateButtonsView}>
+                    <Pressable
+                        style={AppStyles.AddClassroomModalSelectDateButton}
+                        onPress={() => setShowStartDatePicker(true)} title="Choose Start Date!" >
+                        <Text style={AppStyles.AddClassroomModalSelectDateButtonText}>Choose Start Date</Text>
+                    </Pressable>
+                    <Pressable
+                        style={AppStyles.AddClassroomModalSelectDateButton}
+                        onPress={() => setShowEndDatePicker(true)} title="Choose End Date!"
+                    >
+                        <Text style={AppStyles.AddClassroomModalSelectDateButtonText}>Choose End Date</Text>
+                    </Pressable>
                 </View>
-                <View>
-                    <Button onPress={showTimePicker} title="Show time picker!" />
-                </View>
-                {show && (
+                {showStartDatePicker && (
                     <DateTimePicker
                         testID="dateTimePicker"
-                        value={date}
-                        mode={mode}
-                        is24Hour={true}
-                        onChange={onChange}
+                        value={startDate}
+                        mode={'date'}
+                        onChange={onStartDateChange}
                     />
                 )}
-                <Text>selected: {date.toLocaleString()}</Text>
+                <Text style={AppStyles.AddClassroomModalText}>Start Date: {startDate.toLocaleString()}</Text>
+                {showEndDatePicker && (
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={endDate}
+                        mode={'date'}
+                        onChange={onEndDateChange}
+                    />
+                )}
+                <Text style={AppStyles.AddClassroomModalText}>End Date: {endDate.toLocaleString()}</Text>
+
+                <TextInput
+                    style={AppStyles.AddClassroomModalTextInput}
+                    placeholder="Classroom Password"
+                    label="Classroom Password"
+                    secureTextEntry
+                    value={classroomPassword}
+                    onChangeText={(text) => setClassroomPassword(text)}
+                />
+
             </View>
             <View style={AppStyles.AddClassroomModalBottomView}>
                 <Pressable
@@ -83,7 +107,7 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
 
                 <Pressable
                     style={AppStyles.ClassroomsListScreenOtherButton}
-                    onPress={() => { }}
+                    onPress={(e) => handleAddNewClassroomSubmit(e)}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Submit</Text>
                 </Pressable>

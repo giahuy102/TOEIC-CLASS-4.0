@@ -6,16 +6,36 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Profile from "./Profile";
 import ClassroomsListScreen from "./classrooms/ClassroomsListScreen";
-import ClassroomDetailScreen from "./classrooms/ClassroomDetailScreen";
+import MoreSettingsScreen from "./MoreSettingsScreen";
+
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function MainTabScreen({ navigation, route }) {
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="ClassroomsListScreen" component={ClassroomsListScreen} />
-            <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Navigator
+            screenOptions={({ route, navigation }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    let iconName;
+                    if (route.name === "ClassroomsListScreen") {
+                        iconName = focused ? "school" : "school";
+                    } else if (route.name === "Profile") {
+                        iconName = focused ? "person" : "person";
+                    } else if (route.name === "MoreSettingsScreen") {
+                        iconName = focused ? "settings" : "settings";
+                    }
+                    return <Ionicons name={iconName} color={color} size={24} />
+                },
+                tabBarShowLabel: false,
+                tabBarActiveTintColor: '#2E90FA',
+                tabBarInactiveTintColor: 'grey',
+            })}
+        >
+            <Tab.Screen name="ClassroomsListScreen" component={ClassroomsListScreen} options={{ title: "Your Classrooms" }} />
+            <Tab.Screen name="Profile" component={Profile} options={{ title: "Profile" }} />
+            <Tab.Screen name="MoreSettingsScreen" component={MoreSettingsScreen} options={{ title: "Settings" }} />
         </Tab.Navigator>
     );
 }

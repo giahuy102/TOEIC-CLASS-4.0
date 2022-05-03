@@ -1,11 +1,21 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Button } from "react-native";
 
 export default function ClassroomDetailScreen({ navigation, route }) {
-    return (<View style={styles.container}>
-        <Text>{"Classrooms Detail Screen"}</Text>
-    </View>)
+    const routeParams = route.params;
+    useEffect(() => {
+        if (routeParams && routeParams.classname) {
+            navigation.setOptions({
+                title: routeParams.classname
+            });
+        }
+    }, [])
+    return (
+        <View style={styles.container}>
+            <Text>{"Classrooms Detail Screen"}</Text>
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({

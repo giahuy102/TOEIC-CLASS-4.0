@@ -5,6 +5,13 @@
     align-items: center;
 }
 
+.flexStartContainer {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .ModalContainer {
     display: flex;
     flex: 1;
@@ -68,6 +75,11 @@ $primary-font: 'Roboto';
     font-size: 18;
 }
 
+%SecondaryButtonTextFont {
+    font-family: $primary-font;
+    font-weight: normal;
+    font-size: 16;
+}
 
 
 
@@ -88,6 +100,17 @@ $primary-font: 'Roboto';
     color: white;
 }
 
+%SecondaryButton {
+    border-radius: 10px;
+    padding: 10px;
+    background-color: $primary-grey-600;
+    color: white
+}
+
+
+
+
+
 
 
 %SystemModalView {
@@ -102,6 +125,9 @@ $primary-font: 'Roboto';
 %SystemModalText {
     @extend %PrimaryParagraphFont;
 }
+
+
+
 
 
 
@@ -275,27 +301,84 @@ $primary-font: 'Roboto';
 
 .AddClassroomModalText {
     @extend %SystemModalText;
+    font-size: 16;
 }
 
 .AddClassroomModalHeaderView {
     flex: 1;
-    background-color: blue;
+    // background-color: blue;
 }
 
 .AddClassroomModalBodyView {
     flex: 4;
-    background-color: grey;
+    // background-color: grey;
     width: 100%;
     align-items: center;
 }
+
+.AddClassroomModalSelectDateButtonsView {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.AddClassroomModalSelectDateButton {
+    @extend %SecondaryButton;
+    margin: 10px;
+}
+
+.AddClassroomModalSelectDateButtonText {
+    @extend %SecondaryButtonTextFont;
+    color: white;
+}
+
 
 .AddClassroomModalBottomView {
     flex: 1;
     flex-direction: row;
     justify-content: space-between;
-    background-color: orange;
+    // background-color: orange;
 }
 
 .AddClassroomModalTextInput {
     @extend %TextInputStyle;
+}
+
+
+
+
+
+
+
+
+.MoreSettingsScreenButton {
+    @extend %PrimaryButton;
+}
+
+.MoreSettingsScreenButtonText {
+    @extend %PrimaryButtonTextFont;
+    color: white;
+}
+
+
+
+
+
+
+.ClassroomsListSearchAndCategoriesButtonView {}
+
+.ClassroomsListItemView {
+    flex: 3;
+}
+
+.ClassroomsListItem {
+    background-color: $primary-grey-400;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 10px;
+    width: 90%;
+}
+
+.ClassroomsListItemText {
+    @extend %PrimaryParagraphFont;
+    color: white
 }
