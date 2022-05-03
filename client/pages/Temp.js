@@ -6,10 +6,10 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import data from './Challenge/DATA.json'
+import data from './Ignored_Challenge/DATA.json'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Challenge from './Challenge';
-import Login from './Login';
+
 // import Challenge from './Challenge.jsx';
 
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -78,8 +78,8 @@ export default function Temp({ navigation, route }) {
             }}
         >
             <Tab.Screen name="ClassroomsListScreen" component={Challenge} options={{ title: "Challenging" }} />
-            <Tab.Screen name="Profile" component={Login} options={{ title: "Upcoming" }} />
-            <Tab.Screen name="MoreSettingsScreen" component={Login} options={{ title: "Ended" }} />
+            <Tab.Screen name="Profile" component={Challenge} options={{ title: "Upcoming" }} />
+            <Tab.Screen name="MoreSettingsScreen" component={Challenge} options={{ title: "Ended" }} />
         </Tab.Navigator>
 
     );

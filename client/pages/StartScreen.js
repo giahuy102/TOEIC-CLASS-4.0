@@ -88,18 +88,21 @@ export default function StartScreen({ navigation }) {
       }
     }
 
+    /**
+     * Comment below line to check all Start Screen demo
+     */
     isUserLogin();
 
 
   });
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.container}>
         <Text>{"TOEIC 4.0 By Mobile App"}</Text>
       </View>
 
-      {/* <View style={styles.button}>
+      <View style={styles.button}>
         <Button
           title="Login"
           onPress={() => navigation.navigate('Login')}
@@ -138,7 +141,7 @@ export default function StartScreen({ navigation }) {
           title="Temp"
           onPress={() => navigation.navigate('Temp')}
         />
-      </View> */}
+      </View>
 
     </View >
 

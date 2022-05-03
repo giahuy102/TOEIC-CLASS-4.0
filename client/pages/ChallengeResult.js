@@ -11,7 +11,7 @@ import AuthService from '../services/AuthService';
 
 import { storeToken } from '../services/JWTStorage';
 
-import data from './Challenge/RESULT_DATA.json'
+import data from './Ignored_Challenge/RESULT_DATA.json'
 
 
 export default function ChallengeResult({ navigation }) {

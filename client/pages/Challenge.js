@@ -11,7 +11,7 @@ import AuthService from '../services/AuthService';
 
 import { storeToken } from '../services/JWTStorage';
 
-import data from './Challenge/DATA.json'
+import data from './Ignored_Challenge/DATA.json'
 // import { IMAGENAME } from './Challenge/assets'
 
 export default function Challenge({ navigation }) {
@@ -88,7 +88,7 @@ export default function Challenge({ navigation }) {
                     style={styles.floatingButton}
                     // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
                     // source={IMAGENAME}
-                    source={require('./Challenge/assets/plus.png')}
+                    source={require('./Ignored_Challenge/assets/plus.png')}
                 />
 
             </TouchableOpacity>

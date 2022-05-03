@@ -8,17 +8,17 @@ import StartScreen from './pages/StartScreen';
 import Login from './pages/authenticate/Login';
 import Signup from './pages/authenticate/Signup';
 
-import Homepage from './pages/Homepage';
+// import Homepage from './pages/Homepage';
+
 import ClassMember from './pages/ClassMember';
 import NewSection from './pages/NewSection';
-// import Challenge from './pages/Challenge/Challenge.jsx';
-import Challenge from './pages/Challenge';
+
+import Challenge from './pages/Challenge.js';
+
 import ChallengeTest from './pages/ChallengeTest';
 import ChallengeResult from './pages/ChallengeResult';
 import Temp from './pages/Temp';
-import ChallengeCreate from './pages/ChallengeCreate';
-
-import { useEffect } from 'react';
+import ChallengeCreate from './pages/ChallengeCreate.js';
 
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
@@ -104,11 +104,11 @@ export default function App({ navigation }) {
 
 
 
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Homepage"
             component={Homepage}
             options={{ headerShown: false }}
-          />
+          /> */}
 
           <Stack.Screen
             name="ClassMember"
