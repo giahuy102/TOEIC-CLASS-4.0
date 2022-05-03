@@ -37,6 +37,7 @@ import AuthService from './services/AuthService';
 //   );
 // }
 
+import TabSectionNavigator from './components/TabSectionNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -102,6 +103,8 @@ export default function App({navigation}) {
         />
         
       </Stack.Navigator>
+
+
     </NavigationContainer>
   );
 }
