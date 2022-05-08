@@ -19,6 +19,12 @@ import ChallengeTest from './pages/ChallengeTest';
 import ChallengeResult from './pages/ChallengeResult';
 import Temp from './pages/Temp';
 import ChallengeCreate from './pages/ChallengeCreate.js';
+import Result from './pages/result/Result';
+import YourResult from './pages/result/PersonalResult';
+import DetailResult from './pages/result/DetailResult';
+import Profile from './pages/profile/Profile';
+import UpdateAccount from './pages/profile/UpdateAccount';
+import ChangeInformation from './pages/profile/ChangeInformation';
 
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
@@ -150,6 +156,42 @@ export default function App({ navigation }) {
             name="ChallengeCreate"
             component={ChallengeCreate}
             options={{ title: 'Create new challenge' }}
+          />
+
+          <Stack.Screen
+            name="Result"
+            component={Result}
+            options={{ title: 'Result' }}
+          />
+
+          <Stack.Screen
+            name="YourResult"
+            component={YourResult}
+            options={{ title: 'Result' }}
+          />
+
+          <Stack.Screen
+            name="DetailResult"
+            component={DetailResult}
+            options={{ title: 'Detailed Result' }}
+          />
+
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={{ title: 'Profile' }}
+          />
+
+          <Stack.Screen
+            name="UpdateAccount"
+            component={UpdateAccount}
+            options={{ title: 'Update Account' }}
+          />
+
+          <Stack.Screen
+            name="ChangeInformation"
+            component={ChangeInformation}
+            options={{ title: 'Change Information' }}
           />
 
 

@@ -1,0 +1,132 @@
+[
+    {
+        "key": 1,
+        "user": {
+            "key": 1910402,
+            "username": "minhnhan",
+            "email": "myemail@gmail.com",
+            "password": "123456",
+            "fullname": "Le Ngoc Minh Nhan",
+            "birthday": "21/07/2001",
+            "create_at": "18/05/2018"
+        },
+        "challenge": {
+            "name": "Toeic 200+",
+            "status": 2,
+            "start": "23h00, 12th March 2022",
+            "end": "23h59, 12th March 2022",
+            "create_at": "0h00, 10th March 2022",
+            "end_at": "23h59, 13th March 2022",
+            "test": {
+                "length": 100
+            }
+        },
+        "score": 750,
+        "correct_answer": 70,
+        "status": 1
+    },
+    {
+        "key": 2,
+        "user": {
+            "key": 1910403,
+            "username": "minhnhanle",
+            "email": "myemail@gmail.com",
+            "password": "123456",
+            "fullname": "Le Ngoc Minh Nhan",
+            "birthday": "21/07/2001",
+            "create_at": "18/05/2018"
+        },
+        "challenge": {
+            "name": "Toeic 200+",
+            "status": 2,
+            "start": "23h00, 12th March 2022",
+            "end": "23h59, 12th March 2022",
+            "create_at": "0h00, 10th March 2022",
+            "end_at": "23h59, 13th March 2022",
+            "test": {
+                "length": 100
+            }
+        },
+        "score": 750,
+        "correct_answer": 70,
+        "status": 1
+    },
+    {
+        "key": 3,
+        "user": {
+            "key": 1910402,
+            "username": "minhnhan",
+            "email": "myemail@gmail.com",
+            "password": "123456",
+            "fullname": "Le Ngoc Minh Nhan",
+            "birthday": "21/07/2001",
+            "create_at": "18/05/2018"
+        },
+        "challenge": {
+            "name": "Toeic 500+",
+            "status": 2,
+            "start": "23h00, 12th March 2022",
+            "end": "23h59, 12th March 2022",
+            "create_at": "0h00, 10th March 2022",
+            "end_at": "23h59, 13th March 2022",
+            "test": {
+                "length": 100
+            }
+        },
+        "score": 750,
+        "correct_answer": 70,
+        "status": 1
+    },
+    {
+        "key": 4,
+        "user": {
+            "key": 1910402,
+            "username": "minhnhan",
+            "email": "myemail@gmail.com",
+            "password": "123456",
+            "fullname": "Le Ngoc Minh Nhan",
+            "birthday": "21/07/2001",
+            "create_at": "18/05/2018"
+        },
+        "challenge": {
+            "name": "Toeic 400+",
+            "status": 2,
+            "start": "23h00, 12th March 2022",
+            "end": "23h59, 12th March 2022",
+            "create_at": "0h00, 10th March 2022",
+            "end_at": "23h59, 13th March 2022",
+            "test": {
+                "length": 100
+            }
+        },
+        "score": 750,
+        "correct_answer": 70,
+        "status": 1
+    },
+    {
+        "key": 5,
+        "user": {
+            "key": 1910402,
+            "username": "minhnhan",
+            "email": "myemail@gmail.com",
+            "password": "123456",
+            "fullname": "Le Ngoc Minh Nhan",
+            "birthday": "21/07/2001",
+            "create_at": "18/05/2018"
+        },
+        "challenge": {
+            "name": "Toeic 700+",
+            "status": 2,
+            "start": "23h00, 12th March 2022",
+            "end": "23h59, 12th March 2022",
+            "create_at": "0h00, 10th March 2022",
+            "end_at": "23h59, 13th March 2022",
+            "test": {
+                "length": 100
+            }
+        },
+        "score": 750,
+        "correct_answer": 70,
+        "status": 1
+    }
+]
