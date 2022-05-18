@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,6 +16,113 @@ export default function Login({navigation}) {
     const [email, setEmail] = useState('');
     const [borderColor, setBorderColor] = useState();
 
+
+    const memberList = [
+        {
+            _id: 1,
+            rank: 10,
+            role: "Admin",
+            user: {
+                username: 'Legiahuy'
+            }
+        },
+        {
+            _id: 2,
+            rank: 12,
+            role: "Admin",
+            user: {
+                username: 'Legiahuy102'
+            }
+        },
+        {
+            _id: 3,
+            rank: 12,
+            role: "Admin",
+            user: {
+                username: 'legiahuy102'
+            }
+        },
+        {
+            _id: 4,
+            rank: 12,
+            role: "Admin",
+            user: {
+                username: 'legiahuy102'
+            }
+        },
+        {
+            _id: 5,
+            rank: 12,
+            role: "Admin",
+            user: {
+                username: 'legiahuy102'
+            }
+        },
+        {
+            _id: 6,
+            rank: 12,
+            role: "Admin",
+            user: {
+                username: 'legiahuy102'
+            }
+        }
+    ];
+
+    const renderItem = ({item}) => (
+        // <Text>{item.rank}</Text>
+        <View style={styles.member}>
+            <View style={styles.left}>
+                <View style={styles.name}>
+                    <Text style={styles.name_text}>
+                        { item.user.username[0] }
+                    </Text>
+
+                </View>
+            </View>
+            
+            <View style={styles.right}>
+                <Text>{item.user.username}</Text>
+                <View
+                    style={
+                        {
+                            flexDirection: 'row'
+                        }
+                    }
+                >
+                    <View
+                        style={
+                            {
+                                flexDirection: 'row',
+                                alignItems: 'center'
+                            }
+                        }
+                    >
+                        <Image 
+                            source={require('../assets/user_role_icon.png')}
+                        />
+                        <Text style={styles.sub_content}>{item.role}</Text>
+                    </View>
+                
+                    <View
+                        style={
+                            {
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                marginLeft: 25
+                            }
+                        }
+                    >
+                        <Image 
+                            source={require('../assets/rank_member_icon.png')}
+                        />
+                        <Text style={styles.sub_content}>{item.rank}</Text>
+                    </View>
+                </View>
+
+            </View>
+
+        </View>
+    );
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -33,7 +140,7 @@ export default function Login({navigation}) {
     }, [navigation]);
     return (
         <View style={styles.container}>
-            <View style={styles.member}>
+            {/* <View style={styles.member}>
                 <View style={styles.left}>
                     <View style={styles.name}>
                         <Text style={styles.name_text}>
@@ -84,7 +191,15 @@ export default function Login({navigation}) {
 
                 </View>
 
-            </View>
+            </View> */}
+            <FlatList
+                // style={styles.container}
+                data={memberList}
+                renderItem={renderItem}
+                keyExtractor={item => item._id}
+            />
+
+
 
 
 
@@ -98,6 +213,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // justifyContent: 'center'
     // width: 100
+    // paddingLeft: '5%',
+    // paddingRight: '5%'
   },
   
   name: {
@@ -111,14 +228,16 @@ const styles = StyleSheet.create({
 
 
   member: {
-    width: '95%',
+    width: '94%',
     aspectRatio: 3.5,
-    borderWidth: 1,
-    borderColor: 'black',
+    // borderWidth: 1,
+    // borderColor: 'black',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginLeft: '3%',
+    marginRight: '3%'
   },
 
   name_text: {

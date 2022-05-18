@@ -21,7 +21,13 @@ dbConnection.connect();
 app.use(express.json());
 
 const authRoute = require('./routes/auth');
+const classroomRoute = require('./routes/classroom');
+
+
+app.use('/api/classroom', classroomRoute);
 app.use('/api/user', authRoute);
+
+
 
 // const auth = require('./middleware/verifyToken');
 

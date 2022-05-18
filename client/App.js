@@ -18,6 +18,7 @@ import Challenge from './pages/application/challenge/Challenge.js';
 import ChallengeTest from './pages/application/challenge/ChallengeTest';
 import ChallengeResult from './pages/application/challenge/ChallengeResult';
 import ChallengeCreate from './pages/application/challenge/ChallengeCreate.js';
+import NewExam from "./pages/NewExam";
 
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
@@ -99,6 +100,12 @@ export default function App({ navigation }) {
             name="ChallengeCreate"
             component={ChallengeCreate}
             options={{ title: 'Create new challenge' }}
+          />
+
+          <Stack.Screen
+            name="NewExam"
+            component={NewExam}
+            options={{ title: 'Create new exam' }}
           />
 
         </Stack.Navigator>
