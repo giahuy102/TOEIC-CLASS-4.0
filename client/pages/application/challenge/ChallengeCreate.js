@@ -6,7 +6,7 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import data from './Ignored_Challenge/DATA.json'
+import data from '../../Ignored_Challenge/DATA.json'
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -17,7 +17,7 @@ export default function ChallengeCreate({ navigation }) {
             headerLeft: () => {
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../assets/back_arrow.png')} />
+                        <Image source={require('../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>
                 );

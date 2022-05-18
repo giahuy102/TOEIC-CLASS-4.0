@@ -1,6 +1,6 @@
 import {View, Text} from "react-native";
 
-import AppStyles from "../../styles/SystemFontStyles";
+import AppStyles from "../../../styles/SystemFontStyles";
 
 export default function AboutUsScreen({navigation, route}) {
     return(

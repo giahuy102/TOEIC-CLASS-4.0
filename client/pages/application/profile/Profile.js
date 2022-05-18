@@ -10,7 +10,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { CommonActions } from '@react-navigation/native';
 
 
-import { removeKey } from '../../services/JWTStorage'
+import { removeKey } from '../../../services/JWTStorage'
 export default function Homepage({ route, navigation }) {
   const { username } = route.params;
 

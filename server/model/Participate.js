@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     challenge: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Challenge'
-    }, 
+    },
     classroom: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Classroom'

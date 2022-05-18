@@ -7,11 +7,11 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AuthService from '../services/AuthService';
+import AuthService from '../../../services/AuthService';
 
-import { storeToken } from '../services/JWTStorage';
+import { storeToken } from '../../../services/JWTStorage';
 
-import data from './Ignored_Challenge/DATA.json'
+import data from '../../Ignored_Challenge/DATA.json'
 // import { IMAGENAME } from './Challenge/assets'
 
 export default function Challenge({ navigation }) {
@@ -22,7 +22,7 @@ export default function Challenge({ navigation }) {
                 // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../assets/back_arrow.png')} />
+                        <Image source={require('../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>
                 );
@@ -88,7 +88,7 @@ export default function Challenge({ navigation }) {
                     style={styles.floatingButton}
                     // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
                     // source={IMAGENAME}
-                    source={require('./Ignored_Challenge/assets/plus.png')}
+                    source={require('../../Ignored_Challenge/assets/plus.png')}
                 />
 
             </TouchableOpacity>

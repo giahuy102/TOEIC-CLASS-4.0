@@ -4,9 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Profile from "./Profile";
+import Profile from "./profile/Profile";
 import ClassroomsListScreen from "./classrooms/ClassroomsListScreen";
-import MoreSettingsScreen from "./MoreSettingsScreen";
+import MoreSettingsScreen from "./more/MoreSettingsScreen";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 

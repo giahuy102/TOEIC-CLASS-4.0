@@ -1,5 +1,13 @@
 @import "SystemFontStyles.scss";
 
+.ClassroomsListFlexStartContainer {
+    @extend %flexStartContainer;
+}
+
+.ClassroomsListScrollViewContainer {
+    @extend %ScrollViewContainer;
+}
+
 .ClassroomsListScreenAddClassroomButtonView {
     position: absolute;
     bottom: 60px;
@@ -22,20 +30,6 @@
     color: white;
 }
 
-.ClassroomsListScreenOtherButton {
-    @extend %PrimaryButton;
-    justify-content: center;
-    align-items: center;
-    margin: 20px;
-}
-
-.ClassroomsListScreenOtherButtonText {
-    @extend %PrimaryButtonTextFont;
-    font-weight: normal;
-    font-size: 15;
-    color: white;
-}
-
 
 
 
@@ -47,9 +41,16 @@
 
 .ClassroomsListItem {
     border: 1px solid $primary-grey-400;
-    padding: 20px;
+    padding: 10px;
     margin: 10px;
     width: 95%;
+}
+
+.ClassroomsListItemText {
+    @extend %PrimaryParagraphFont;
+    color: black;
+    margin-left: 5px;
+    font-size: 0.9rem;
 }
 
 .ClassroomsListItemHeader {
@@ -58,11 +59,25 @@
     margin-bottom: 10px;
 }
 
-.ClassroomListItemBody {
-    margin-top: 10px;
+.ClassroomsListItemHeaderClassName {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-.ClassroomsListItemText {
-    @extend %PrimaryParagraphFont;
-    color: black;
+.ClassroomsListItemHeaderJoined {
+    padding: 6px;
+    background-color: $primary-grey-200;
+}
+
+.ClassroomListItemBody {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: $primary-grey-200;
+}
+
+.ClassroomListItemBodyInfoView {
+    flex-direction: row;
+    align-items: center;
 }

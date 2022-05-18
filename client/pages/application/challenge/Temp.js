@@ -6,7 +6,7 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import data from './Ignored_Challenge/DATA.json'
+import data from '../../Ignored_Challenge/DATA.json'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Challenge from './Challenge';
 
@@ -26,7 +26,7 @@ export default function Temp({ navigation, route }) {
                 // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../assets/back_arrow.png')} />
+                        <Image source={require('../../../assets/back_arrow.png')} />
                     </TouchableOpacity>
                 );
 

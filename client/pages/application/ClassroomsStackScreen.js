@@ -4,8 +4,9 @@ import { Button } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ClassroomDetailScreen from "./classrooms/ClassroomDetailScreen";
+import ClassroomChallengesStackScreen from "./challenge/ClassroomChallengesStackScreen";
 import MainTabScreen from "./MainTabScreen";
-import AboutUsScreen from "./AboutUsScreen";
+import AboutUsScreen from "./more/AboutUsScreen";
 
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
@@ -20,6 +21,9 @@ export default function ClassroomsStackScreen({ navigation, route }) {
             }}
         >
             <Stack.Screen name="ClassroomDetailScreen" component={ClassroomDetailScreen} />
+            <Stack.Screen name="ClassroomChallengesStackScreen" component={ClassroomChallengesStackScreen} options={{
+                headerShown: false
+            }} />
             <Stack.Screen name="AboutUsScreen" component={AboutUsScreen} options={{
                 title: "About Us"
             }} />
