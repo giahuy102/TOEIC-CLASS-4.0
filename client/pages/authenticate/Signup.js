@@ -10,7 +10,7 @@ import { TextInput } from "react-native-paper";
 
 import AuthService from '../../services/AuthService';
 
-import AppStyles from "../../styles/SystemFontStyles.scss";
+import AppStyles from "../../styles/Signup.scss";
 
 export default function Singup({ navigation }) {
     const [username, setUsername] = useState('');

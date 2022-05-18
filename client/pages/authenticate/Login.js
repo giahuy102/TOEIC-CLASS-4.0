@@ -10,7 +10,7 @@ import { storeToken } from '../../services/JWTStorage';
 
 import { TextInput } from "react-native-paper";
 
-import AppStyles from "../../styles/SystemFontStyles.scss";
+import AppStyles from "../../styles/Login.scss";
 
 export default function Login({ navigation }) {
     const [password, setPassword] = useState('');
@@ -77,16 +77,7 @@ export default function Login({ navigation }) {
             //         index: 0,
             //     })
             // });
-            // navigation.navigate("ClassroomsStackScreen", {
-            //         screen: 'MainTabScreen',
-            //         params: {
-            //             screen: 'Profile',
-            //             params: {
-            //                 username: response.data.username,
-            //             }
-            //         }
-            //     }
-            // );
+
         }).catch(err => {
             console.warn(err);
         })
@@ -94,9 +85,11 @@ export default function Login({ navigation }) {
 
     return (
         <>
-            <View><Text style={AppStyles.LoginHeaderText}>
-                {"Hello\nWelcome Back !"}
-            </Text></View>
+            <View style={AppStyles.LoginHeaderView}>
+                <Text style={AppStyles.LoginHeaderText}>
+                    {"Hello\nWelcome Back !"}
+                </Text>
+            </View>
             <View style={AppStyles.container}>
                 <TextInput
                     style={AppStyles.LoginTextInput}
@@ -134,22 +127,3 @@ export default function Login({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        // width: 100
-    },
-    input: {
-        width: '80%',
-        height: 60,
-        margin: 10,
-        fontSize: 16,
-    },
-    button: {
-        margin: 10,
-        width: 300
-
-    }
-});

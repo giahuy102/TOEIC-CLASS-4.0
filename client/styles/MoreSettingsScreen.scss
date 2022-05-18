@@ -1,0 +1,10 @@
+@import 'SystemFontStyles.scss';
+
+.MoreSettingsScreenButton {
+    @extend %PrimaryButton;
+}
+
+.MoreSettingsScreenButtonText {
+    @extend %PrimaryButtonTextFont;
+    color: white;
+}

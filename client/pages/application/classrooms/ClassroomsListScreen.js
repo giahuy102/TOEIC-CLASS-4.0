@@ -5,14 +5,12 @@ import { Button } from "react-native";
 
 import AddClassroomPopupModal from "./AddClassroomPopupModal";
 
-import AppStyles from "../../../styles/SystemFontStyles.scss";
+import AppStyles from "../../../styles/ClassroomsListScreen.scss";
 
 import fakeClassroomsList from "./fakedata/fakeClassroomsListData.json";
 
 export default function ClassroomsListScreen({ navigation, route }) {
     const [modalVisible, setModalVisible] = useState(false);
-
-    console.log("fakeClassroomsList", fakeClassroomsList);
 
     const handleAccessToClassroomDetailScreen = (classroomDetailData) => {
         navigation.navigate("ClassroomDetailScreen", { ...classroomDetailData });
@@ -25,9 +23,9 @@ export default function ClassroomsListScreen({ navigation, route }) {
             </View>
 
             <ScrollView>
-                {fakeClassroomsList.map(({ id, teacherId, numberStudent, level, end_date, start_date, classname, status }) => (
-                    <Pressable key={id} onPress={() => handleAccessToClassroomDetailScreen({ id, teacherId, numberStudent, level, end_date, start_date, classname, status })}>
-                        <ClassroomsListItem id={id} teacherId={teacherId} numberStudent={numberStudent} level={level} end_date={end_date} start_date={start_date} classname={classname} status={status} />
+                {fakeClassroomsList.map(({ _id, teacherId, numberStudent, level, end_date, start_date, classname }) => (
+                    <Pressable key={_id} onPress={() => handleAccessToClassroomDetailScreen({ _id, teacherId, numberStudent, level, end_date, start_date, classname })}>
+                        <ClassroomsListItem _id={_id} teacherId={teacherId} numberStudent={numberStudent} level={level} end_date={end_date} start_date={start_date} classname={classname} />
                     </Pressable>
                 ))}
             </ScrollView>
@@ -57,10 +55,18 @@ export default function ClassroomsListScreen({ navigation, route }) {
     )
 }
 
-function ClassroomsListItem({ id, teacherId, numberStudent, level, end_date, start_date, classname, status }) {
+function ClassroomsListItem({ _id, teacherId, numberStudent, level, end_date, start_date, classname }) {
     return (
         <View style={AppStyles.ClassroomsListItem}>
-            <Text style={AppStyles.ClassroomsListItemText}>{`${id}, ${teacherId}, ${numberStudent}, ${level}, ${end_date}, ${start_date}, ${classname}, ${status}`}</Text>
+            <View style={AppStyles.ClassroomsListItemHeader}>
+                <View><Text>{`${classname}`}</Text></View>
+                <View><Text>{`Joined`}</Text></View>
+            </View>
+            <View style={AppStyles.ClassroomListItemBody}>
+                <Text style={AppStyles.ClassroomsListItemText}>
+                    {`${_id}, ${teacherId}, ${numberStudent}, ${level}, ${end_date}, ${start_date}, ${classname}`}
+                </Text>
+            </View>
         </View>
     )
 }

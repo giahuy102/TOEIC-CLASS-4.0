@@ -4,10 +4,11 @@ import { TextInput } from "react-native-paper";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from "@react-native-picker/picker";
 
-import AppStyles from "../../../styles/SystemFontStyles.scss";
+import AppStyles from "../../../styles/AddClassroomPopupModal.scss";
 
 export default function AddClassroomPopupModal({ modalVisible, setModalVisible }) {
-    const [studentNumber, setStudentNumber] = useState(0);
+    const [classroomName, setClassroomName] = useState("");
+    const [studentNumber, setStudentNumber] = useState("0");
     const [toeicLevel, setToeicLevel] = useState(null);
     const [classroomPassword, setClassroomPassword] = useState("");
 
@@ -15,9 +16,7 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
     const [endDateValue, setEndDateValue] = useState(new Date());
 
     const [startDate, setStartDate] = useState("Choose start date");
-    const [endDate, setEndDate] = useState("Choose start time");
-    const [startTime, setStartTime] = useState("Choose end date");
-    const [endTime, setEndTime] = useState("Choose end time");
+    const [endDate, setEndDate] = useState("Choose end date");
 
     const [dateTimePickerMode, setDateTimePickerMode] = useState('data'); // or 'time'
 
@@ -26,12 +25,14 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
 
     const onStartChange = (event, selectedDate) => {
         setShowStartDateTimePicker(false);
-        setStartDate(selectedDate);
+        setStartDateValue(selectedDate);
+        setStartDate(`${selectedDate.getDate()}/${selectedDate.getMonth() + 1}/${selectedDate.getFullYear()}`);
     }
 
     const onEndChange = (event, selectedDate) => {
         setShowEndDateTimePicker(false);
-        setEndDate(selectedDate);
+        setEndDateValue(selectedDate);
+        setEndDate(`${selectedDate.getDate()}/${selectedDate.getMonth() + 1}/${selectedDate.getFullYear()}`);
     }
 
     const showModeStart = (currentMode) => {
@@ -59,6 +60,15 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
             <View style={AppStyles.AddClassroomModalBodyView}>
                 <TextInput
                     style={AppStyles.AddClassroomModalPaperTextInput}
+                    placeholder="Classroom Name"
+                    label="Classroom Name"
+                    value={classroomName}
+                    right={<TextInput.Icon name="school" />}
+                    onChangeText={(text) => setClassroomName(text)}
+                />
+
+                <TextInput
+                    style={AppStyles.AddClassroomModalPaperTextInput}
                     placeholder="Number of student"
                     keyboardType="number-pad"
                     label="Number of student"
@@ -67,11 +77,21 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
                     onChangeText={(text) => setStudentNumber(text)}
                 />
 
+                <TextInput
+                    style={AppStyles.AddClassroomModalPaperTextInput}
+                    placeholder="Classroom Password"
+                    label="Classroom Password"
+                    secureTextEntry
+                    value={classroomPassword}
+                    right={<TextInput.Icon name="eye" />}
+                    onChangeText={(text) => setClassroomPassword(text)}
+                />
+
                 <Picker
                     prompt="Toeic Level"
                     selectedValue={toeicLevel}
                     onValueChange={(itemValue) => { setToeicLevel(itemValue) }}
-                    style={AppStyles.AddClassroomModalTextInput}
+                    style={AppStyles.AddClassroomModalPressable}
                     placeholder="Toeic Level"
                 >
                     <Picker.Item label="Toeic Class Level ..." value={null} />
@@ -83,47 +103,38 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
                     <Picker.Item label="900" value={900} />
                 </Picker>
 
-                <TextInput
-                    style={AppStyles.AddClassroomModalPaperTextInput}
-                    placeholder="Classroom Password"
-                    label="Classroom Password"
-                    secureTextEntry
-                    value={classroomPassword}
-                    onChangeText={(text) => setClassroomPassword(text)}
-                />
-
-                <View>
-                    <Pressable onPress={() => showModeStart('date')}>
-                        {/* <TextInput
-                            style={AppStyles.AddClassroomModalPaperTextInput}
-                            placeholder="Pick Classroom Start Date"
-                            label="Classroom Start Date"
-                            value={startDate}
-                        /> */}
-                        <Text style={{ paddingLeft: 10, paddingTop: 15, fontSize: 15 }}>123</Text>
-                    </Pressable>
-                    <Pressable onPress={() => showModeStart('time')}>
-                        <TextInput
-                            style={AppStyles.AddClassroomModalPaperTextInput}
-                            placeholder="Pick Classroom Start Time"
-                            label="Classroom Start Time"
-                            value={startTime}
-                        />
-                    </Pressable>
-
-                    {showStartDateTimePicker &&
-                        <DateTimePicker
-                            testID='dateTimePicker'
-                            value={startDateValue}
-                            mode={dateTimePickerMode}
-                            is24Hour={true}
-                            display='default'
-                            onChange={onStartChange}
-                        />
-                    }
-                </View>
-
-
+                <Pressable
+                    style={AppStyles.AddClassroomModalPressable}
+                    onPress={() => showModeStart('date')}
+                >
+                    <Text style={AppStyles.AddClassroomModalPressableText}>{startDate}</Text>
+                </Pressable>
+                {showStartDateTimePicker &&
+                    <DateTimePicker
+                        testID='dateTimePicker'
+                        value={startDateValue}
+                        mode={dateTimePickerMode}
+                        is24Hour={true}
+                        display='default'
+                        onChange={onStartChange}
+                    />
+                }
+                <Pressable
+                    style={AppStyles.AddClassroomModalPressable}
+                    onPress={() => showModeEnd('date')}
+                >
+                    <Text style={AppStyles.AddClassroomModalPressableText}>{endDate}</Text>
+                </Pressable>
+                {showEndDateTimePicker &&
+                    <DateTimePicker
+                        testID='dateTimePicker'
+                        value={endDateValue}
+                        mode={dateTimePickerMode}
+                        is24Hour={true}
+                        display='default'
+                        onChange={onEndChange}
+                    />
+                }
             </View>
             <View style={AppStyles.AddClassroomModalBottomView}>
                 <Pressable
@@ -140,6 +151,6 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Submit</Text>
                 </Pressable>
             </View>
-        </View>
+        </View >
     );
 }

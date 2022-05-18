@@ -1,0 +1,45 @@
+@import 'SystemFontStyles.scss';
+
+.OnboardingHeader {
+    @extend %Heading1Font;
+    text-align: center;
+}
+
+.OnboardingText {
+    @extend %PrimaryParagraphFont;
+    text-align: center;
+    margin: 10px;
+    color: $primary-grey-600;
+}
+
+.OnboardingTextView {
+    width: 80%;
+    align-items: center;
+}
+
+.OnboardingImage {
+    margin: 30px;
+}
+
+.OnboaringUpperButtonView {
+    margin-bottom: 60px;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.OnboaringBelowButtonView {
+    margin-top: 90px;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.OnboardingButton {
+    @extend %PrimaryButton;
+}
+
+.OnboardingButtonText {
+    @extend %PrimaryButtonTextFont;
+    color: white;
+}

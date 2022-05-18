@@ -1,0 +1,39 @@
+@import 'SystemFontStyles.scss';
+
+.LoginHeaderView {
+    justify-content: center;
+    background-color: white;
+}
+
+.LoginHeaderText {
+    @extend %Heading1Font;
+    text-align: left;
+    // margin-bottom: 150px;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.LoginTextInput {
+    @extend %PaperTextInputStyle;
+}
+
+.LoginPromptToRegisterText {
+    @extend %SecondaryParagraphFont;
+    color: $primary-grey-400;
+    margin-top: 80px;
+}
+
+.LoginButton {
+    @extend %PrimaryButton;
+    margin-top: 10px;
+}
+
+.LoginButtonText {
+    @extend %PrimaryButtonTextFont;
+    color: white;
+}
+
+.PromptToRegisterButton {
+    @extend %PrimaryButton;
+    margin-top: 10px;
+}

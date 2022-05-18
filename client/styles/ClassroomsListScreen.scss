@@ -1,0 +1,68 @@
+@import "SystemFontStyles.scss";
+
+.ClassroomsListScreenAddClassroomButtonView {
+    position: absolute;
+    bottom: 60px;
+    right: 50px;
+}
+
+.ClassroomsListScreenAddClassroomButton {
+    @extend %PrimaryButton;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.ClassroomsListScreenAddClassroomButtonText {
+    @extend %PrimaryButtonTextFont;
+    font-weight: normal;
+    font-size: 40;
+    color: white;
+}
+
+.ClassroomsListScreenOtherButton {
+    @extend %PrimaryButton;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.ClassroomsListScreenOtherButtonText {
+    @extend %PrimaryButtonTextFont;
+    font-weight: normal;
+    font-size: 15;
+    color: white;
+}
+
+
+
+
+.ClassroomsListSearchAndCategoriesButtonView {}
+
+.ClassroomsListItemView {
+    flex: 3;
+}
+
+.ClassroomsListItem {
+    border: 1px solid $primary-grey-400;
+    padding: 20px;
+    margin: 10px;
+    width: 95%;
+}
+
+.ClassroomsListItemHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.ClassroomListItemBody {
+    margin-top: 10px;
+}
+
+.ClassroomsListItemText {
+    @extend %PrimaryParagraphFont;
+    color: black;
+}
