@@ -1,11 +1,27 @@
+import * as React from "react";
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, Image } from "react-native";
 import { Button } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import AppStyles from "../../../styles/ClassroomDetailScreen.scss";
 
 export default function ClassroomDetailScreen({ navigation, route }) {
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => {
+                return (
+                    <TouchableOpacity onPress={() => navigation.pop()}>
+                        <Image source={require('../../../assets/back_arrow.png')} />
+
+                    </TouchableOpacity>
+                );
+
+            },
+        });
+    }, [navigation]);
+
     const routeParams = route.params;
     const { _id, teacherId, numberStudent, level, end_date, start_date, classname } = routeParams;
     useEffect(() => {
@@ -18,7 +34,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
 
     const buttonInfoList = [
         { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen' },
-        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: '' },
+        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember' },
         { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: '' },
         { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: '' },
         { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen' }

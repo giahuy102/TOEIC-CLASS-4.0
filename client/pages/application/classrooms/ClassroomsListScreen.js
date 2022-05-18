@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { View, ScrollView, Text, StyleSheet, Modal, Alert, Pressable } from "react-native";
+import { View, ScrollView, Text, StyleSheet, Modal, Alert, Pressable, TouchableOpacity, Image } from "react-native";
 import { Button } from "react-native";
 
 import AddClassroomPopupModal from "./AddClassroomPopupModal";
@@ -13,6 +13,21 @@ import fakeClassroomsList from "./fakedata/fakeClassroomsListData.json";
 
 
 export default function ClassroomsListScreen({ navigation, route }) {
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => {
+                return (
+                    <TouchableOpacity onPress={() => navigation.pop()}>
+                        <Image source={require('../../../assets/back_arrow.png')} />
+
+                    </TouchableOpacity>
+                );
+
+            },
+        });
+    }, [navigation]);
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleAccessToClassroomDetailScreen = (classroomDetailData) => {

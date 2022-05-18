@@ -45,7 +45,6 @@ router.post('/login', async (req, res) => {
     //validate before saving to database
     const { error } = loginValidation(req.body);
     if (error) return res.status(404).send(error.details[0].message);
-
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(401).send('User does not exist');
 

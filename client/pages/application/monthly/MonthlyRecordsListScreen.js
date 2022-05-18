@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, Pressable, FlatList } from "react-native"
+import { Text, View, Pressable, FlatList, TouchableOpacity, Image } from "react-native"
 
 import MonthlyRecordsData from "./fakeData/MonthlyRecordsFakeData.json"
 
@@ -28,6 +28,21 @@ function MonthlyRecordItem(item, navigation, route) {
 }
 
 export default function MonthlyRecordsListScreen({ navigation, route }) {
+
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => {
+                return (
+                    <TouchableOpacity onPress={() => navigation.pop()}>
+                        <Image source={require('../../../assets/back_arrow.png')} />
+
+                    </TouchableOpacity>
+                );
+
+            },
+        });
+    }, [navigation]);
+
     const ClassName = MonthlyRecordsData[0].classname;
 
     return (

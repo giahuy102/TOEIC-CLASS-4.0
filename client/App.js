@@ -8,9 +8,6 @@ import StartScreen from './pages/StartScreen';
 import Login from './pages/authenticate/Login';
 import Signup from './pages/authenticate/Signup';
 
-// import Homepage from './pages/Homepage';
-
-import ClassMember from './pages/ClassMember';
 import NewSection from './pages/NewSection';
 
 import Temp from './pages/application/challenge/Temp';
@@ -59,12 +56,6 @@ export default function App({ navigation }) {
           <Stack.Group screenOptions={{ headerShown: false }}>
             <Stack.Screen name="ClassroomsStackScreen" component={ClassroomsStackScreen} />
           </Stack.Group>
-
-          <Stack.Screen
-            name="ClassMember"
-            component={ClassMember}
-            options={{ title: 'Class members' }}
-          />
 
           <Stack.Screen
             name="NewSection"

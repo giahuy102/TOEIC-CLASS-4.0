@@ -9,6 +9,7 @@ import MainTabScreen from "./MainTabScreen";
 import AboutUsScreen from "./more/AboutUsScreen";
 import MonthlyRecordsListScreen from "./monthly/MonthlyRecordsListScreen";
 import MonthlyRecordDetailScreen from "./monthly/MonthlyRecordDetailScreen";
+import ClassMember from "./classmember/ClassMember";
 
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
@@ -40,6 +41,14 @@ export default function ClassroomsStackScreen({ navigation, route }) {
                     title: "Monthly Record"
                 }} />
                 <Stack.Screen name="MonthlyRecordDetailScreen" component={MonthlyRecordDetailScreen} />
+            </Stack.Group>
+
+            <Stack.Group>
+                <Stack.Screen
+                    name="ClassMember"
+                    component={ClassMember}
+                    options={{ title: 'Class members' }}
+                />
             </Stack.Group>
         </Stack.Navigator>
     )
