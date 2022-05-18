@@ -7,9 +7,6 @@ import AppStyles from "../../../styles/SystemFontStyles";
 
 import Challenge from "./Challenge";
 import ChallengeCreate from "./ChallengeCreate";
-import ChallengeResult from "./ChallengeResult";
-import ChallengeTest from "./ChallengeTest";
-import Temp from "./Temp";
 
 export default function ClassroomChallengesStackScreen({ navigation, route }) {
     const Stack = createNativeStackNavigator();

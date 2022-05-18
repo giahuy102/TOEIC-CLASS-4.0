@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, View, Text, Pressable } from "react-native";
 
-import AppStyles from "../../../styles/SystemFontStyles";
+import AppStyles from "../../../styles/MoreSettingsScreen";
 
 export default function MoreSettingsScreen({ navigation, route }) {
     return (

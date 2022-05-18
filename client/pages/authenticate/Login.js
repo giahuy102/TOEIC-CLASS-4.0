@@ -44,7 +44,7 @@ export default function Login({ navigation }) {
                 return CommonActions.reset({
                     index: 0,
                     routes: [{
-                        name: 'ClassroomsStackScreen',
+                        name: 'ApplicationStackScreen',
                         state: {
                             routes: [{
                                 name: 'MainTabScreen',

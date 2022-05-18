@@ -21,7 +21,7 @@ import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
 import OnboardingScreen3 from './pages/onboarding/OnboardingScreen3';
 
-import ClassroomsStackScreen from './pages/application/ClassroomsStackScreen';
+import ApplicationStackScreen from './pages/application/ApplicationStackScreen';
 
 import AppStyles from './styles/SystemFontStyles.scss';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -54,7 +54,7 @@ export default function App({ navigation }) {
           <Stack.Screen name="Login" component={Login} />
 
           <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="ClassroomsStackScreen" component={ClassroomsStackScreen} />
+            <Stack.Screen name="ApplicationStackScreen" component={ApplicationStackScreen} />
           </Stack.Group>
 
           <Stack.Screen
@@ -98,6 +98,7 @@ export default function App({ navigation }) {
             component={NewExam}
             options={{ title: 'Create new exam' }}
           />
+
 
         </Stack.Navigator>
       </NavigationContainer>

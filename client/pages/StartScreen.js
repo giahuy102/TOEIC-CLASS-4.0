@@ -26,7 +26,7 @@ export default function StartScreen({ navigation }) {
             return CommonActions.reset({
               index: 0,
               routes: [{
-                name: 'ClassroomsStackScreen',
+                name: 'ApplicationStackScreen',
                 state: {
                   routes: [{
                     name: 'MainTabScreen',
@@ -69,10 +69,6 @@ export default function StartScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-        <Text>{"TOEIC 4.0 By Mobile App"}</Text>
-      </View>
-
       <View style={styles.button}>
         <Button
           title="Login"
@@ -113,6 +109,21 @@ export default function StartScreen({ navigation }) {
           onPress={() => navigation.navigate('Temp')}
         />
       </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Your Result"
+          onPress={() => navigation.navigate('YourResult')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Profile"
+          onPress={() => navigation.navigate('Profile')}
+        />
+      </View>
+
     </View >
 
   );
