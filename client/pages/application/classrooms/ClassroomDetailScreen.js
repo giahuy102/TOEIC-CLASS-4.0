@@ -18,11 +18,11 @@ export default function ClassroomDetailScreen({ navigation, route }) {
 
     const buttonInfoList = [
         { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen' },
-        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen' },
-        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen' }
+        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: '' },
+        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: '' },
+        { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: '' },
+        { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen' }
     ]
-
-    console.log(buttonInfoList);
 
     return (
         <View style={AppStyles.ClassroomDetailScreenContainer}>
@@ -49,6 +49,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
             <View style={AppStyles.ClassroomDetailScreenBody}>
                 {buttonInfoList.map((buttonInfo) => (
                     <Pressable
+                        key={buttonInfo.buttonName}
                         onPress={() => navigation.navigate(buttonInfo.routeName)}
                         style={AppStyles.ClassoomDetailScreenButtonView}
                     >

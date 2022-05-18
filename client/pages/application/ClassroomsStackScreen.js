@@ -7,6 +7,8 @@ import ClassroomDetailScreen from "./classrooms/ClassroomDetailScreen";
 import ClassroomChallengesStackScreen from "./challenge/ClassroomChallengesStackScreen";
 import MainTabScreen from "./MainTabScreen";
 import AboutUsScreen from "./more/AboutUsScreen";
+import MonthlyRecordsListScreen from "./monthly/MonthlyRecordsListScreen";
+import MonthlyRecordDetailScreen from "./monthly/MonthlyRecordDetailScreen";
 
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
@@ -31,6 +33,14 @@ export default function ClassroomsStackScreen({ navigation, route }) {
                 headerBackStyle: { display: 'None' },
                 title: "Toeic E-Class 4.0"
             }} />
+
+
+            <Stack.Group>
+                <Stack.Screen name="MonthlyRecordsListScreen" component={MonthlyRecordsListScreen} options={{
+                    title: "Monthly Record"
+                }} />
+                <Stack.Screen name="MonthlyRecordDetailScreen" component={MonthlyRecordDetailScreen} />
+            </Stack.Group>
         </Stack.Navigator>
     )
 }

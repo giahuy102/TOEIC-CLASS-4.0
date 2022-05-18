@@ -36,9 +36,9 @@
 .ClassoomDetailScreenButtonView {
     background-color: $primary-blue-600;
     padding: 20px;
-    border-radius: 10px;
-    width: 45%;
-    height: 140px;
+    border-radius: 20px;
+    width: 40%;
+    aspect-ratio: 1;
     margin-top: 20px;
     align-items: center;
     justify-content: space-evenly;
@@ -46,11 +46,13 @@
 
 .ClassroomDetailScreenButtonNameText {
     @extend %PrimaryParagraphFont;
+    font-size: 1.3rem;
     color: white
 }
 
 .ClassroomDetailScreenButtonDescriptionText {
     @extend %SecondaryParagraphFont;
+    font-size: 0.85rem;
     color: white;
     text-align: center;
 }

@@ -1,0 +1,32 @@
+@import "SystemFontStyles.scss";
+
+.MonthlyRecordsListScreenContainer {
+    @extend %flexStartContainer;
+}
+
+.MonthlyRecordsListScreenClassNameText {
+    @extend %PrimaryParagraphFont;
+    margin-top: 20px;
+    color: $primary-grey-400;
+    font-size: 1.5rem;
+}
+
+.MonthlyRecordsListScreenItem {
+    padding: 10px;
+    flex-direction: row;
+    width: 94%;
+    height: 100px;
+    margin: 10px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.MonthlyRecordsListScreenItemLeftText {
+    font-size: 1.6rem;
+    color: $primary-blue-400;
+}
+
+.MonthlyRecordsListScreenItemRightText {
+    font-size: 1.1rem;
+    margin-left: 10px;
+}

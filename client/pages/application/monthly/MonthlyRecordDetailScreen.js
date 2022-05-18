@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { Text, View, FlatList, StyleSheet, TouchableOpacity, Image } from "react-native"
 
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
+import AppStyles from "../../../styles/MonthlyRecordDetailScreen";
 
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import AuthService from '../../../services/AuthService';
-
-import { storeToken } from '../../../services/JWTStorage';
-
-import data from '../../Ignored_Challenge/RESULT_DATA.json'
-
-
-export default function ChallengeResult({ navigation }) {
+export default function MonthlyRecordDetailScreen({ navigation, route }) {
+    const { recordList, month, year } = route.params;
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
+            title: `${month} ${year}`,
             headerLeft: () => {
                 // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
@@ -56,13 +47,7 @@ export default function ChallengeResult({ navigation }) {
     const header_data = [{ "key": "Rank", "name": "Name", "id": "ID", "score": "Score" }];
 
     return (
-        <View style={styles.container}>
-            <View style={{ marginTop: 10, }}>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Challenge: <Text style={{ fontWeight: 'normal' }}>Toiec 500+</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>1910409</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Ended: <Text style={{ fontWeight: 'normal' }}>23h59, 23rd March 2022</Text> </Text>
-            </View>
-
+        <View style={AppStyles.MonthlyRecordDetailScreenContainer}>
             <FlatList
                 style={{ height: '10%' }}
                 data={header_data}
@@ -77,7 +62,7 @@ export default function ChallengeResult({ navigation }) {
             </FlatList>
 
             <FlatList
-                data={data}
+                data={recordList}
                 renderItem={({ item, index }) => {
                     // console.log(`item = ${JSON.stringify(item)}, index = ${index}`)
                     return (
