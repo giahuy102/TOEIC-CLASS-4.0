@@ -91,7 +91,7 @@ export default function StartScreen({ navigation }) {
     /**
      * Comment below line to check all Start Screen demo
      */
-    isUserLogin();
+    // isUserLogin();
 
 
   });
@@ -140,6 +140,13 @@ export default function StartScreen({ navigation }) {
         <Button
           title="Temp"
           onPress={() => navigation.navigate('Temp')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="NewExam"
+          onPress={() => navigation.navigate('NewExam')}
         />
       </View>
 

@@ -13,6 +13,8 @@ import Signup from './pages/authenticate/Signup';
 import ClassMember from './pages/ClassMember';
 import NewSection from './pages/NewSection';
 
+import NewExam from "./pages/NewExam";
+
 import Challenge from './pages/Challenge.js';
 
 import ChallengeTest from './pages/ChallengeTest';
@@ -152,6 +154,11 @@ export default function App({ navigation }) {
             options={{ title: 'Create new challenge' }}
           />
 
+          <Stack.Screen
+            name="NewExam"
+            component={NewExam}
+            options={{ title: 'Create new exam' }}
+          />
 
         </Stack.Navigator>
       </NavigationContainer>
