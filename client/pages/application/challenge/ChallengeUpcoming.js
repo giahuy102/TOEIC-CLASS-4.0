@@ -7,14 +7,11 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AuthService from '../services/AuthService';
 
-import { storeToken } from '../services/JWTStorage';
-
-import data from './Ignored_Challenge/DATA.json'
+import data from '../../Ignored_Challenge/DATA.json'
 // import { IMAGENAME } from './Challenge/assets'
 
-export default function ChallengeEnded({ navigation }) {
+export default function ChallengeUpcoming({ navigation }) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -22,7 +19,7 @@ export default function ChallengeEnded({ navigation }) {
                 // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../assets/back_arrow.png')} />
+                        <Image source={require('../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>
                 );
@@ -51,13 +48,6 @@ export default function ChallengeEnded({ navigation }) {
                 </View>
 
                 <View style={styles.right}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: '-2%' }}>
-                        <Text>{item.name}</Text>
-                        <Text onPress={() => navigation.navigate('ChallengeResult')} style={{ color: '#1570EF', textDecorationLine: 'underline' }}>
-                            View result
-                        </Text>
-                    </View>
-
                     <Text style={{ paddingTop: 10 }}>ID: {item.id}</Text>
                     <Text>Created by: {item.created_by}</Text>
                     <Text>Will end: {item.will_end}</Text>
@@ -88,7 +78,7 @@ export default function ChallengeEnded({ navigation }) {
                     style={styles.floatingButton}
                     // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
                     // source={IMAGENAME}
-                    source={require('./Ignored_Challenge/assets/plus.png')}
+                    source={require('../../Ignored_Challenge/assets/plus.png')}
                 />
 
             </TouchableOpacity>
