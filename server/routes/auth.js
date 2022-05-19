@@ -73,6 +73,9 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+
+});
 
 const auth = require('../middleware/verifyToken');
 router.post('/get_user', auth, async (req, res) => {

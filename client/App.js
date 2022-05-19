@@ -17,7 +17,7 @@ import Challenge from './pages/Challenge.js';
 
 import ChallengeTest from './pages/ChallengeTest';
 import ChallengeResult from './pages/ChallengeResult';
-import Temp from './pages/Temp';
+import ChallengeScreen from './pages/ChallengeScreen';
 import ChallengeCreate from './pages/ChallengeCreate.js';
 
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
@@ -141,9 +141,9 @@ export default function App({ navigation }) {
           />
 
           <Stack.Screen
-            name="Temp"
-            component={Temp}
-            options={{ title: 'Temp' }}
+            name="ChallengeScreen"
+            component={ChallengeScreen}
+            options={{ title: 'Challenge' }}
           />
 
           <Stack.Screen

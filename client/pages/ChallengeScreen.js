@@ -9,7 +9,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import data from './Ignored_Challenge/DATA.json'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Challenge from './Challenge';
-
+import ChallengeChallenging from './ChallengeChallenging';
+import ChallengeUpcoming from './ChallengeUpcoming';
+import ChallengeEnded from './ChallengeEnded';
 // import Challenge from './Challenge.jsx';
 
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -18,7 +20,7 @@ const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
 
-export default function Temp({ navigation, route }) {
+export default function ChallengeScreen({ navigation, route }) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -77,9 +79,9 @@ export default function Temp({ navigation, route }) {
                 // },
             }}
         >
-            <Tab.Screen name="ClassroomsListScreen" component={Challenge} options={{ title: "Challenging" }} />
-            <Tab.Screen name="Profile" component={Challenge} options={{ title: "Upcoming" }} />
-            <Tab.Screen name="MoreSettingsScreen" component={Challenge} options={{ title: "Ended" }} />
+            <Tab.Screen name="ClassroomsListScreen" component={ChallengeChallenging} options={{ title: "Challenging" }} />
+            <Tab.Screen name="Profile" component={ChallengeUpcoming} options={{ title: "Upcoming" }} />
+            <Tab.Screen name="MoreSettingsScreen" component={ChallengeEnded} options={{ title: "Ended" }} />
         </Tab.Navigator>
 
     );
