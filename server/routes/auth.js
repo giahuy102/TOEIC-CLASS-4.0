@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
     const user = new User({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password 
+        password: req.body.password
     });
 
     user.password = await bcrypt.hash(user.password, salt);
@@ -33,10 +33,10 @@ router.post('/register', async (req, res) => {
         //         expiresIn: "2h",
         //     }
         // );
-        
+
         // res.status(201).header('auth-token', token).send(token);
         res.status(201).send("Register successfully");
-    } catch(err) {
+    } catch (err) {
         res.status(400).send(err);
     }
 });
@@ -45,7 +45,6 @@ router.post('/login', async (req, res) => {
     //validate before saving to database
     const { error } = loginValidation(req.body);
     if (error) return res.status(404).send(error.details[0].message);
-
     const user = await User.findOne({ email: req.body.email });
     if (!user) return res.status(401).send('User does not exist');
 
@@ -53,21 +52,21 @@ router.post('/login', async (req, res) => {
     const email = user.email;
     if (validPassword) {
         const token = jwt.sign(
-            { user_id: user._id, email  },
+            { user_id: user._id, email },
             process.env.SECRET_TOKEN,
             // {
             //     expiresIn: "2h",
             // }
         );
-        
+
         // user.accessToken = token;
-        
+
         res.status(200).json({
             username: user.username,
             email: user.email,
             accessToken: token
         });
-    } 
+    }
     else {
         res.status(400).send('Invalid password');
     }
@@ -79,9 +78,17 @@ router.post('/login', async (req, res) => {
 
 const auth = require('../middleware/verifyToken');
 router.post('/get_user', auth, async (req, res) => {
-    const user = await User.findOne({ _id: req.user.user_id });
-    // console.log(user);
-    res.status(201).send(user.username);
+    try {
+        const user = await User.findOne({ _id: req.user.user_id });
+        // console.log(user);
+        if (!user) {
+            res.status(404).send('User Not Found');
+        } else {
+            res.status(201).send(user.username);
+        }
+    } catch (err) {
+        res.status(404).send(`Mongoose query error: ${err}`);
+    }
 });
 
 module.exports = router;

@@ -1,0 +1,58 @@
+@import 'SystemFontStyles.scss';
+
+.ClassroomDetailScreenContainer {
+    @extend %flexStartContainer;
+}
+
+.ClassroomDetailScreenHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: $primary-grey-200;
+    width: 90%;
+}
+
+.ClassroomDetailScreenHeaderInfoView {
+    flex-direction: row;
+    align-items: center;
+}
+
+.ClassroomsListItemText {
+    @extend %PrimaryParagraphFont;
+    color: black;
+    margin-left: 5px;
+    font-size: 0.9rem;
+}
+
+.ClassroomDetailScreenBody {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+.ClassoomDetailScreenButtonView {
+    background-color: $primary-blue-600;
+    padding: 20px;
+    border-radius: 20px;
+    width: 40%;
+    aspect-ratio: 1;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.ClassroomDetailScreenButtonNameText {
+    @extend %PrimaryParagraphFont;
+    font-size: 1.3rem;
+    color: white
+}
+
+.ClassroomDetailScreenButtonDescriptionText {
+    @extend %SecondaryParagraphFont;
+    font-size: 0.85rem;
+    color: white;
+    text-align: center;
+}

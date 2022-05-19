@@ -1,8 +1,7 @@
 import react, { useState } from "react"
 import { Pressable, Text, StyleSheet, View, Image } from "react-native";
-import AppStyles from "../../styles/SystemFontStyles.scss";
+import AppStyles from "../../styles/OnboardingScreen.scss";
 
-console.log("SystemFontStyles", AppStyles);
 
 export default OnboardingScreen1 = ({ navigation }) => {
     return (

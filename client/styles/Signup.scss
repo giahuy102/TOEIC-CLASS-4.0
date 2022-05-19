@@ -1,0 +1,23 @@
+@import 'SystemFontStyles.scss';
+
+.SignupHeaderText {
+    @extend %Heading1Font;
+    text-align: left;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.SignupTextInput {
+    @extend %PaperTextInputStyle;
+}
+
+.SignupButton {
+    @extend %PrimaryButton;
+    margin-top: 10px;
+}
+
+.SignupButtonText {
+    @extend %PrimaryButtonTextFont;
+    color: white;
+    text-align: center;
+}

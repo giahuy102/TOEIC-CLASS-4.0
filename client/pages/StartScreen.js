@@ -16,47 +16,17 @@ import { useEffect } from 'react';
 export default function StartScreen({ navigation }) {
 
   useEffect(() => {
-    // loadToken().then(value => {
-    //   if (value) {
-    //     AuthService.getUser(value)
-    //       .then(response => {
-    //         console.log(response.data);
-    //         navigation.popToTop();
-    //         navigation.navigate('ClassroomsStackScreen',
-    //           {
-    //             screen: 'MainTabScreen',
-    //             params: {
-    //               screen: 'Profile',
-    //               params: { username: response.data }
-    //             }
-    //           }
-    //         );
-    //       }).catch(err => {
-    //         console.log(err);
-    //       })
-    //   }
-    // })
-
     const isUserLogin = async () => {
       const loadTokenResponse = await loadToken();
       if (loadTokenResponse) {
         try {
           const authServiceResponse = await AuthService.getUser(loadTokenResponse);
           const userData = authServiceResponse.data;
-          // navigation.navigate('ClassroomsStackScreen',
-          //   {
-          //     screen: 'MainTabScreen',
-          //     params: {
-          //       screen: 'Profile',
-          //       params: { username: userData }
-          //     }
-          //   }
-          // );
           navigation.dispatch(state => {
             return CommonActions.reset({
               index: 0,
               routes: [{
-                name: 'ClassroomsStackScreen',
+                name: 'ApplicationStackScreen',
                 state: {
                   routes: [{
                     name: 'MainTabScreen',
@@ -73,7 +43,8 @@ export default function StartScreen({ navigation }) {
           })
           return;
         } catch (err) {
-          console.log(err);
+          console.log("Error caught successfully");
+          await isOnboardingScreenOpen();
         }
       } else {
         await isOnboardingScreenOpen();
@@ -98,10 +69,6 @@ export default function StartScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.container}>
-        <Text>{"TOEIC 4.0 By Mobile App"}</Text>
-      </View>
-
       <View style={styles.button}>
         <Button
           title="Login"
@@ -140,6 +107,20 @@ export default function StartScreen({ navigation }) {
         <Button
           title="Challenge"
           onPress={() => navigation.navigate('ChallengeScreen')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Your Result"
+          onPress={() => navigation.navigate('YourResult')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Profile"
+          onPress={() => navigation.navigate('Profile')}
         />
       </View>
 

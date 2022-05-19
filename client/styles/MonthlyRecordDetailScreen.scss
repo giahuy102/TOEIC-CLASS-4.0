@@ -1,0 +1,5 @@
+@import "SystemFontStyles.scss";
+
+.MonthlyRecordDetailScreenContainer {
+    @extend %flexStartContainer;
+}

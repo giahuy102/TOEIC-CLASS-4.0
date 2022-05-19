@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -19,10 +20,13 @@ const userSchema = new mongoose.Schema({
         max: 1024,
         min: 6
     },
+    fullname: String,
+    birthdate: Date,
     created_at: {
         type: Date,
         default: Date.now
-    }
+    },
+
 });
 
 module.exports = mongoose.model('User', userSchema);
