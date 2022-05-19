@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AppStyles from "../../../styles/SystemFontStyles";
 
-import Challenge from "./Challenge";
+import ChallengeScreen from "./ChallengeScreen";
 import ChallengeCreate from "./ChallengeCreate";
 
 export default function ClassroomChallengesStackScreen({ navigation, route }) {
@@ -19,7 +19,7 @@ export default function ClassroomChallengesStackScreen({ navigation, route }) {
                 headerTitleStyle: AppStyles.HeaderTitleStyle,
             }}
         >
-            <Stack.Screen name="Challenge" component={Challenge} />
+            <Stack.Screen name="Challenge" component={ChallengeScreen} />
             <Stack.Screen name="ChallengeCreate" component={ChallengeCreate} />
         </Stack.Navigator>
     );

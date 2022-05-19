@@ -100,17 +100,17 @@ export default function StartScreen({ navigation }) {
         />
       </View>
 
-      <View style={styles.button}>
+      {/* <View style={styles.button}>
         <Button
           title="Challenge"
           onPress={() => navigation.navigate('Challenge')}
         />
-      </View>
+      </View> */}
 
       <View style={styles.button}>
         <Button
-          title="Temp"
-          onPress={() => navigation.navigate('Temp')}
+          title="Challenge"
+          onPress={() => navigation.navigate('ChallengeScreen')}
         />
       </View>
 

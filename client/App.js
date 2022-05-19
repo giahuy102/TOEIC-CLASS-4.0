@@ -12,12 +12,14 @@ import Signup from './pages/authenticate/Signup';
 
 import NewSection from './pages/NewSection';
 
-import Temp from './pages/application/challenge/Temp';
-import Challenge from './pages/application/challenge/Challenge.js';
-import ChallengeTest from './pages/application/challenge/ChallengeTest';
-import ChallengeResult from './pages/application/challenge/ChallengeResult';
+// import Temp from './pages/application/challenge/ChallengeScreen';
+
 import ChallengeCreate from './pages/application/challenge/ChallengeCreate.js';
 import NewExam from "./pages/NewExam";
+import ChallengeResult from "./pages/application/challenge/ChallengeResult";
+import ChallengeTest from "./pages/application/challenge/ChallengeTest";
+import Challenge from './pages/application/challenge/Challenge';
+import ChallengeScreen from './pages/application/challenge/ChallengeScreen';
 
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
@@ -84,11 +86,11 @@ export default function App({ navigation }) {
               options={{ title: 'Result' }}
             />
 
-            <Stack.Screen
-              name="Temp"
-              component={Temp}
-              options={{ title: 'Temp' }}
-            />
+          <Stack.Screen
+            name="ChallengeScreen"
+            component={ChallengeScreen}
+            options={{ title: 'Challenge' }}
+          />
 
             <Stack.Screen
               name="ChallengeCreate"
