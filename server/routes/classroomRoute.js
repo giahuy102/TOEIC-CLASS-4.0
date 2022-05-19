@@ -74,9 +74,50 @@ router.post('/create', tokenValidation, async function (req, res) {
     }
 })
 
-router.get('/all', async function (req, res) {
-    const AllClassrooms = await ClassroomModel.find({});
-    res.status(201).send(JSON.stringify(AllClassrooms));
+router.post('/join', tokenValidation, async function (req, res) {
+    const userId = req.user.user_id;
+    const { password, classId } = req.body;
+    let requestedClassroom = await ClassroomModel.findOne({ _id: classId });
+    if (password === requestedClassroom['password']) {
+        const newJoin = new UserJoinClassroomModel({
+            accumulate_score: 0.0,
+            rank: 0,
+            role: 'Student',
+            user: userId,
+            classroom: classId,
+        })
+        try {
+            newJoin.save();
+            console.log('/classroom/join save newJoin success');
+            res.status(200).send(JSON.stringify({ _id: classId }));
+        } catch (err) {
+            res.status(400).send(err)
+            console.log("Processing new join request error", err);
+        }
+    } else {
+        res.status(401).send({ message: "Invalid Classroom Password" })
+    }
+})
+
+router.post('/all', tokenValidation, async function (req, res) {
+    console.log('Server /api/classroom/all reached');
+
+    let AllClassrooms = await ClassroomModel.find({});
+    AllClassrooms = JSON.parse(JSON.stringify(AllClassrooms));
+    let responseBody = [];
+    const userId = req.user.user_id;
+    for (let ClassroomInfo of AllClassrooms) {
+        const { _id: classroomId } = ClassroomInfo;
+        console.log(`userId: ${userId}, classroomId: ${classroomId}`);
+        try {
+            const findUserJoinClassroomModel = await UserJoinClassroomModel.find({ classroom: classroomId, user: userId })
+            console.log('/api/classroom/all', findUserJoinClassroomModel);
+            responseBody.push({ ...ClassroomInfo, isJoined: findUserJoinClassroomModel.length !== 0 })
+        } catch (err) {
+            console.log('find UserJoinClassroomModel error', err);
+        }
+    }
+    res.status(201).send(JSON.stringify(responseBody));
 })
 
 router.get('/:class_id/get_basic_info_all_member', async function (req, res) {

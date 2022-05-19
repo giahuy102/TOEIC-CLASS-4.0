@@ -15,14 +15,14 @@ export const loadToken = async () => {
     try {
         const value = await AsyncStorage.getItem('jwt-token');
         if (value !== null) {
-          // We have data!!
-          return value;
+            // We have data!!
+            return value;
         }
         return null;
-      } catch (error) {
+    } catch (error) {
         // Error retrieving data
         console.log(error);
-      }
+    }
 }
 
 export const removeKey = async (key) => {
@@ -30,7 +30,7 @@ export const removeKey = async (key) => {
         await AsyncStorage.removeItem(key);
         return true;
     }
-    catch(err) {
+    catch (err) {
         console.log(err);
     }
 };

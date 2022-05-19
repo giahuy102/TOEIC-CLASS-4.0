@@ -44,6 +44,8 @@ export default function Login({ navigation }) {
         try {
             const loginResponse = await AuthService.login(email, password);
             const loadTokenResponse = loginResponse.data.accessToken;
+            console.log('Login loadTokenResponse', loadTokenResponse);
+            await storeToken('jwt-token', loadTokenResponse);
             const authServiceResponse = await AuthService.getUser(loadTokenResponse);
             const userData = authServiceResponse.data;
             dispatch(updateProfileState(userData));
@@ -67,7 +69,7 @@ export default function Login({ navigation }) {
                 })
             })
         } catch (err) {
-            console.warn(err);
+            console.log(err);
         }
     }
 

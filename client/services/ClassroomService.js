@@ -6,12 +6,22 @@ const ClassroomService = function () {
         return axios.post(`${API_URL}/create`, createClassroomPayload)
     }
 
-    this.getAllClassrooms = () => {
-        return axios.get(`${API_URL}/all`);
+    this.getAllClassrooms = (loadTokenResponse) => {
+        return axios.post(`${API_URL}/all`, {
+            token: loadTokenResponse
+        });
     }
 
     this.getClassroomDetailInfo = (classId) => {
         return axios.get(`${API_URL}/${classId}/get_basic_info_all_member`)
+    }
+
+    this.joinClassroomRequest = (password, classId, loadTokenResponse) => {
+        return axios.post(`${API_URL}/join`, {
+            token: loadTokenResponse,
+            classId: classId,
+            password: password,
+        })
     }
 }
 

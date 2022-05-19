@@ -5,16 +5,21 @@ import { Button } from "react-native";
 import { useSelector } from "react-redux";
 
 import AddClassroomPopupModal from "./AddClassroomPopupModal";
+import JoinClassroomPopupModal from "./JoinClassroomPopupModal";
 
 import AppStyles from "../../../styles/ClassroomsListScreen.scss";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+import { loadToken } from "../../../services/JWTStorage";
 import ClassroomService from "../../../services/ClassroomService";
 import { dateStrFormatGetDate } from "../../../utils/dateStrConverter";
 
 export default function ClassroomsListScreen({ navigation, route }) {
     const profileId = useSelector(state => state.profile._id);
-    console.log('Redux profile slice _id', profileId);
+    const [currentClassId, setCurrentClassId] = useState("");
+
+    const [addClassroomModalVisible, setAddClassroomModalVisible] = useState(false);
+    const [joinClassroomModalVisible, setJoinClassroomModalVisible] = useState(false);
 
     const [ClassroomsListData, setClassroomsListData] = useState([]);
 
@@ -33,14 +38,16 @@ export default function ClassroomsListScreen({ navigation, route }) {
 
     React.useEffect(async () => {
         const fetchAllClassrooms = async () => {
-            const fetchAllClassroomsResponse = await ClassroomService.getAllClassrooms();
+            const loadTokenResponse = await loadToken();
+            console.log('ClassroomsListScreen Tokens:', loadTokenResponse);
+            const fetchAllClassroomsResponse = await ClassroomService.getAllClassrooms(loadTokenResponse);
             const AllClassroomsData = fetchAllClassroomsResponse.data;
+            // console.log('AllClassroomsData', AllClassroomsData);
             setClassroomsListData(AllClassroomsData);
         }
         await fetchAllClassrooms();
     }, []);
 
-    const [modalVisible, setModalVisible] = useState(false);
 
     const handleAccessToClassroomDetailScreen = async (classroomDetailData) => {
         console.log(classroomDetailData);
@@ -50,10 +57,12 @@ export default function ClassroomsListScreen({ navigation, route }) {
         const getClassroomDetailInfoData = getClassroomDetailInfoResponse.data;
         const classroomStudentIdList = getClassroomDetailInfoData['students_list'].map(student_info => student_info._id);
         console.log("classroomStudentIdList", classroomStudentIdList);
-        if (profileId in classroomStudentIdList) {
+        if (classroomStudentIdList.includes(profileId)) {
             navigation.navigate("ClassroomDetailScreen", { ...classroomDetailData });
         } else {
-            alert("You not in this class");
+            setCurrentClassId(classId);
+            setJoinClassroomModalVisible(true);
+            // alert("You not in this class");
         }
     };
 
@@ -63,10 +72,24 @@ export default function ClassroomsListScreen({ navigation, route }) {
 
             </View>
 
+            <Modal
+                animationType="fade"
+                hasBackDrop={false}
+                visible={joinClassroomModalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed!");
+                    setJoinClassroomModalVisible(!joinClassroomModalVisible)
+                }}
+            >
+                <View style={AppStyles.ModalContainer}>
+                    <JoinClassroomPopupModal ClassroomsListData={ClassroomsListData} setClassroomsListData={setClassroomsListData} joinClassroomModalVisible={joinClassroomModalVisible} setJoinClassroomModalVisible={setJoinClassroomModalVisible} currentClassId={currentClassId} />
+                </View>
+            </Modal>
+
             <ScrollView style={AppStyles.ClassroomsListScrollViewContainer}>
-                {ClassroomsListData.map(({ _id, number_student, level, end_date, start_date, classname }) => (
+                {ClassroomsListData.map(({ _id, number_student, level, end_date, start_date, classname, isJoined }) => (
                     <Pressable key={_id} onPress={() => handleAccessToClassroomDetailScreen({ _id, number_student, level, end_date, start_date, classname })}>
-                        <ClassroomsListItem _id={_id} number_student={number_student} level={level} end_date={end_date} start_date={start_date} classname={classname} />
+                        <ClassroomsListItem _id={_id} number_student={number_student} level={level} end_date={end_date} start_date={start_date} classname={classname} isJoined={isJoined} />
                     </Pressable>
                 ))}
             </ScrollView>
@@ -74,20 +97,20 @@ export default function ClassroomsListScreen({ navigation, route }) {
             <Modal
                 animationType="fade"
                 hasBackDrop={false}
-                visible={modalVisible}
+                visible={addClassroomModalVisible}
                 onRequestClose={() => {
                     Alert.alert("Modal has been closed!");
-                    setModalVisible(!modalVisible);
+                    setAddClassroomModalVisible(!addClassroomModalVisible);
                 }}
             >
                 <View style={AppStyles.ModalContainer}>
-                    <AddClassroomPopupModal ClassroomsListData={ClassroomsListData} setClassroomsListData={setClassroomsListData} setModalVisible={setModalVisible} modalVisible={modalVisible} handleAccessToClassroomDetailScreen={handleAccessToClassroomDetailScreen} />
+                    <AddClassroomPopupModal ClassroomsListData={ClassroomsListData} setClassroomsListData={setClassroomsListData} setAddClassroomModalVisible={setAddClassroomModalVisible} addClassroomModalVisible={addClassroomModalVisible} handleAccessToClassroomDetailScreen={handleAccessToClassroomDetailScreen} />
                 </View>
             </Modal>
             <View style={AppStyles.ClassroomsListScreenAddClassroomButtonView}>
                 <Pressable
                     style={AppStyles.ClassroomsListScreenAddClassroomButton}
-                    onPress={() => setModalVisible(true)}
+                    onPress={() => setAddClassroomModalVisible(true)}
                 >
                     <Image
                         style={AppStyles.AddClassroomModalFloatingButton}
@@ -99,12 +122,15 @@ export default function ClassroomsListScreen({ navigation, route }) {
     )
 }
 
-function ClassroomsListItem({ _id, number_student, level, end_date, start_date, classname }) {
+function ClassroomsListItem({ _id, number_student, level, end_date, start_date, classname, isJoined }) {
+
     return (
         <View style={AppStyles.ClassroomsListItem}>
             <View style={AppStyles.ClassroomsListItemHeader}>
                 <View><Text style={AppStyles.ClassroomsListItemHeaderClassName}>{`${classname}`}</Text></View>
-                <View><Text style={AppStyles.ClassroomsListItemHeaderJoined}>{`Joined`}</Text></View>
+                <View>
+                    {isJoined && <Text style={AppStyles.ClassroomsListItemHeaderJoined}>{`Joined`}</Text>}
+                </View>
             </View>
             <View style={AppStyles.ClassroomListItemBody}>
                 <View style={AppStyles.ClassroomListItemBodyInfoView}>

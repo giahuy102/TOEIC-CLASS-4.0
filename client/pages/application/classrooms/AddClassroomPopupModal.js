@@ -11,7 +11,7 @@ import ClassroomService from "../../../services/ClassroomService";
 
 import AppStyles from "../../../styles/AddClassroomPopupModal.scss";
 
-export default function AddClassroomPopupModal({ ClassroomsListData, setClassroomsListData, modalVisible, setModalVisible, handleAccessToClassroomDetailScreen }) {
+export default function AddClassroomPopupModal({ ClassroomsListData, setClassroomsListData, addClassroomModalVisible, setAddClassroomModalVisible, handleAccessToClassroomDetailScreen }) {
     const [classroomName, setClassroomName] = useState("");
     const [number_student, setNumber_student] = useState("0");
     const [toeicLevel, setToeicLevel] = useState(null);
@@ -63,10 +63,11 @@ export default function AddClassroomPopupModal({ ClassroomsListData, setClassroo
                 level: AddNewClassroomResponseData.toeicLevel,
                 classname: AddNewClassroomResponseData.classroomName,
                 start_date: AddNewClassroomResponseData.startDateValue.slice(0, 10),
-                end_date: AddNewClassroomResponseData.endDateValue.slice(0, 10)
+                end_date: AddNewClassroomResponseData.endDateValue.slice(0, 10),
+                isJoined: true,
             }
             setClassroomsListData([...ClassroomsListData, AccessToClassroomDetailScreenData]);
-            setModalVisible(!modalVisible);
+            setAddClassroomModalVisible(!addClassroomModalVisible);
             /**
              *  * Causing bug: ClassroomsListScreen freeze after add classroom in modal successful *
              *  handleAccessToClassroomDetailScreen(AccessToClassroomDetailScreenData);
@@ -162,7 +163,7 @@ export default function AddClassroomPopupModal({ ClassroomsListData, setClassroo
             <View style={AppStyles.AddClassroomModalBottomView}>
                 <Pressable
                     style={AppStyles.ClassroomsListScreenOtherButton}
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => setAddClassroomModalVisible(!addClassroomModalVisible)}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Cancel</Text>
                 </Pressable>
