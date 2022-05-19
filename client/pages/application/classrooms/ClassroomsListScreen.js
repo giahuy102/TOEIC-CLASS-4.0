@@ -8,11 +8,11 @@ import AddClassroomPopupModal from "./AddClassroomPopupModal";
 import AppStyles from "../../../styles/ClassroomsListScreen.scss";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import fakeClassroomsList from "./fakedata/fakeClassroomsListData.json";
-
-
+import ClassroomService from "../../../services/ClassroomService";
+import { dateStrFormatGetDate } from "../../../utils/dateStrConverter";
 
 export default function ClassroomsListScreen({ navigation, route }) {
+    const [ClassroomsListData, setClassroomsListData] = useState([]);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -20,13 +20,21 @@ export default function ClassroomsListScreen({ navigation, route }) {
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../../../assets/back_arrow.png')} />
-
                     </TouchableOpacity>
                 );
 
             },
         });
     }, [navigation]);
+
+    React.useEffect(async () => {
+        const fetchAllClassrooms = async () => {
+            const fetchAllClassroomsResponse = await ClassroomService.getAllClassrooms();
+            const AllClassroomsData = fetchAllClassroomsResponse.data;
+            setClassroomsListData(AllClassroomsData);
+        }
+        await fetchAllClassrooms();
+    }, []);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -42,9 +50,9 @@ export default function ClassroomsListScreen({ navigation, route }) {
             </View>
 
             <ScrollView style={AppStyles.ClassroomsListScrollViewContainer}>
-                {fakeClassroomsList.map(({ _id, studentNumber, level, end_date, start_date, classname }) => (
-                    <Pressable key={_id} onPress={() => handleAccessToClassroomDetailScreen({ _id, studentNumber, level, end_date, start_date, classname })}>
-                        <ClassroomsListItem _id={_id} studentNumber={studentNumber} level={level} end_date={end_date} start_date={start_date} classname={classname} />
+                {ClassroomsListData.map(({ _id, number_student, level, end_date, start_date, classname }) => (
+                    <Pressable key={_id} onPress={() => handleAccessToClassroomDetailScreen({ _id, number_student, level, end_date, start_date, classname })}>
+                        <ClassroomsListItem _id={_id} number_student={number_student} level={level} end_date={end_date} start_date={start_date} classname={classname} />
                     </Pressable>
                 ))}
             </ScrollView>
@@ -59,7 +67,7 @@ export default function ClassroomsListScreen({ navigation, route }) {
                 }}
             >
                 <View style={AppStyles.ModalContainer}>
-                    <AddClassroomPopupModal setModalVisible={setModalVisible} modalVisible={modalVisible} handleAccessToClassroomDetailScreen={handleAccessToClassroomDetailScreen} />
+                    <AddClassroomPopupModal ClassroomsListData={ClassroomsListData} setClassroomsListData={setClassroomsListData} setModalVisible={setModalVisible} modalVisible={modalVisible} handleAccessToClassroomDetailScreen={handleAccessToClassroomDetailScreen} />
                 </View>
             </Modal>
             <View style={AppStyles.ClassroomsListScreenAddClassroomButtonView}>
@@ -77,7 +85,7 @@ export default function ClassroomsListScreen({ navigation, route }) {
     )
 }
 
-function ClassroomsListItem({ _id, studentNumber, level, end_date, start_date, classname }) {
+function ClassroomsListItem({ _id, number_student, level, end_date, start_date, classname }) {
     return (
         <View style={AppStyles.ClassroomsListItem}>
             <View style={AppStyles.ClassroomsListItemHeader}>
@@ -88,13 +96,13 @@ function ClassroomsListItem({ _id, studentNumber, level, end_date, start_date, c
                 <View style={AppStyles.ClassroomListItemBodyInfoView}>
                     <Ionicons name="person" color="black" size={18} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${studentNumber}`}
+                        {`${number_student}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomListItemBodyInfoView}>
                     <Ionicons name="calendar" color="black" size={20} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${end_date}\n${start_date}`}
+                        {`${dateStrFormatGetDate(end_date)}\n${dateStrFormatGetDate(start_date)}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomListItemBodyInfoView}>

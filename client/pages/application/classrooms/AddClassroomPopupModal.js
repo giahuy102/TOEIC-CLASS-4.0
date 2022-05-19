@@ -11,9 +11,9 @@ import ClassroomService from "../../../services/ClassroomService";
 
 import AppStyles from "../../../styles/AddClassroomPopupModal.scss";
 
-export default function AddClassroomPopupModal({ modalVisible, setModalVisible, handleAccessToClassroomDetailScreen }) {
+export default function AddClassroomPopupModal({ ClassroomsListData, setClassroomsListData, modalVisible, setModalVisible, handleAccessToClassroomDetailScreen }) {
     const [classroomName, setClassroomName] = useState("");
-    const [studentNumber, setStudentNumber] = useState("0");
+    const [number_student, setNumber_student] = useState("0");
     const [toeicLevel, setToeicLevel] = useState(null);
     const [classroomPassword, setClassroomPassword] = useState("");
 
@@ -50,22 +50,22 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible, 
         setDateTimePickerMode(currentMode);
     }
 
-    const handleAddNewClassroomSubmit = async (event) => {
-        event.preventDefault();
+    const handleAddNewClassroomSubmit = async () => {
+        console.log("Call here")
         const loadTokenResponse = await loadToken();
         if (loadTokenResponse) {
-            const AddNewClassroomRequestPayload = { classroomName, studentNumber, toeicLevel, startDateValue, endDateValue, classroomPassword, token: loadTokenResponse };
+            const AddNewClassroomRequestPayload = { classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword, token: loadTokenResponse };
             const AddNewClassroomResponse = await ClassroomService.createClassroom(AddNewClassroomRequestPayload);
             const AddNewClassroomResponseData = AddNewClassroomResponse.data['data'];
             const AccessToClassroomDetailScreenData = {
                 _id: AddNewClassroomResponseData._id,
-                studentNumber: AddNewClassroomResponseData.studentNumber,
+                number_student: AddNewClassroomResponseData.number_student,
                 level: AddNewClassroomResponseData.toeicLevel,
                 classname: AddNewClassroomResponseData.classroomName,
                 start_date: AddNewClassroomResponseData.startDateValue.slice(0, 10),
                 end_date: AddNewClassroomResponseData.endDateValue.slice(0, 10)
             }
-            setModalVisible(!false);
+            setClassroomsListData([...ClassroomsListData, AccessToClassroomDetailScreenData]);
             handleAccessToClassroomDetailScreen(AccessToClassroomDetailScreenData);
         }
     }
@@ -91,9 +91,9 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible, 
                     placeholder="Number of student"
                     keyboardType="number-pad"
                     label="Number of student"
-                    value={studentNumber}
+                    value={number_student}
                     right={<TextInput.Icon name="account" />}
-                    onChangeText={(text) => setStudentNumber(text)}
+                    onChangeText={(text) => setNumber_student(text)}
                 />
 
                 <TextInput
@@ -165,7 +165,7 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible, 
 
                 <Pressable
                     style={AppStyles.ClassroomsListScreenOtherButton}
-                    onPress={(e) => handleAddNewClassroomSubmit(e)}
+                    onPress={() => handleAddNewClassroomSubmit()}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Submit</Text>
                 </Pressable>

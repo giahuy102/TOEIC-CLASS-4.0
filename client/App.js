@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Provider } from "react-redux";
+import store from './global/store';
 
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -34,75 +36,77 @@ const Stack = createNativeStackNavigator();
 export default function App({ navigation }) {
   const [username, setUsername] = useState('');
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName='StartScreen'
-          screenOptions={({ route, navigation }) => ({
-            headerTitleAlign: 'center',
-            headerTitleStyle: AppStyles.HeaderTitleStyle,
-          })}
-        >
-          <Stack.Screen name="StartScreen" component={StartScreen} options={{ headerShown: false }} />
+    <Provider store={store}>
+      <PaperProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName='StartScreen'
+            screenOptions={({ route, navigation }) => ({
+              headerTitleAlign: 'center',
+              headerTitleStyle: AppStyles.HeaderTitleStyle,
+            })}
+          >
+            <Stack.Screen name="StartScreen" component={StartScreen} options={{ headerShown: false }} />
 
 
-          <Stack.Screen name="Onboarding1" component={OnboardingScreen1} options={{ headerShown: false }} />
-          <Stack.Screen name="Onboarding2" component={OnboardingScreen2} options={{ headerShown: false }} />
-          <Stack.Screen name="Onboarding3" component={OnboardingScreen3} options={{ headerShown: false }} />
+            <Stack.Screen name="Onboarding1" component={OnboardingScreen1} options={{ headerShown: false }} />
+            <Stack.Screen name="Onboarding2" component={OnboardingScreen2} options={{ headerShown: false }} />
+            <Stack.Screen name="Onboarding3" component={OnboardingScreen3} options={{ headerShown: false }} />
 
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Signup" component={Signup} />
+            <Stack.Screen name="Login" component={Login} />
 
-          <Stack.Group screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="ApplicationStackScreen" component={ApplicationStackScreen} />
-          </Stack.Group>
+            <Stack.Group screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="ApplicationStackScreen" component={ApplicationStackScreen} />
+            </Stack.Group>
 
-          <Stack.Screen
-            name="NewSection"
-            component={NewSection}
-            options={{ title: 'New section' }}
-          />
+            <Stack.Screen
+              name="NewSection"
+              component={NewSection}
+              options={{ title: 'New section' }}
+            />
 
-          <Stack.Screen
-            name="Challenge"
-            component={Challenge}
-            options={{ title: 'Challenge' }}
-          />
+            <Stack.Screen
+              name="Challenge"
+              component={Challenge}
+              options={{ title: 'Challenge' }}
+            />
 
-          <Stack.Screen
-            name="ChallengeTest"
-            component={ChallengeTest}
-            options={{ title: 'Taking challenge test' }}
-          />
+            <Stack.Screen
+              name="ChallengeTest"
+              component={ChallengeTest}
+              options={{ title: 'Taking challenge test' }}
+            />
 
-          <Stack.Screen
-            name="ChallengeResult"
-            component={ChallengeResult}
-            options={{ title: 'Result' }}
-          />
+            <Stack.Screen
+              name="ChallengeResult"
+              component={ChallengeResult}
+              options={{ title: 'Result' }}
+            />
 
-          <Stack.Screen
-            name="Temp"
-            component={Temp}
-            options={{ title: 'Temp' }}
-          />
+            <Stack.Screen
+              name="Temp"
+              component={Temp}
+              options={{ title: 'Temp' }}
+            />
 
-          <Stack.Screen
-            name="ChallengeCreate"
-            component={ChallengeCreate}
-            options={{ title: 'Create new challenge' }}
-          />
+            <Stack.Screen
+              name="ChallengeCreate"
+              component={ChallengeCreate}
+              options={{ title: 'Create new challenge' }}
+            />
 
-          <Stack.Screen
-            name="NewExam"
-            component={NewExam}
-            options={{ title: 'Create new exam' }}
-          />
+            <Stack.Screen
+              name="NewExam"
+              component={NewExam}
+              options={{ title: 'Create new exam' }}
+            />
 
 
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </Provider>
   );
 }
 

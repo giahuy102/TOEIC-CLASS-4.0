@@ -5,6 +5,10 @@ const ClassroomService = function () {
     this.createClassroom = (createClassroomPayload) => {
         return axios.post(`${API_URL}/create`, createClassroomPayload)
     }
+
+    this.getAllClassrooms = () => {
+        return axios.get(`${API_URL}/all`);
+    }
 }
 
 export default new ClassroomService();

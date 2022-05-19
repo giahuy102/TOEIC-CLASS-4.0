@@ -38,10 +38,10 @@ router.post('/create', tokenValidation, async function (req, res) {
     const requestBody = req.body;
     // console.log("Create classroom request body", requestBody);
     // console.log("Request user decoded from token", req.user);
-    const { classroomName, studentNumber, toeicLevel, startDateValue, endDateValue, classroomPassword } = requestBody;
+    const { classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword } = requestBody;
     const newClassroomModel = new ClassroomModel({
         classname: classroomName,
-        number_student: studentNumber,
+        number_student: number_student,
         level: toeicLevel,
         start_date: startDateValue,
         end_date: endDateValue,
@@ -64,13 +64,18 @@ router.post('/create', tokenValidation, async function (req, res) {
             console.log('create UserJoinClassroomModel error', err);
         }
 
-        const responseData = { _id: newClassroomModel._id, classroomName, studentNumber, toeicLevel, startDateValue, endDateValue, classroomPassword }
+        const responseData = { _id: newClassroomModel._id, classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword }
         responsePayload = { data: responseData, message: 'Create Classroom Successfully' }
         res.status(201).send(responsePayload);
     } catch (err) {
         console.log('Create new Classroom err', err);
         res.status(400).send(err);
     }
+})
+
+router.get('/all', async function (req, res) {
+    const AllClassrooms = await ClassroomModel.find({});
+    res.status(201).send(JSON.stringify(AllClassrooms));
 })
 
 router.get('/:class_id/get_basic_info_all_member', async function (req, res) {

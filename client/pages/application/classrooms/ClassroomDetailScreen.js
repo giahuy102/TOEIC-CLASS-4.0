@@ -6,6 +6,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import AppStyles from "../../../styles/ClassroomDetailScreen.scss";
 
+import { dateStrFormatGetDate } from "../../../utils/dateStrConverter";
+
 export default function ClassroomDetailScreen({ navigation, route }) {
 
     React.useLayoutEffect(() => {
@@ -23,7 +25,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [navigation]);
 
     const routeParams = route.params;
-    const { _id, teacherId, studentNumber, level, end_date, start_date, classname } = routeParams;
+    const { _id, teacherId, number_student, level, end_date, start_date, classname } = routeParams;
     useEffect(() => {
         if (routeParams && routeParams.classname) {
             navigation.setOptions({
@@ -46,13 +48,13 @@ export default function ClassroomDetailScreen({ navigation, route }) {
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
                     <Ionicons name="person" color="black" size={18} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${studentNumber}`}
+                        {`${number_student}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
                     <Ionicons name="calendar" color="black" size={20} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${end_date}\n${start_date}`}
+                        {`${dateStrFormatGetDate(end_date)}\n${dateStrFormatGetDate(start_date)}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
