@@ -8,15 +8,13 @@ const userSchema = new mongoose.Schema({
     challenge: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Challenge'
-    }, 
+    },
     classroom: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Classroom'
     },
-    created_at: {
-        type: Date,
-        default: Date.now
-    }
+    score: mongoose.Schema.Types.Decimal128,
+    status: Number //0: Not done, 1: Done
 });
 
-module.exports = mongoose.model('Create', userSchema);
+module.exports = mongoose.model('ChallengeParticipationModel', userSchema);

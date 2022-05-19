@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     level: Number,
     start_date: Date,
     end_date: Date,
-    status: Number, //0: upcoming, 1: ongoing, 2: finish
+    password: String,
 });
 
-module.exports = mongoose.model('Classroom', userSchema);  
+module.exports = mongoose.model('ClassroomModel', userSchema);  

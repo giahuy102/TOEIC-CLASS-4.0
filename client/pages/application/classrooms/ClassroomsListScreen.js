@@ -31,6 +31,7 @@ export default function ClassroomsListScreen({ navigation, route }) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleAccessToClassroomDetailScreen = (classroomDetailData) => {
+        console.log(classroomDetailData);
         navigation.navigate("ClassroomDetailScreen", { ...classroomDetailData });
     };
 
@@ -41,9 +42,9 @@ export default function ClassroomsListScreen({ navigation, route }) {
             </View>
 
             <ScrollView style={AppStyles.ClassroomsListScrollViewContainer}>
-                {fakeClassroomsList.map(({ _id, teacherId, numberStudent, level, end_date, start_date, classname }) => (
-                    <Pressable key={_id} onPress={() => handleAccessToClassroomDetailScreen({ _id, teacherId, numberStudent, level, end_date, start_date, classname })}>
-                        <ClassroomsListItem _id={_id} teacherId={teacherId} numberStudent={numberStudent} level={level} end_date={end_date} start_date={start_date} classname={classname} />
+                {fakeClassroomsList.map(({ _id, studentNumber, level, end_date, start_date, classname }) => (
+                    <Pressable key={_id} onPress={() => handleAccessToClassroomDetailScreen({ _id, studentNumber, level, end_date, start_date, classname })}>
+                        <ClassroomsListItem _id={_id} studentNumber={studentNumber} level={level} end_date={end_date} start_date={start_date} classname={classname} />
                     </Pressable>
                 ))}
             </ScrollView>
@@ -58,7 +59,7 @@ export default function ClassroomsListScreen({ navigation, route }) {
                 }}
             >
                 <View style={AppStyles.ModalContainer}>
-                    <AddClassroomPopupModal setModalVisible={setModalVisible} modalVisible={modalVisible} />
+                    <AddClassroomPopupModal setModalVisible={setModalVisible} modalVisible={modalVisible} handleAccessToClassroomDetailScreen={handleAccessToClassroomDetailScreen} />
                 </View>
             </Modal>
             <View style={AppStyles.ClassroomsListScreenAddClassroomButtonView}>
@@ -66,14 +67,17 @@ export default function ClassroomsListScreen({ navigation, route }) {
                     style={AppStyles.ClassroomsListScreenAddClassroomButton}
                     onPress={() => setModalVisible(true)}
                 >
-                    <Text style={AppStyles.ClassroomsListScreenAddClassroomButtonText}>+</Text>
+                    <Image
+                        style={AppStyles.AddClassroomModalFloatingButton}
+                        source={require('../../Ignored_Challenge/assets/plus.png')}
+                    />
                 </Pressable>
             </View>
         </View>
     )
 }
 
-function ClassroomsListItem({ _id, teacherId, numberStudent, level, end_date, start_date, classname }) {
+function ClassroomsListItem({ _id, studentNumber, level, end_date, start_date, classname }) {
     return (
         <View style={AppStyles.ClassroomsListItem}>
             <View style={AppStyles.ClassroomsListItemHeader}>
@@ -84,7 +88,7 @@ function ClassroomsListItem({ _id, teacherId, numberStudent, level, end_date, st
                 <View style={AppStyles.ClassroomListItemBodyInfoView}>
                     <Ionicons name="person" color="black" size={18} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${numberStudent}`}
+                        {`${studentNumber}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomListItemBodyInfoView}>

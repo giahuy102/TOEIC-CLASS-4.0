@@ -23,7 +23,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [navigation]);
 
     const routeParams = route.params;
-    const { _id, teacherId, numberStudent, level, end_date, start_date, classname } = routeParams;
+    const { _id, teacherId, studentNumber, level, end_date, start_date, classname } = routeParams;
     useEffect(() => {
         if (routeParams && routeParams.classname) {
             navigation.setOptions({
@@ -46,7 +46,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
                     <Ionicons name="person" color="black" size={18} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${numberStudent}`}
+                        {`${studentNumber}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>

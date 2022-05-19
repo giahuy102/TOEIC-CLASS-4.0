@@ -12,4 +12,4 @@ const userSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('Challenge', userSchema);
+module.exports = mongoose.model('ChallengeModel', userSchema);
