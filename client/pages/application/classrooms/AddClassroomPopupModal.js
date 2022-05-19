@@ -66,7 +66,11 @@ export default function AddClassroomPopupModal({ ClassroomsListData, setClassroo
                 end_date: AddNewClassroomResponseData.endDateValue.slice(0, 10)
             }
             setClassroomsListData([...ClassroomsListData, AccessToClassroomDetailScreenData]);
-            handleAccessToClassroomDetailScreen(AccessToClassroomDetailScreenData);
+            setModalVisible(!modalVisible);
+            /**
+             *  * Causing bug: ClassroomsListScreen freeze after add classroom in modal successful *
+             *  handleAccessToClassroomDetailScreen(AccessToClassroomDetailScreenData);
+             */
         }
     }
 
