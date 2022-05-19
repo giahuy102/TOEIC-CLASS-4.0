@@ -75,7 +75,10 @@ router.post('/get_user', auth, async (req, res) => {
         if (!user) {
             res.status(404).send('User Not Found');
         } else {
-            res.status(201).send(user.username);
+            const responseData = JSON.parse(JSON.stringify(user));
+            responseData['password'] = '';
+            responseData['created_at'] = '';
+            res.status(201).send(responseData);
         }
     } catch (err) {
         res.status(404).send(`Mongoose query error: ${err}`);

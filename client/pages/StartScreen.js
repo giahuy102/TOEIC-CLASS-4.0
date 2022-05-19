@@ -9,11 +9,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { loadToken } from '../services/JWTStorage';
 import { storeOnboardingToken, isApplicationVisited } from '../services/OnboardingCheck';
-
 import AuthService from '../services/AuthService';
 
+import { updateProfileState } from "./application/profile/slice/profileSlice";
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 export default function StartScreen({ navigation }) {
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const isUserLogin = async () => {
@@ -22,6 +25,7 @@ export default function StartScreen({ navigation }) {
         try {
           const authServiceResponse = await AuthService.getUser(loadTokenResponse);
           const userData = authServiceResponse.data;
+          dispatch(updateProfileState(userData));
           navigation.dispatch(state => {
             return CommonActions.reset({
               index: 0,
@@ -33,7 +37,7 @@ export default function StartScreen({ navigation }) {
                     state: {
                       routes: [{
                         name: 'Profile',
-                        params: { username: userData }
+                        params: {}
                       }]
                     }
                   }]

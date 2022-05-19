@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+
+import { updateProfileState } from '../application/profile/slice/profileSlice';
 
 import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,6 +16,8 @@ import { TextInput } from "react-native-paper";
 import AppStyles from "../../styles/Login.scss";
 
 export default function Login({ navigation }) {
+    const dispatch = useDispatch();
+
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [borderColor, setBorderColor] = useState();
@@ -34,12 +39,14 @@ export default function Login({ navigation }) {
     }, [navigation]);
 
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault();
-        AuthService.login(
-            email, password
-        ).then(response => {
-            storeToken('jwt-token', response.data.accessToken);
+        try {
+            const loginResponse = await AuthService.login(email, password);
+            const loadTokenResponse = loginResponse.data.accessToken;
+            const authServiceResponse = await AuthService.getUser(loadTokenResponse);
+            const userData = authServiceResponse.data;
+            dispatch(updateProfileState(userData));
             navigation.dispatch(state => {
                 return CommonActions.reset({
                     index: 0,
@@ -51,7 +58,7 @@ export default function Login({ navigation }) {
                                 state: {
                                     routes: [{
                                         name: 'Profile',
-                                        params: { username: response.data.username }
+                                        params: {}
                                     }]
                                 }
                             }]
@@ -59,28 +66,9 @@ export default function Login({ navigation }) {
                     }],
                 })
             })
-            // navigation.dispatch(state => {
-            //     return CommonActions.reset({
-            //         ...state,
-            //         routes: [{
-            //             name: 'ClassroomStackScreen',
-            //             params: {
-            //                 screen: 'MainTabScreen',
-            //                 params: {
-            //                     screen: 'Profile',
-            //                     params: {
-            //                         username: response.data.username,
-            //                     }
-            //                 }
-            //             }
-            //         }],
-            //         index: 0,
-            //     })
-            // });
-
-        }).catch(err => {
+        } catch (err) {
             console.warn(err);
-        })
+        }
     }
 
     return (

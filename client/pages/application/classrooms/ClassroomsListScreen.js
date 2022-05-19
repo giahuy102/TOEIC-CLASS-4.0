@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { View, ScrollView, Text, StyleSheet, Modal, Alert, Pressable, TouchableOpacity, Image } from "react-native";
 import { Button } from "react-native";
+import { useSelector } from "react-redux";
 
 import AddClassroomPopupModal from "./AddClassroomPopupModal";
 
@@ -12,6 +13,9 @@ import ClassroomService from "../../../services/ClassroomService";
 import { dateStrFormatGetDate } from "../../../utils/dateStrConverter";
 
 export default function ClassroomsListScreen({ navigation, route }) {
+    const profileId = useSelector(state => state.profile._id);
+    console.log('Redux profile slice _id', profileId);
+
     const [ClassroomsListData, setClassroomsListData] = useState([]);
 
     React.useLayoutEffect(() => {
@@ -38,9 +42,19 @@ export default function ClassroomsListScreen({ navigation, route }) {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const handleAccessToClassroomDetailScreen = (classroomDetailData) => {
+    const handleAccessToClassroomDetailScreen = async (classroomDetailData) => {
         console.log(classroomDetailData);
-        navigation.navigate("ClassroomDetailScreen", { ...classroomDetailData });
+        const classId = classroomDetailData._id;
+        console.log('classId', classId);
+        const getClassroomDetailInfoResponse = await ClassroomService.getClassroomDetailInfo(classId);
+        const getClassroomDetailInfoData = getClassroomDetailInfoResponse.data;
+        const classroomStudentIdList = getClassroomDetailInfoData['students_list'].map(student_info => student_info._id);
+        console.log("classroomStudentIdList", classroomStudentIdList);
+        if (profileId in classroomStudentIdList) {
+            navigation.navigate("ClassroomDetailScreen", { ...classroomDetailData });
+        } else {
+            alert("You not in this class");
+        }
     };
 
     return (
