@@ -9,6 +9,10 @@ const ClassroomService = function () {
     this.getAllClassrooms = () => {
         return axios.get(`${API_URL}/all`);
     }
+
+    this.getClassroomDetailInfo = (classId) => {
+        return axios.get(`${API_URL}/${classId}/get_basic_info_all_member`)
+    }
 }
 
 export default new ClassroomService();

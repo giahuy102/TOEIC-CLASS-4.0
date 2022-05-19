@@ -34,6 +34,7 @@ const UserJoinClassroomModel = require('../model/UserJoinClassroomModel');
 //     })
 
 const tokenValidation = require('../middleware/verifyToken');
+const { response } = require('express');
 router.post('/create', tokenValidation, async function (req, res) {
     const requestBody = req.body;
     // console.log("Create classroom request body", requestBody);
@@ -84,10 +85,23 @@ router.get('/:class_id/get_basic_info_all_member', async function (req, res) {
         await UserJoinClassroomModel
             .find({ classroom: classId })
             .populate('user')
-            .exec(function (err, docs) {
+            .populate('classroom')
+            .exec(function (err, queryResultList) {
+                /**
+                 * queryResultList is currently a mongoose model instance returned from a mongoose query which is not mutable.
+                 */
+                queryResultList = JSON.parse(JSON.stringify(queryResultList));
                 if (err) console.log(err);
                 else {
-                    res.status(200).json(docs)
+                    const responseData = { classroom: queryResultList[0]["classroom"], students_list: [] };
+                    for (const UserJoinClassroomModelItem of queryResultList) {
+                        let newUser = UserJoinClassroomModelItem["user"];
+                        newUser['rank'] = UserJoinClassroomModelItem["rank"];
+                        newUser['role'] = UserJoinClassroomModelItem["role"];
+                        newUser['accumulate_score'] = UserJoinClassroomModelItem["accumulate_score"];
+                        responseData.students_list.push(newUser)
+                    }
+                    res.status(200).json(responseData);
                 }
             });
     }

@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     created_at: Date,
     test: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Test'
+        ref: 'TestModel'
     }
 
 });

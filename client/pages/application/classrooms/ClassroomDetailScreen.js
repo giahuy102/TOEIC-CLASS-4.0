@@ -35,11 +35,11 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [])
 
     const buttonInfoList = [
-        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen' },
-        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember' },
-        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult' },
+        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen', params: { _id } },
+        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember', params: { _id } },
+        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult', params: { _id } },
         { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: '' },
-        { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen' }
+        { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen', params: { _id } }
     ]
 
     return (
@@ -68,7 +68,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
                 {buttonInfoList.map((buttonInfo) => (
                     <Pressable
                         key={buttonInfo.buttonName}
-                        onPress={() => navigation.navigate(buttonInfo.routeName)}
+                        onPress={() => navigation.navigate(buttonInfo.routeName, buttonInfo.params)}
                         style={AppStyles.ClassoomDetailScreenButtonView}
                     >
                         <Text style={AppStyles.ClassroomDetailScreenButtonNameText}>{buttonInfo.buttonName}</Text>
