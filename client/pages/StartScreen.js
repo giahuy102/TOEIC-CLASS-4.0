@@ -49,10 +49,13 @@ export default function StartScreen({ navigation }) {
       // const emailStored = loadEmail();
 
       const loadTokenResponse = await loadToken();
+
       if (loadTokenResponse) {
         try {
+          console.log("load token in try: ", loadTokenResponse)
           const authServiceResponse = await AuthService.getUser(loadTokenResponse);
           const userData = authServiceResponse.data;
+          console.log("user data: ", userData)
           dispatch(updateProfileState(userData));
           navigation.dispatch(state => {
             return CommonActions.reset({
@@ -154,7 +157,7 @@ export default function StartScreen({ navigation }) {
           title="Profile"
           onPress={() => navigation.navigate('Profile')}
         />
-      </View> */}
+      </View>
 
     </View >
 

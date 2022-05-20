@@ -5,11 +5,17 @@ import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { loadEmail } from '../../../services/JWTStorage';
 import axios from 'axios';
+import { useSelector } from "react-redux";
 
 const BASE_API_URL = `http://10.0.2.2:${3001}`;
 const CHALLENGE_PREFIX = '/api/challenge';
 
-export default function ChallengeCreate({ navigation }) {
+export default function ChallengeCreate({ navigation, route }) {
+
+
+    console.log("params: ", route.params['challengesList']);
+
+    var emailUser = useSelector(state => state.profile.email)
     const navigate = useNavigation();
     const navigateToChallenging = () => {
         setTitle('')
@@ -29,6 +35,7 @@ export default function ChallengeCreate({ navigation }) {
             headerLeft: () => {
                 return (
                     // <TouchableOpacity onPress={() => navigation.navigate('ChallengeChallenging')}>
+                    // <TouchableOpacity onPress={navigateToChallenging}>
                     <TouchableOpacity onPress={navigateToChallenging}>
                         <Image source={require('../../../assets/back_arrow.png')} />
                     </TouchableOpacity>
@@ -97,10 +104,14 @@ export default function ChallengeCreate({ navigation }) {
         }
         return [day, month, year]
     }
+
+
     const onPressHandler = async () => {
 
         var challenge = { pickerValue, title, startDate, timeStart, endDate, timeEnd }
-        var emailUser = await loadEmail()
+
+
+        // console.log("client email: ", emailUser)
 
         await axios.post(BASE_API_URL + CHALLENGE_PREFIX + '/create_challenge', { emailUser, challenge })
             .then(res => {
@@ -124,7 +135,7 @@ export default function ChallengeCreate({ navigation }) {
 
         Alert.alert('Congratulation!', 'Create new challenge successfully', [
             // { text: 'OK', onPress: () => navigation.pop() }
-            { text: 'OK', onPress: navigateToChallenging }
+            { text: 'OK', onPress: () => navigation.pop() }
         ]);
     }
 

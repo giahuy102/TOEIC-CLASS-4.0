@@ -14,7 +14,7 @@ app.use(express.json());
 
 const authRoute = require('./routes/authRoute');
 const classroomRoute = require('./routes/classroomRoute');
-const challengeRoute = require('./routes/challenge')
+const challengeRoute = require('./routes/challengeRoute')
 
 app.use('/api/classroom', classroomRoute);
 app.use('/api/user', authRoute);

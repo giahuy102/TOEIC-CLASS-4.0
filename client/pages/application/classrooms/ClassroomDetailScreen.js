@@ -15,7 +15,8 @@ export default function ClassroomDetailScreen({ navigation, route }) {
             headerLeft: () => {
                 return (
                     // <TouchableOpacity onPress={() => navigation.pop()}>
-                    <TouchableOpacity onPress={() => navigation.navigate('StartScreen')}>
+                    // <TouchableOpacity onPress={() => navigation.navikgate('StartScreen')}>
+                    <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>

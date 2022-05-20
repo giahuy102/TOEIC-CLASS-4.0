@@ -31,7 +31,8 @@ export default function ChallengeChallenging({ navigation }) {
             headerLeft: () => {
                 return (
                     // <TouchableOpacity onPress={() => navigation.pop()}>
-                    <TouchableOpacity onPress={() => navigation.push('ClassroomDetailScreen', 1)}>
+                    // <TouchableOpacity onPress={() => navigation.push('ClassroomDetailScreen', 1)}>
+                    <TouchableOpacity onPress={() => navigation.pop()}>
 
                         <Image source={require('../../../assets/back_arrow.png')} />
 
@@ -87,7 +88,7 @@ export default function ChallengeChallenging({ navigation }) {
 
             <TouchableOpacity
                 style={styles.touchableOpacity}
-                onPress={() => navigation.navigate('ChallengeCreate')}
+                onPress={() => navigation.navigate('ChallengeCreate', { challengesList, setChallengesList })}
             >
                 <Image
                     style={styles.floatingButton}

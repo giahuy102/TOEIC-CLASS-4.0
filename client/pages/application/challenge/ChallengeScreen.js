@@ -22,7 +22,7 @@ export default function ChallengeScreen({ navigation, route }) {
                 // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
                     // <TouchableOpacity onPress={() => navigation.pop()}>
-                    <TouchableOpacity onPress={() => navigation.navigate('ClassroomDetailScreen', 1)}>
+                    <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../../../assets/back_arrow.png')} />
                     </TouchableOpacity>
                 );
@@ -44,9 +44,9 @@ export default function ChallengeScreen({ navigation, route }) {
                 }
             }}
         >
-            <Tab.Screen name="ClassroomsListScreen" component={ChallengeChallenging} options={{ title: "Challenging" }} />
-            <Tab.Screen name="Profile" component={ChallengeUpcoming} options={{ title: "Upcoming" }} />
-            <Tab.Screen name="MoreSettingsScreen" component={ChallengeEnded} options={{ title: "Ended" }} />
+            <Tab.Screen name="ChallengeChallenging" component={ChallengeChallenging} options={{ title: "Challenging" }} />
+            <Tab.Screen name="ChallengeUpcoming" component={ChallengeUpcoming} options={{ title: "Upcoming" }} />
+            <Tab.Screen name="ChallengeEnded" component={ChallengeEnded} options={{ title: "Ended" }} />
         </Tab.Navigator>
 
     );

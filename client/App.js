@@ -73,7 +73,7 @@ export default function App({ navigation }) {
               options={{ title: 'New section' }}
             />
 
-            <Stack.Screen
+            {/* <Stack.Screen
               name="Challenge"
               component={Challenge}
               options={{ title: 'Challenge' }}
@@ -83,24 +83,6 @@ export default function App({ navigation }) {
               name="ChallengeTest"
               component={ChallengeTest}
               options={{ title: 'Taking challenge test' }}
-            />
-
-            <Stack.Screen
-              name="ChallengeResult"
-              component={ChallengeResult}
-              options={{ title: 'Result' }}
-            />
-
-          <Stack.Screen
-            name="ChallengeScreen"
-            component={ChallengeScreen}
-            options={{ title: 'Challenge' }}
-          />
-
-            <Stack.Screen
-              name="ChallengeCreate"
-              component={ChallengeCreate}
-              options={{ title: 'Create new challenge' }}
             />
 
           <Stack.Screen
@@ -125,7 +107,7 @@ export default function App({ navigation }) {
             name="ChallengeChallenging"
             component={ChallengeChallenging}
             options={{ title: 'ChallengeChallenging' }}
-          />
+          /> */}
 
           <Stack.Screen
             name="ClassroomDetailScreen"
@@ -144,11 +126,6 @@ export default function App({ navigation }) {
             component={NewExam}
             options={{ title: 'Create new exam' }}
           />
-            <Stack.Screen
-              name="NewExam"
-              component={NewExam}
-              options={{ title: 'Create new exam' }}
-            />
 
 
           </Stack.Navigator>

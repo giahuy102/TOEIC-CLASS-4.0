@@ -1,11 +1,13 @@
 const express = require('express');
-const User = require('../model/User');
+const UserModel = require('../model/UserModel');
 const router = express.Router();
-const Challenge = require('../model/Challenge');
+const ChallengeModel = require('../model/ChallengeModel');
 
 router.post('/create_challenge', async (req, res) => {
     try {
-        const user = await User.findOne({ email: req.body['emailUser'] });
+        console.log("req body: ", req.body)
+        const user = await UserModel.findOne({ email: req.body['emailUser'] });
+        console.log("user: ", user)
         var currentDate = new Date()
         var startDate = new Date(req.body['challenge']['startDate'])
         var endDate = new Date(req.body['challenge']['endDate'])
@@ -22,7 +24,7 @@ router.post('/create_challenge', async (req, res) => {
 
         console.log("status_check: ", status_check)
 
-        const challenge = Challenge({
+        const challenge = new ChallengeModel({
             challenge_id: Date.now(),
             status: status_check,
             title: req.body['challenge']['title'],
@@ -33,9 +35,10 @@ router.post('/create_challenge', async (req, res) => {
         })
 
         try {
-            const savedChallenge = await challenge.save();
+            const savedChallengeModel = await challenge.save();
             res.status(201).send("create challenge successfully");
         } catch (err) {
+            console.log("here 1")
             res.status(400).send(err);
         }
     } catch (err) {
@@ -45,7 +48,7 @@ router.post('/create_challenge', async (req, res) => {
 
 router.get('/get_all_challenges', async (req, res) => {
     try {
-        let challenges = await Challenge.find({})
+        let challenges = await ChallengeModel.find({})
         console.log("challenges list: ", challenges)
         res.status(200).send(challenges);
     } catch (err) {
@@ -55,7 +58,7 @@ router.get('/get_all_challenges', async (req, res) => {
 
 router.get('/get_challenges_challenging', async (req, res) => {
     try {
-        let challenges = await Challenge.find({ status: 0 })
+        let challenges = await ChallengeModel.find({ status: 0 })
         console.log("challenges list: ", challenges)
         res.status(200).send(challenges);
     } catch (err) {
@@ -65,7 +68,7 @@ router.get('/get_challenges_challenging', async (req, res) => {
 
 router.get('/get_challenges_upcoming', async (req, res) => {
     try {
-        let challenges = await Challenge.find({ status: 1 })
+        let challenges = await ChallengeModel.find({ status: 1 })
         console.log("challenges list: ", challenges)
         res.status(200).send(challenges);
     } catch (err) {
@@ -75,7 +78,7 @@ router.get('/get_challenges_upcoming', async (req, res) => {
 
 router.get('/get_challenges_ended', async (req, res) => {
     try {
-        let challenges = await Challenge.find({ status: 2 })
+        let challenges = await ChallengeModel.find({ status: 2 })
         console.log("challenges list: ", challenges)
         res.status(200).send(challenges);
     } catch (err) {
@@ -86,7 +89,7 @@ router.get('/get_challenges_ended', async (req, res) => {
 router.get('/get_challenge/:challenge_id', async (req, res) => {
     try {
         console.log(req.params.challenge_id)
-        // let challenges = await Challenge.find({})
+        // let challenges = await ChallengeModel.find({})
         // console.log("challenges list: ", challenges)
         // res.status(200).send(challenges);
         res.status(200).send('get a single challenge');
