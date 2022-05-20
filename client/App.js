@@ -18,6 +18,7 @@ import ChallengeResult from "./pages/application/challenge/ChallengeResult";
 import ChallengeTest from "./pages/application/challenge/ChallengeTest";
 import Challenge from './pages/application/challenge/Challenge';
 import ChallengeScreen from './pages/application/challenge/ChallengeScreen';
+import ClassroomDetailScreen from './pages/application/classrooms/ClassroomDetailScreen';
 
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
@@ -29,6 +30,8 @@ import AppStyles from './styles/SystemFontStyles.scss';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 import TabSectionNavigator from './components/TabSectionNavigator';
+import ChallengeUpcoming from './pages/application/challenge/ChallengeUpcoming';
+import ChallengeChallenging from './pages/application/challenge/ChallengeChallenging';
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +96,18 @@ export default function App({ navigation }) {
             name="ChallengeCreate"
             component={ChallengeCreate}
             options={{ title: 'Create new challenge' }}
+          />
+
+          <Stack.Screen
+            name="ChallengeChallenging"
+            component={ChallengeChallenging}
+            options={{ title: 'ChallengeChallenging' }}
+          />
+
+          <Stack.Screen
+            name="ClassroomDetailScreen"
+            component={ClassroomDetailScreen}
+            options={{ title: 'ClassroomDetailScreen' }}
           />
 
           <Stack.Screen

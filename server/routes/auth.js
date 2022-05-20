@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 // const { username } = require('../services/mqtt/config');
 
 router.post('/register', async (req, res) => {
+
     //validate before saving to database
     const { error } = registerValidation(req.body);
     if (error) return res.status(404).send(error.details[0].message);
@@ -72,15 +73,11 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
-
-});
-
 const auth = require('../middleware/verifyToken');
 router.post('/get_user', auth, async (req, res) => {
     try {
         const user = await User.findOne({ _id: req.user.user_id });
-        // console.log(user);
+        console.log(user);
         if (!user) {
             res.status(404).send('User Not Found');
         } else {

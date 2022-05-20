@@ -1,24 +1,38 @@
-import React, { useState } from 'react';
-
-import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
 
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 import data from '../../Ignored_Challenge/DATA.json'
-// import { IMAGENAME } from './Challenge/assets'
+import axios from 'axios';
+import ClassroomDetailScreen from '../classrooms/ClassroomDetailScreen';
+
+const BASE_API_URL = `http://10.0.2.2:${3001}`;
+const CHALLENGE_PREFIX = '/api/challenge';
 
 export default function ChallengeChallenging({ navigation }) {
+    const [challengesList, setChallengesList] = useState([])
+    useEffect(async () => {
+        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + '/get_challenges_challenging')
+            .then(res => {
+                setChallengesList(res.data)
+            })
+            .catch((err) => {
+                console.log("Error: ", err)
+            })
+    }, [])
+
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => {
-                // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
-                    <TouchableOpacity onPress={() => navigation.pop()}>
+                    // <TouchableOpacity onPress={() => navigation.pop()}>
+                    <TouchableOpacity onPress={() => navigation.push('ClassroomDetailScreen', 1)}>
+
                         <Image source={require('../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>
@@ -30,7 +44,7 @@ export default function ChallengeChallenging({ navigation }) {
 
     const FlatListItem = (item, index) => {
         return (
-            <TouchableOpacity style={styles.member} onPress={() => navigation.navigate('ChallengeTest')}>
+            <TouchableOpacity style={styles.member} onPress={() => navigation.navigate('ChallengeTest', item)}>
                 <View style={styles.left}>
                     <View style={{
                         width: '80%',
@@ -48,16 +62,9 @@ export default function ChallengeChallenging({ navigation }) {
                 </View>
 
                 <View style={styles.right}>
-                    {/* <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: '-2%' }}>
-                        <Text>{item.name}</Text>
-                        <Text onPress={() => navigation.navigate('ChallengeResult')} style={{ color: '#1570EF', textDecorationLine: 'underline' }}>
-                            View result
-                        </Text>
-                    </View> */}
-
-                    <Text style={{ paddingTop: 10 }}>ID: {item.id}</Text>
+                    <Text style={{ paddingTop: 10 }}>ID: {item.challenge_id}</Text>
                     <Text>Created by: {item.created_by}</Text>
-                    <Text>Will end: {item.will_end}</Text>
+                    <Text>Will end: {new Date(item.end).toLocaleString()}</Text>
                 </View>
 
             </TouchableOpacity>
@@ -67,13 +74,14 @@ export default function ChallengeChallenging({ navigation }) {
     return (
         <View style={styles.container}>
             <FlatList
-                data={data}
+                data={challengesList}
                 renderItem={({ item, index }) => {
                     // console.log(`item = ${JSON.stringify(item)}, index = ${index}`)
                     return (
                         FlatListItem(item, index)
                     );
                 }}
+                keyExtractor={(item, index) => index.toString()}
             >
             </FlatList>
 
@@ -84,7 +92,6 @@ export default function ChallengeChallenging({ navigation }) {
                 <Image
                     style={styles.floatingButton}
                     // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
-                    // source={IMAGENAME}
                     source={require('../../Ignored_Challenge/assets/plus.png')}
                 />
 

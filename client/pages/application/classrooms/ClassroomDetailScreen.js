@@ -23,6 +23,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [navigation]);
 
     const routeParams = route.params;
+    console.log("Params", routeParams)
     const { _id, teacherId, numberStudent, level, end_date, start_date, classname } = routeParams;
     useEffect(() => {
         if (routeParams && routeParams.classname) {
@@ -33,7 +34,8 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [])
 
     const buttonInfoList = [
-        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen' },
+        // { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen' },
+        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ChallengeScreen' },
         { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember' },
         { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult' },
         { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: '' },

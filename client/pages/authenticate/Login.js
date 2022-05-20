@@ -40,6 +40,7 @@ export default function Login({ navigation }) {
             email, password
         ).then(response => {
             storeToken('jwt-token', response.data.accessToken);
+            storeToken('email', response.data.email);       // for challenge
             navigation.dispatch(state => {
                 return CommonActions.reset({
                     index: 0,

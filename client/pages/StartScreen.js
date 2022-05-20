@@ -7,16 +7,44 @@ import { Button, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { loadToken } from '../services/JWTStorage';
+import { loadEmail, loadToken, storeEmail } from '../services/JWTStorage';
 import { storeOnboardingToken, isApplicationVisited } from '../services/OnboardingCheck';
 
 import AuthService from '../services/AuthService';
 
 import { useEffect } from 'react';
+import axios from 'axios';
+
+// const BASE_API_URL = `http://localhost:${3001}`;
+// const CHALLENGE_PREFIX = '/api/challenge';
+// const CHALLENGE_ENDPOINT = {
+//   GET_ALL_CHALLENGE: 'challenges'
+// }
+
+// const AUTH_PREFIX = "/api/user";
+// const AUTH_ENDPOINT = {
+//   LOGIN: "/login",
+//   REGISTER: "/register"
+// }
+
+// const REGISTER_ENDOPINT = `${BASE_API_URL}${AUTH_PREFIX}${AUTH_ENDPOINT.REGISTER}`
+
 export default function StartScreen({ navigation }) {
+  // useEffect(() => {
+  //   // storeEmail("hahah@gmail.com")
+  //   axios.get(BASE_API_URL + CHALLENGE_PREFIX + '/challenges')
+  //     .then(res => {
+  //       console.log("get all challenges successfully")
+  //     })
+  // })
 
   useEffect(() => {
+
+    // console.log("EMAIL: ", emailStored);
+
     const isUserLogin = async () => {
+      // const emailStored = loadEmail();
+
       const loadTokenResponse = await loadToken();
       if (loadTokenResponse) {
         try {
@@ -62,7 +90,7 @@ export default function StartScreen({ navigation }) {
     /**
      * Comment below line to check all Start Screen demo
      */
-    // isUserLogin();
+    isUserLogin();
 
 
   });

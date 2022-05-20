@@ -22,12 +22,12 @@ app.use(express.json());
 
 const authRoute = require('./routes/auth');
 const classroomRoute = require('./routes/classroom');
-
+const challengeRoute = require('./routes/challenge')
 
 app.use('/api/classroom', classroomRoute);
 app.use('/api/user', authRoute);
-
-
+app.use('/api/challenge', challengeRoute)
+    
 
 // const auth = require('./middleware/verifyToken');
 
