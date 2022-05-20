@@ -7,6 +7,8 @@ import AppStyles from "../../../styles/SystemFontStyles";
 
 import ChallengeScreen from "./ChallengeScreen";
 import ChallengeCreate from "./ChallengeCreate";
+import ChallengeTest from "./ChallengeTest";
+// import ChallengeScreen from "./ChallengeScreen";
 
 export default function ClassroomChallengesStackScreen({ navigation, route }) {
     const Stack = createNativeStackNavigator();
@@ -21,6 +23,7 @@ export default function ClassroomChallengesStackScreen({ navigation, route }) {
         >
             <Stack.Screen name="Challenge" component={ChallengeScreen} />
             <Stack.Screen name="ChallengeCreate" component={ChallengeCreate} />
+            <Stack.Screen name="ChallengeTest" component={ChallengeTest} />
         </Stack.Navigator>
     );
 }

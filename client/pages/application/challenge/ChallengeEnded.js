@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
-
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
-
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import data from '../../Ignored_Challenge/DATA.json'
-// import { IMAGENAME } from './Challenge/assets'
+import axios from 'axios';
+
+const BASE_API_URL = `http://10.0.2.2:${3001}`;
+const CHALLENGE_PREFIX = '/api/challenge';
 
 export default function ChallengeEnded({ navigation }) {
+    const [challengesList, setChallengesList] = useState([])
+
+    useEffect(async () => {
+        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + '/get_challenges_ended')
+            .then(res => {
+                setChallengesList(res.data)
+            })
+            .catch((err) => {
+                console.log("Error: ", err)
+            })
+    }, [])
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -30,7 +36,7 @@ export default function ChallengeEnded({ navigation }) {
 
     const FlatListItem = (item, index) => {
         return (
-            <View style={styles.member} onPress={() => navigation.navigate('ChallengeTest')}>
+            <View style={styles.member}>
                 <View style={styles.left}>
                     <View style={{
                         width: '80%',
@@ -55,9 +61,9 @@ export default function ChallengeEnded({ navigation }) {
                         </Text>
                     </View>
 
-                    <Text style={{ paddingTop: 10 }}>ID: {item.id}</Text>
+                    <Text style={{ paddingTop: 10 }}>ID: {item._id}</Text>
                     <Text>Created by: {item.created_by}</Text>
-                    <Text>Will end: {item.will_end}</Text>
+                    <Text>Will end: {new Date(item.end).toLocaleString()}</Text>
                 </View>
 
             </View>
@@ -67,13 +73,14 @@ export default function ChallengeEnded({ navigation }) {
     return (
         <View style={styles.container}>
             <FlatList
-                data={data}
+                data={challengesList}
                 renderItem={({ item, index }) => {
                     // console.log(`item = ${JSON.stringify(item)}, index = ${index}`)
                     return (
                         FlatListItem(item, index)
                     );
                 }}
+                keyExtractor={(item, index) => index.toString()}
             >
             </FlatList>
 
@@ -83,8 +90,6 @@ export default function ChallengeEnded({ navigation }) {
             >
                 <Image
                     style={styles.floatingButton}
-                    // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
-                    // source={IMAGENAME}
                     source={require('../../Ignored_Challenge/assets/plus.png')}
                 />
 

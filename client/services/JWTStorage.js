@@ -35,6 +35,34 @@ export const removeKey = async (key) => {
     }
 };
 
+
+export const storeEmail = async (email) => {
+    try {
+        await AsyncStorage.setItem("email", email);
+    }
+    catch (err) {
+        // console.log(1);
+        console.log(err);
+    }
+};
+
+
+export const loadEmail = async () => {
+    try {
+        const value = await AsyncStorage.getItem('email');
+        if (value !== null) {
+            // We have data!!
+            // console.log("LOADED EMAIL: ", value)
+            return value;
+        }
+        return null;
+    } catch (error) {
+        // Error retrieving data
+        console.log(error);
+    }
+}
+
+
 // export const getToken = () => {
 //     const promise = loadToken();
 //     let token = null;

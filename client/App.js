@@ -21,6 +21,9 @@ import ChallengeTest from "./pages/application/challenge/ChallengeTest";
 import Challenge from './pages/application/challenge/Challenge';
 import ChallengeScreen from './pages/application/challenge/ChallengeScreen';
 
+import MainTabScreen from './pages/application/MainTabScreen';
+import ClassroomDetailScreen from './pages/application/classrooms/ClassroomDetailScreen';
+
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
 import OnboardingScreen3 from './pages/onboarding/OnboardingScreen3';
@@ -31,6 +34,8 @@ import AppStyles from './styles/SystemFontStyles.scss';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 import TabSectionNavigator from './components/TabSectionNavigator';
+import ChallengeUpcoming from './pages/application/challenge/ChallengeUpcoming';
+import ChallengeChallenging from './pages/application/challenge/ChallengeChallenging';
 
 const Stack = createNativeStackNavigator();
 
@@ -68,7 +73,7 @@ export default function App({ navigation }) {
               options={{ title: 'New section' }}
             />
 
-            <Stack.Screen
+            {/* <Stack.Screen
               name="Challenge"
               component={Challenge}
               options={{ title: 'Challenge' }}
@@ -80,11 +85,11 @@ export default function App({ navigation }) {
               options={{ title: 'Taking challenge test' }}
             />
 
-            <Stack.Screen
-              name="ChallengeResult"
-              component={ChallengeResult}
-              options={{ title: 'Result' }}
-            />
+          <Stack.Screen
+            name="ChallengeResult"
+            component={ChallengeResult}
+            options={{ title: 'Result' }}
+          />
 
           <Stack.Screen
             name="ChallengeScreen"
@@ -92,17 +97,35 @@ export default function App({ navigation }) {
             options={{ title: 'Challenge' }}
           />
 
-            <Stack.Screen
-              name="ChallengeCreate"
-              component={ChallengeCreate}
-              options={{ title: 'Create new challenge' }}
-            />
+          <Stack.Screen
+            name="ChallengeCreate"
+            component={ChallengeCreate}
+            options={{ title: 'Create new challenge' }}
+          />
 
-            <Stack.Screen
-              name="NewExam"
-              component={NewExam}
-              options={{ title: 'Create new exam' }}
-            />
+          <Stack.Screen
+            name="ChallengeChallenging"
+            component={ChallengeChallenging}
+            options={{ title: 'ChallengeChallenging' }}
+          /> */}
+
+          <Stack.Screen
+            name="ClassroomDetailScreen"
+            component={ClassroomDetailScreen}
+            options={{ title: 'MainTabScreen' }}
+          />
+
+          <Stack.Screen
+            name="MainTabScreen"
+            component={MainTabScreen}
+            options={{ title: 'MainTabScreen' }}
+          />
+
+          <Stack.Screen
+            name="NewExam"
+            component={NewExam}
+            options={{ title: 'Create new exam' }}
+          />
 
 
           </Stack.Navigator>

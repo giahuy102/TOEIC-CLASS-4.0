@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, TouchableHighlight, FlatList } from 'react-native';
-
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import AuthService from '../../../services/AuthService';
-
-import { storeToken } from '../../../services/JWTStorage';
-
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import data from '../../Ignored_Challenge/TEST_DATA.json'
 
 
-export default function ChallengeTest({ navigation }) {
+export default function ChallengeTest({ navigation, route }) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -31,13 +20,20 @@ export default function ChallengeTest({ navigation }) {
         });
     }, [navigation]);
 
+    useEffect(() => {
+        const param = route.params;
+        console.log("param challenge test: ", param)
+
+    })
+
+
     return (
         <View style={styles.container}>
             <View style={{ marginTop: 20, borderWidth: 2, borderColor: '#1570EF', borderRadius: 5, padding: 15 }}>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Challenge: <Text style={{ fontWeight: 'normal' }}>{data[0].name}</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>{data[0].id}</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Start time: <Text style={{ fontWeight: 'normal' }}>{data[0].start_time}</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>End time: <Text style={{ fontWeight: 'normal' }}>{data[0].end_time}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Challenge: <Text style={{ fontWeight: 'normal' }}>{route.params['title']}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>{route.params['challenge_id']}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Start: <Text style={{ fontWeight: 'normal' }}>{new Date(route.params['start']).toLocaleString()}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>End: <Text style={{ fontWeight: 'normal' }}>{new Date(route.params['end']).toLocaleString()}</Text> </Text>
                 <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Score: <Text style={{ fontWeight: 'normal' }}>{data[0].score}</Text> </Text>
             </View>
 

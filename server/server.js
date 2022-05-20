@@ -14,10 +14,14 @@ app.use(express.json());
 
 const authRoute = require('./routes/authRoute');
 const classroomRoute = require('./routes/classroomRoute');
-
+const challengeRoute = require('./routes/challengeRoute')
 
 app.use('/api/classroom', classroomRoute);
 app.use('/api/user', authRoute);
+app.use('/api/challenge', challengeRoute)
+    
+
+
 
 
 app.listen(process.env.PORT, () => console.log(`Server is running at http://localhost:${process.env.PORT}`));
