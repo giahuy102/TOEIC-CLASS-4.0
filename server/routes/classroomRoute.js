@@ -88,7 +88,7 @@ router.post('/join', tokenValidation, async function (req, res) {
         })
         try {
             newJoin.save();
-            console.log('/classroom/join save newJoin success');
+            console.log('/classroom/join save newJoin success'); 
             res.status(200).send(JSON.stringify({ _id: classId }));
         } catch (err) {
             res.status(400).send(err)
