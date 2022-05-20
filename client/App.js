@@ -19,6 +19,7 @@ import ChallengeTest from "./pages/application/challenge/ChallengeTest";
 import Challenge from './pages/application/challenge/Challenge';
 import ChallengeScreen from './pages/application/challenge/ChallengeScreen';
 import ClassroomDetailScreen from './pages/application/classrooms/ClassroomDetailScreen';
+import MainTabScreen from './pages/application/MainTabScreen';
 
 import OnboardingScreen1 from './pages/onboarding/OnboardingScreen1';
 import OnboardingScreen2 from './pages/onboarding/OnboardingScreen2';
@@ -107,7 +108,13 @@ export default function App({ navigation }) {
           <Stack.Screen
             name="ClassroomDetailScreen"
             component={ClassroomDetailScreen}
-            options={{ title: 'ClassroomDetailScreen' }}
+            options={{ title: 'MainTabScreen' }}
+          />
+
+          <Stack.Screen
+            name="MainTabScreen"
+            component={MainTabScreen}
+            options={{ title: 'MainTabScreen' }}
           />
 
           <Stack.Screen

@@ -6,12 +6,21 @@ const Challenge = require('../model/Challenge');
 router.post('/create_challenge', async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body['emailUser'] });
-        var currentDate = new Date();
+        var currentDate = new Date()
+        var startDate = new Date(req.body['challenge']['startDate'])
+        var endDate = new Date(req.body['challenge']['endDate'])
         var status_check = 0
 
-        if (req.body['challenge']['startDate'] > currentDate) {
+        // upcoming
+        if (startDate > currentDate) {
             status_check = 1
         }
+        else if (startDate < currentDate
+            && endDate > currentDate) {
+            status_check = 0
+        }
+
+        console.log("status_check: ", status_check)
 
         const challenge = Challenge({
             challenge_id: Date.now(),

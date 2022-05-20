@@ -31,7 +31,7 @@ export default function ChallengeTest({ navigation, route }) {
         <View style={styles.container}>
             <View style={{ marginTop: 20, borderWidth: 2, borderColor: '#1570EF', borderRadius: 5, padding: 15 }}>
                 <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Challenge: <Text style={{ fontWeight: 'normal' }}>{route.params['title']}</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>{route.params['_id']}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>{route.params['challenge_id']}</Text> </Text>
                 <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Start: <Text style={{ fontWeight: 'normal' }}>{new Date(route.params['start']).toLocaleString()}</Text> </Text>
                 <Text style={{ fontSize: 22, fontWeight: 'bold' }}>End: <Text style={{ fontWeight: 'normal' }}>{new Date(route.params['end']).toLocaleString()}</Text> </Text>
                 <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Score: <Text style={{ fontWeight: 'normal' }}>{data[0].score}</Text> </Text>

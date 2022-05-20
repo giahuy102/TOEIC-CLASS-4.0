@@ -12,7 +12,8 @@ export default function ClassroomDetailScreen({ navigation, route }) {
         navigation.setOptions({
             headerLeft: () => {
                 return (
-                    <TouchableOpacity onPress={() => navigation.pop()}>
+                    // <TouchableOpacity onPress={() => navigation.pop()}>
+                    <TouchableOpacity onPress={() => navigation.navigate('StartScreen')}>
                         <Image source={require('../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>

@@ -97,7 +97,7 @@ export default function StartScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.button}>
+      {/* <View style={styles.button}>
         <Button
           title="Login"
           onPress={() => navigation.navigate('Login')}
@@ -124,13 +124,6 @@ export default function StartScreen({ navigation }) {
         />
       </View>
 
-      {/* <View style={styles.button}>
-        <Button
-          title="Challenge"
-          onPress={() => navigation.navigate('Challenge')}
-        />
-      </View> */}
-
       <View style={styles.button}>
         <Button
           title="Challenge"
@@ -150,7 +143,7 @@ export default function StartScreen({ navigation }) {
           title="Profile"
           onPress={() => navigation.navigate('Profile')}
         />
-      </View>
+      </View> */}
 
     </View >
 

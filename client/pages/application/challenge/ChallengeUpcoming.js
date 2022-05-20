@@ -36,7 +36,7 @@ export default function ChallengeUpcoming({ navigation }) {
 
     const FlatListItem = (item, index) => {
         return (
-            <View style={styles.member}>
+            <TouchableOpacity style={styles.member} onPress={() => navigation.navigate('ChallengeTest', item)}>
                 <View style={styles.left}>
                     <View style={{
                         width: '80%',
@@ -59,7 +59,7 @@ export default function ChallengeUpcoming({ navigation }) {
                     <Text>Will end: {new Date(item.end).toLocaleString()}</Text>
                 </View>
 
-            </View>
+            </TouchableOpacity>
         );
     }
 

@@ -12,6 +12,16 @@ const CHALLENGE_PREFIX = '/api/challenge';
 export default function ChallengeCreate({ navigation }) {
     const navigate = useNavigation();
     const navigateToChallenging = () => {
+        setTitle('')
+        setStartDate(new Date())
+        setEndDate(new Date())
+        setMode('date');
+        setShowStart(false);
+        setShowEnd(false);
+        setDateStart('Select date');
+        setTimeStart('Select time');
+        setDateEnd('Select date');
+        setTimeEnd('Select time');
         navigation.push('ChallengeScreen')
     }
     React.useLayoutEffect(() => {
@@ -21,7 +31,6 @@ export default function ChallengeCreate({ navigation }) {
                     // <TouchableOpacity onPress={() => navigation.navigate('ChallengeChallenging')}>
                     <TouchableOpacity onPress={navigateToChallenging}>
                         <Image source={require('../../../assets/back_arrow.png')} />
-
                     </TouchableOpacity>
                 );
 
