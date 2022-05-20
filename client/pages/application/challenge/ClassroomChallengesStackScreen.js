@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AppStyles from "../../../styles/SystemFontStyles";
 
-import Challenge from "./Challenge";
+import ChallengeScreen from "./ChallengeScreen";
 import ChallengeCreate from "./ChallengeCreate";
 import ChallengeScreen from "./ChallengeScreen";
 

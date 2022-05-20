@@ -10,9 +10,9 @@ const userSchema = new mongoose.Schema({
     created_by: String,
     test: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Test'
+        ref: 'TestModel'
     }
 
 });
 
-module.exports = mongoose.model('Challenge', userSchema);
+module.exports = mongoose.model('ChallengeModel', userSchema);

@@ -6,6 +6,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import AppStyles from "../../../styles/ClassroomDetailScreen.scss";
 
+import { dateStrFormatGetDate } from "../../../utils/dateStrConverter";
+
 export default function ClassroomDetailScreen({ navigation, route }) {
 
     React.useLayoutEffect(() => {
@@ -24,8 +26,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [navigation]);
 
     const routeParams = route.params;
-    console.log("Params", routeParams)
-    const { _id, teacherId, numberStudent, level, end_date, start_date, classname } = routeParams;
+    const { _id, teacherId, number_student, level, end_date, start_date, classname } = routeParams;
     useEffect(() => {
         if (routeParams && routeParams.classname) {
             navigation.setOptions({
@@ -35,12 +36,11 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [])
 
     const buttonInfoList = [
-        // { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen' },
-        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ChallengeScreen' },
-        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember' },
-        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult' },
+        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen', params: { _id } },
+        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember', params: { _id } },
+        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult', params: { _id } },
         { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: '' },
-        { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen' }
+        { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen', params: { _id } }
     ]
 
     return (
@@ -49,13 +49,13 @@ export default function ClassroomDetailScreen({ navigation, route }) {
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
                     <Ionicons name="person" color="black" size={18} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${numberStudent}`}
+                        {`${number_student}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
                     <Ionicons name="calendar" color="black" size={20} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${end_date}\n${start_date}`}
+                        {`${dateStrFormatGetDate(end_date)}\n${dateStrFormatGetDate(start_date)}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
@@ -69,7 +69,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
                 {buttonInfoList.map((buttonInfo) => (
                     <Pressable
                         key={buttonInfo.buttonName}
-                        onPress={() => navigation.navigate(buttonInfo.routeName)}
+                        onPress={() => navigation.navigate(buttonInfo.routeName, buttonInfo.params)}
                         style={AppStyles.ClassoomDetailScreenButtonView}
                     >
                         <Text style={AppStyles.ClassroomDetailScreenButtonNameText}>{buttonInfo.buttonName}</Text>

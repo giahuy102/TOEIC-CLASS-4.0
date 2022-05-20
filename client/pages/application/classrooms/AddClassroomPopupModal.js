@@ -4,11 +4,16 @@ import { TextInput } from "react-native-paper";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from "@react-native-picker/picker";
 
+import { loadToken } from "../../../services/JWTStorage";
+import { dateStrConverter } from "../../../utils/dateStrConverter";
+
+import ClassroomService from "../../../services/ClassroomService";
+
 import AppStyles from "../../../styles/AddClassroomPopupModal.scss";
 
-export default function AddClassroomPopupModal({ modalVisible, setModalVisible }) {
+export default function AddClassroomPopupModal({ ClassroomsListData, setClassroomsListData, addClassroomModalVisible, setAddClassroomModalVisible, handleAccessToClassroomDetailScreen }) {
     const [classroomName, setClassroomName] = useState("");
-    const [studentNumber, setStudentNumber] = useState("0");
+    const [number_student, setNumber_student] = useState("0");
     const [toeicLevel, setToeicLevel] = useState(null);
     const [classroomPassword, setClassroomPassword] = useState("");
 
@@ -45,10 +50,29 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
         setDateTimePickerMode(currentMode);
     }
 
-    const handleAddNewClassroomSubmit = (event) => {
-        event.preventDefault();
-        const AddNewClassroomRequestPayload = { studentNumber, toeicLevel, startDate, endDate, classroomPassword };
-        console.log("Add New Classroom Payload", AddNewClassroomRequestPayload);
+    const handleAddNewClassroomSubmit = async () => {
+        console.log("Call here")
+        const loadTokenResponse = await loadToken();
+        if (loadTokenResponse) {
+            const AddNewClassroomRequestPayload = { classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword, token: loadTokenResponse };
+            const AddNewClassroomResponse = await ClassroomService.createClassroom(AddNewClassroomRequestPayload);
+            const AddNewClassroomResponseData = AddNewClassroomResponse.data['data'];
+            const AccessToClassroomDetailScreenData = {
+                _id: AddNewClassroomResponseData._id,
+                number_student: AddNewClassroomResponseData.number_student,
+                level: AddNewClassroomResponseData.toeicLevel,
+                classname: AddNewClassroomResponseData.classroomName,
+                start_date: AddNewClassroomResponseData.startDateValue.slice(0, 10),
+                end_date: AddNewClassroomResponseData.endDateValue.slice(0, 10),
+                isJoined: true,
+            }
+            setClassroomsListData([...ClassroomsListData, AccessToClassroomDetailScreenData]);
+            setAddClassroomModalVisible(!addClassroomModalVisible);
+            /**
+             *  * Causing bug: ClassroomsListScreen freeze after add classroom in modal successful *
+             *  handleAccessToClassroomDetailScreen(AccessToClassroomDetailScreenData);
+             */
+        }
     }
 
 
@@ -72,9 +96,9 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
                     placeholder="Number of student"
                     keyboardType="number-pad"
                     label="Number of student"
-                    value={studentNumber}
+                    value={number_student}
                     right={<TextInput.Icon name="account" />}
-                    onChangeText={(text) => setStudentNumber(text)}
+                    onChangeText={(text) => setNumber_student(text)}
                 />
 
                 <TextInput
@@ -139,14 +163,14 @@ export default function AddClassroomPopupModal({ modalVisible, setModalVisible }
             <View style={AppStyles.AddClassroomModalBottomView}>
                 <Pressable
                     style={AppStyles.ClassroomsListScreenOtherButton}
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() => setAddClassroomModalVisible(!addClassroomModalVisible)}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Cancel</Text>
                 </Pressable>
 
                 <Pressable
                     style={AppStyles.ClassroomsListScreenOtherButton}
-                    onPress={(e) => handleAddNewClassroomSubmit(e)}
+                    onPress={() => handleAddNewClassroomSubmit()}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Submit</Text>
                 </Pressable>

@@ -9,9 +9,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { loadEmail, loadToken, storeEmail } from '../services/JWTStorage';
 import { storeOnboardingToken, isApplicationVisited } from '../services/OnboardingCheck';
-
 import AuthService from '../services/AuthService';
 
+import { updateProfileState } from "./application/profile/slice/profileSlice";
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import axios from 'axios';
 
@@ -38,6 +39,8 @@ export default function StartScreen({ navigation }) {
   //     })
   // })
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
 
     // console.log("EMAIL: ", emailStored);
@@ -50,6 +53,7 @@ export default function StartScreen({ navigation }) {
         try {
           const authServiceResponse = await AuthService.getUser(loadTokenResponse);
           const userData = authServiceResponse.data;
+          dispatch(updateProfileState(userData));
           navigation.dispatch(state => {
             return CommonActions.reset({
               index: 0,
@@ -61,7 +65,7 @@ export default function StartScreen({ navigation }) {
                     state: {
                       routes: [{
                         name: 'Profile',
-                        params: { username: userData }
+                        params: {}
                       }]
                     }
                   }]
@@ -123,6 +127,13 @@ export default function StartScreen({ navigation }) {
           onPress={() => navigation.navigate('NewSection')}
         />
       </View>
+
+      {/* <View style={styles.button}>
+        <Button
+          title="Challenge"
+          onPress={() => navigation.navigate('Challenge')}
+        />
+      </View> */}
 
       <View style={styles.button}>
         <Button

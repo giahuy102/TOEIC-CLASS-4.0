@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
@@ -8,65 +8,28 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import AuthService from '../../../services/AuthService';
-
+import ClassroomService from "../../../services/ClassroomService";
 import { storeToken } from '../../../services/JWTStorage';
 
-export default function Login({ navigation }) {
+export default function Login({ navigation, route }) {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [borderColor, setBorderColor] = useState();
+    const [memberList, setMemberList] = useState([]);
 
+    const routeParams = route.params;
+    const { _id: classId } = routeParams;
 
-    const memberList = [
-        {
-            _id: 1,
-            rank: 10,
-            role: "Admin",
-            user: {
-                username: 'Legiahuy'
-            }
-        },
-        {
-            _id: 2,
-            rank: 12,
-            role: "Admin",
-            user: {
-                username: 'Legiahuy102'
-            }
-        },
-        {
-            _id: 3,
-            rank: 12,
-            role: "Admin",
-            user: {
-                username: 'legiahuy102'
-            }
-        },
-        {
-            _id: 4,
-            rank: 12,
-            role: "Admin",
-            user: {
-                username: 'legiahuy102'
-            }
-        },
-        {
-            _id: 5,
-            rank: 12,
-            role: "Admin",
-            user: {
-                username: 'legiahuy102'
-            }
-        },
-        {
-            _id: 6,
-            rank: 12,
-            role: "Admin",
-            user: {
-                username: 'legiahuy102'
-            }
-        }
-    ];
+    useEffect(async () => {
+        const fetchClassroomDetailInfo = async () => {
+            const getClassroomDetailInfoResponse = await ClassroomService.getClassroomDetailInfo(classId);
+            const getClassroomDetailInfoData = getClassroomDetailInfoResponse.data;
+            const newMemberList = getClassroomDetailInfoData['students_list'];
+            console.log('newMemberList', newMemberList);
+            setMemberList(newMemberList);
+        };
+        await fetchClassroomDetailInfo();
+    }, []);
 
     const renderItem = ({ item }) => (
         // <Text>{item.rank}</Text>
@@ -74,14 +37,14 @@ export default function Login({ navigation }) {
             <View style={styles.left}>
                 <View style={styles.name}>
                     <Text style={styles.name_text}>
-                        {item.user.username[0]}
+                        {item.username[0]}
                     </Text>
 
                 </View>
             </View>
 
             <View style={styles.right}>
-                <Text>{item.user.username}</Text>
+                <Text>{item.username}</Text>
                 <View
                     style={
                         {

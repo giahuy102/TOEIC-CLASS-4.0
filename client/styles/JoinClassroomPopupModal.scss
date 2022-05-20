@@ -1,0 +1,50 @@
+@import "SystemFontStyles.scss";
+
+.JoinClassroomModalView {
+    width: 100%;
+    height: 100%;
+}
+
+.JoinClassroomModalHeaderView {
+    flex: 1;
+    // background-color: blue;
+    align-items: center;
+    justify-content: center;
+}
+
+.JoinClassroomModalHeaderText {
+    @extend %SystemModalText;
+    font-size: 16;
+}
+
+.JoinClassroomModalBodyView {
+    flex: 4;
+    // background-color: grey;
+    width: 100%;
+    align-items: center;
+}
+
+.JoinClassroomModalPaperTextInput {
+    @extend %PaperTextInputStyle;
+}
+
+.JoinClassroomModalBottomView {
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.ClassroomsListScreenOtherButton {
+    @extend %PrimaryButton;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+.ClassroomsListScreenOtherButtonText {
+    @extend %PrimaryButtonTextFont;
+    font-weight: normal;
+    font-size: 15;
+    color: white;
+}

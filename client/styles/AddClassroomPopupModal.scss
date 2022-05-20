@@ -1,7 +1,6 @@
 @import 'SystemFontStyles.scss';
 
 .AddClassroomModalView {
-    @extend %SystemModalView;
     width: 100%;
     height: 100%;
 }
@@ -18,10 +17,12 @@
 .AddClassroomModalHeaderView {
     flex: 1;
     // background-color: blue;
+    align-items: center;
+    justify-content: center;
 }
 
 .AddClassroomModalBodyView {
-    flex: 5;
+    flex: 4;
     // background-color: grey;
     width: 100%;
     align-items: center;
@@ -46,7 +47,8 @@
 .AddClassroomModalBottomView {
     flex: 1;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: flex-start;
     // background-color: orange;
 }
 
@@ -56,6 +58,11 @@
 
 .AddClassroomModalPressable {
     @extend %TextInputStyle;
+}
+
+.AddClassroomModalFloatingButton {
+    width: 50;
+    height: 50;
 }
 
 .AddClassroomModalPressableText {

@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'UserModel'
     },
     challenge: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Challenge'
-    }, 
+        ref: 'ChallengeModel'
+    },
     classroom: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Classroom'
+        ref: 'ClassroomModel'
     },
     created_at: {
         type: Date,
@@ -19,4 +19,4 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Create', userSchema);
+module.exports = mongoose.model('ChallengeCreationModel', userSchema);

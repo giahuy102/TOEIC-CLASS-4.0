@@ -6,12 +6,12 @@ const userSchema = new mongoose.Schema({
     role: String, // 'Teacher' / 'Student'
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'UserModel'
     },
     classroom: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Classroom'
+        ref: 'ClassroomModel'
     }
 });
 
-module.exports = mongoose.model('Join', userSchema);
+module.exports = mongoose.model('UserJoinClassroomModel', userSchema);
