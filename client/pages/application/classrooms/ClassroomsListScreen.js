@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
-import { View, ScrollView, Text, StyleSheet, Modal, Alert, Pressable, TouchableOpacity, Image } from "react-native";
-import { Button } from "react-native";
+import { View, ScrollView, Text, Modal, Alert, Pressable, TouchableOpacity, Image } from "react-native";
+import { Searchbar } from "react-native-paper";
 import { useSelector } from "react-redux";
 
 import AddClassroomPopupModal from "./AddClassroomPopupModal";
@@ -16,6 +16,8 @@ import { dateStrFormatGetDate } from "../../../utils/dateStrConverter";
 
 export default function ClassroomsListScreen({ navigation, route }) {
     const profileId = useSelector(state => state.profile._id);
+    const [searchClassroomByNameQuery, setSearchClassroomByNameQuery] = useState("");
+    const [categoriesQuery, setCategoriesQuery] = useState("all");
     const [currentClassId, setCurrentClassId] = useState("");
 
     const [addClassroomModalVisible, setAddClassroomModalVisible] = useState(false);
@@ -23,18 +25,30 @@ export default function ClassroomsListScreen({ navigation, route }) {
 
     const [ClassroomsListData, setClassroomsListData] = useState([]);
 
-    React.useLayoutEffect(() => {
-        navigation.setOptions({
-            headerLeft: () => {
-                return (
-                    <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../../../assets/back_arrow.png')} />
-                    </TouchableOpacity>
-                );
+    const [searchedClassroomsListData, setSearchedClassroomsListData] = useState([]);
 
-            },
-        });
-    }, [navigation]);
+    React.useEffect(() => {
+        let newSearchedClassroomsListData = [];
+        if (searchClassroomByNameQuery === "") {
+            newSearchedClassroomsListData = ClassroomsListData;
+        } else {
+            newSearchedClassroomsListData = ClassroomsListData.filter(ClassroomInfo => ClassroomInfo.classname.includes(searchClassroomByNameQuery))
+            // console.log('ClassroomsListScreen ClassroomsListData', ClassroomsListData);
+            // console.log('ClassroomsListScreen newSearchedClassroomsListData', newSearchedClassroomsListData);
+        }
+        if (categoriesQuery === 'all') {
+            newSearchedClassroomsListData = newSearchedClassroomsListData;
+        } else if (categoriesQuery === 'ongoing') {
+            newSearchedClassroomsListData = newSearchedClassroomsListData.filter(ClassroomInfo => ClassroomInfo.status === 0)
+        } else if (categoriesQuery === 'upcoming') {
+            newSearchedClassroomsListData = newSearchedClassroomsListData.filter(ClassroomInfo => ClassroomInfo.status === 1)
+        } else if (categoriesQuery === 'finished') {
+            newSearchedClassroomsListData = newSearchedClassroomsListData.filter(ClassroomInfo => ClassroomInfo.status === 2)
+        }
+        console.log('ClassroomListScreen categoriesQuery', newSearchedClassroomsListData);
+        console.log('ClassroomListScreen newSearchedClassroomsListData', newSearchedClassroomsListData);
+        setSearchedClassroomsListData(newSearchedClassroomsListData);
+    }, [searchClassroomByNameQuery, categoriesQuery])
 
     React.useEffect(async () => {
         const fetchAllClassrooms = async () => {
@@ -44,10 +58,10 @@ export default function ClassroomsListScreen({ navigation, route }) {
             const AllClassroomsData = fetchAllClassroomsResponse.data;
             // console.log('AllClassroomsData', AllClassroomsData);
             setClassroomsListData(AllClassroomsData);
+            setSearchedClassroomsListData(AllClassroomsData);
         }
         await fetchAllClassrooms();
     }, []);
-
 
     const handleAccessToClassroomDetailScreen = async (classroomDetailData) => {
         console.log(classroomDetailData);
@@ -68,8 +82,42 @@ export default function ClassroomsListScreen({ navigation, route }) {
 
     return (
         <View style={AppStyles.ClassroomsListFlexStartContainer}>
-            <View style={AppStyles.ClassroomsListSearchAndCategoriesButtonView}>
+            <View style={AppStyles.ClassroomsListCategoriesButtonView}>
+                <Pressable
+                    style={AppStyles.ClassroomsListScreenOtherButton}
+                    onPress={() => { setCategoriesQuery('all') }}
+                >
+                    <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>All</Text>
+                </Pressable>
 
+                <Pressable
+                    style={AppStyles.ClassroomsListScreenOtherButton}
+                    onPress={() => { setCategoriesQuery('upcoming') }}
+                >
+                    <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Upcoming</Text>
+                </Pressable>
+
+                <Pressable
+                    style={AppStyles.ClassroomsListScreenOtherButton}
+                    onPress={() => { setCategoriesQuery('ongoing') }}
+                >
+                    <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Ongoing</Text>
+                </Pressable>
+
+                <Pressable
+                    style={AppStyles.ClassroomsListScreenOtherButton}
+                    onPress={() => { setCategoriesQuery('finished') }}
+                >
+                    <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Finished</Text>
+                </Pressable>
+            </View>
+            <View style={AppStyles.ClassroomsListSearchView}>
+                <Searchbar
+                    styles={AppStyles.ClassroomsListSearch}
+                    placeholder="Search Your Classroom Name"
+                    onChangeText={(text) => setSearchClassroomByNameQuery(text)}
+                    value={searchClassroomByNameQuery}
+                />
             </View>
 
             <Modal
@@ -87,7 +135,7 @@ export default function ClassroomsListScreen({ navigation, route }) {
             </Modal>
 
             <ScrollView style={AppStyles.ClassroomsListScrollViewContainer}>
-                {ClassroomsListData.map(({ _id, number_student, level, end_date, start_date, classname, isJoined }) => (
+                {searchedClassroomsListData.map(({ _id, number_student, level, end_date, start_date, classname, isJoined }) => (
                     <Pressable key={_id} onPress={() => handleAccessToClassroomDetailScreen({ _id, number_student, level, end_date, start_date, classname })}>
                         <ClassroomsListItem _id={_id} number_student={number_student} level={level} end_date={end_date} start_date={start_date} classname={classname} isJoined={isJoined} />
                     </Pressable>
@@ -142,7 +190,7 @@ function ClassroomsListItem({ _id, number_student, level, end_date, start_date, 
                 <View style={AppStyles.ClassroomListItemBodyInfoView}>
                     <Ionicons name="calendar" color="black" size={20} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${dateStrFormatGetDate(end_date)}\n${dateStrFormatGetDate(start_date)}`}
+                        {`${dateStrFormatGetDate(start_date)}\n${dateStrFormatGetDate(end_date)}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomListItemBodyInfoView}>

@@ -16,14 +16,12 @@ const checkAndUpdateAllChallengeStatus = async () => {
                 }
                 ChallengeModelItem.status = 1
             }
-
             else if (ChallengeModelItem.start < currentDate && ChallengeModelItem.end > currentDate) {
                 if (ChallengeModelItem.status !== 0) {
                     console.log(`Status of challenge ${ChallengeModelItem.challenge_id} change to challenging`)
                 }
                 ChallengeModelItem.status = 0
             }
-
             else if (ChallengeModelItem.end < currentDate) {
                 if (ChallengeModelItem.status !== 2) {
                     console.log(`Status of challenge ${ChallengeModelItem.challenge_id} change to ended`)
@@ -53,16 +51,13 @@ router.post('/create_challenge', async (req, res) => {
         if (startDate > endDate) {
             res.status(400).send({ message: 'Invalid end date and start date' })
         }
-
         console.log('Status picked by date');
         if (startDate > currentDate) {
             status_check = 1
         }
-
         else if (startDate < currentDate && endDate > currentDate) {
             status_check = 0
         }
-
         else if (endDate < currentDate) {
             status_check = 2
         }

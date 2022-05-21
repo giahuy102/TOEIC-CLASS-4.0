@@ -1,19 +1,61 @@
 const express = require('express');
+const cron = require('node-cron');
 const router = express.Router();
 
-const mongoose = require('mongoose');
-
-const UserModel = require('../model/UserModel');
 const ClassroomModel = require('../model/ClassroomModel');
 const UserJoinClassroomModel = require('../model/UserJoinClassroomModel');
 
+const checkAndUpdateAllClassroomsStatus = () => {
+    cron.schedule("* * * * * *", async function () {
+        var currentDate = new Date();
+        const AllClassroomsModel = await ClassroomModel.find({});
+        for (const ClassroomModelItem of AllClassroomsModel) {
+            if (ClassroomModelItem.start_date > currentDate) {
+                if (ClassroomModelItem.status !== 1) {
+                    console.log(`Status of challenge ${ClassroomModelItem.challenge_id} change to upcoming`)
+                }
+                ClassroomModelItem.status = 1
+            }
+
+            else if (ClassroomModelItem.start_date < currentDate && ClassroomModelItem.end_date > currentDate) {
+                if (ClassroomModelItem.status !== 0) {
+                    console.log(`Status of challenge ${ClassroomModelItem.challenge_id} change to ongoing`)
+                }
+                ClassroomModelItem.status = 0
+            }
+
+            else if (ClassroomModelItem.end_date < currentDate) {
+                if (ClassroomModelItem.status !== 2) {
+                    console.log(`Status of challenge ${ClassroomModelItem.challenge_id} change to ended`)
+                }
+                ClassroomModelItem.status = 2
+            }
+            ClassroomModelItem.save();
+        }
+    })
+}
+checkAndUpdateAllClassroomsStatus();
+
 const tokenValidation = require('../middleware/verifyToken');
-const { response } = require('express');
 router.post('/create', tokenValidation, async function (req, res) {
     const requestBody = req.body;
-    // console.log("Create classroom request body", requestBody);
-    // console.log("Request user decoded from token", req.user);
     const { classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword } = requestBody;
+
+    const status_check = 0;
+    var currentDate = new Date()
+    if (startDateValue > endDateValue) {
+        res.status(400).send({ message: 'Invalid end date and start date' })
+    }
+    if (startDateValue > currentDate) {
+        status_check = 1
+    }
+    else if (startDateValue < currentDate && endDateValue > currentDate) {
+        status_check = 0
+    }
+    else if (endDateValue < currentDate) {
+        status_check = 2
+    }
+
     const newClassroomModel = new ClassroomModel({
         classname: classroomName,
         number_student: number_student,
@@ -21,6 +63,7 @@ router.post('/create', tokenValidation, async function (req, res) {
         start_date: startDateValue,
         end_date: endDateValue,
         password: classroomPassword,
+        status: status_check
     });
 
     try {
@@ -62,7 +105,7 @@ router.post('/join', tokenValidation, async function (req, res) {
         })
         try {
             newJoin.save();
-            console.log('/classroom/join save newJoin success'); 
+            console.log('/classroom/join save newJoin success');
             res.status(200).send(JSON.stringify({ _id: classId }));
         } catch (err) {
             res.status(400).send(err)
