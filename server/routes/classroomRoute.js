@@ -82,8 +82,8 @@ router.post('/create', tokenValidation, async function (req, res) {
             console.log('create UserJoinClassroomModel error', err);
         }
 
-        const responseData = { _id: newClassroomModel._id, classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword }
-        responsePayload = { data: responseData, message: 'Create Classroom Successfully' }
+        // const responseData = { _id: newClassroomModel._id, classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword }
+        responsePayload = { data: newClassroomModel, message: 'Create Classroom Successfully' }
         res.status(201).send(responsePayload);
     } catch (err) {
         console.log('Create new Classroom err', err);

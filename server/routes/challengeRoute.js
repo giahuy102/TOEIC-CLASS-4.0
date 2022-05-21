@@ -72,7 +72,7 @@ router.post('/create_challenge', async (req, res) => {
             start: req.body['challenge']['startDate'],
             end: req.body['challenge']['endDate'],
             created_at: currentDate,
-            created_by: user['fullname'],
+            created_by: user['username'],
         })
 
         try {
