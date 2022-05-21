@@ -97,7 +97,7 @@ export default function StartScreen({ navigation }) {
     /**
      * Comment below line to check all Start Screen demo
      */
-    isUserLogin();
+    // isUserLogin();
 
 
   });
@@ -156,6 +156,13 @@ export default function StartScreen({ navigation }) {
         <Button
           title="Profile"
           onPress={() => navigation.navigate('Profile')}
+        />
+      </View>
+
+      <View style={styles.button}>
+        <Button
+          title="Doing test"
+          onPress={() => navigation.navigate('ChallengeDoingTest')}
         />
       </View>
 

@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AppStyles from "../../../styles/SystemFontStyles";
 
+import ChallengeDoingTest from "./ChallengeDoingTest"
 import ChallengeScreen from "./ChallengeScreen";
 import ChallengeCreate from "./ChallengeCreate";
 import ChallengeTest from "./ChallengeTest";
@@ -54,6 +55,14 @@ export default function ClassroomChallengesStackScreen({ navigation, route }) {
                 options={{ title: 'Create new challenge' }}
                 initialParams={{ classId }}
             />
+
+            <Stack.Screen
+                name="ChallengeDoingTest"
+                component={ChallengeDoingTest}
+                options={{ title: 'Doing challenge test' }}
+            // initialParams={{ classId }}
+            />
+
 
         </Stack.Navigator>
     );
