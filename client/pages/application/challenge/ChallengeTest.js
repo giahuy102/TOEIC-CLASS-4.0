@@ -32,7 +32,7 @@ export default function ChallengeTest({ navigation, route }) {
             const ChallengeTestDetailInfoData = ChallengeTestDetailInfoResponse.data;
             console.log('ChallengeTest.js ChallengeTestDetailInfo', JSON.stringify(ChallengeTestDetailInfoData));
             alert('To the Test');
-            navigation.navigate('ChallengeDoingTest')
+            navigation.navigate('ChallengeDoingSection')
         } catch (err) {
             console.log('ChallengeTest.js: const ChallengeTestDetailInfo = await TestService.getTestDetailById(ChallengeTestId);', err)
         }
