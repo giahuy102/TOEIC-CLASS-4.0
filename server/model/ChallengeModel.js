@@ -14,6 +14,11 @@ const userSchema = new mongoose.Schema({
         ref: 'ClassroomModel',
     },
 
+    test_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'TestModel',
+    },
+
     status: Number, //0: upcoming, 1: ongoing, 2: finish
     title: String,
     start: Date,
