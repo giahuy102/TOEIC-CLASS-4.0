@@ -16,6 +16,9 @@ const Stack = createNativeStackNavigator();
 
 export default function ChallengeScreen({ navigation, route }) {
 
+    console.log('ClassroomDetailScreen routeParams', route.params);
+    const { classId } = route.params;
+
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerLeft: () => {
@@ -44,9 +47,18 @@ export default function ChallengeScreen({ navigation, route }) {
                 }
             }}
         >
-            <Tab.Screen name="ChallengeChallenging" component={ChallengeChallenging} options={{ title: "Challenging" }} />
-            <Tab.Screen name="ChallengeUpcoming" component={ChallengeUpcoming} options={{ title: "Upcoming" }} />
-            <Tab.Screen name="ChallengeEnded" component={ChallengeEnded} options={{ title: "Ended" }} />
+            <Tab.Screen
+                name="ChallengeChallenging" component={ChallengeChallenging} options={{ title: "Challenging" }}
+                initialParams={{ classId }}
+            />
+            <Tab.Screen
+                name="ChallengeUpcoming" component={ChallengeUpcoming} options={{ title: "Upcoming" }}
+                initialParams={{ classId }}
+            />
+            <Tab.Screen
+                name="ChallengeEnded" component={ChallengeEnded} options={{ title: "Ended" }}
+                initialParams={{ classId }}
+            />
         </Tab.Navigator>
 
     );

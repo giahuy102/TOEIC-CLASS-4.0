@@ -5,15 +5,17 @@ import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { loadEmail } from '../../../services/JWTStorage';
 import axios from 'axios';
-import { useSelector } from "react-redux";
+
+import { useSelector, useDispatch } from "react-redux";
+import { addNewChallenge} from './slice/challengesListSlice';
 
 const BASE_API_URL = `http://10.0.2.2:${3001}`;
 const CHALLENGE_PREFIX = '/api/challenge';
 
 export default function ChallengeCreate({ navigation, route }) {
-
-
-    console.log("params: ", route.params['challengesList']);
+    const dispatch = useDispatch();
+    const userId = useSelector(state => state.profile._id);
+    const { classId, type } = route.params;
 
     var emailUser = useSelector(state => state.profile.email)
     const navigate = useNavigation();
@@ -36,7 +38,7 @@ export default function ChallengeCreate({ navigation, route }) {
                 return (
                     // <TouchableOpacity onPress={() => navigation.navigate('ChallengeChallenging')}>
                     // <TouchableOpacity onPress={navigateToChallenging}>
-                    <TouchableOpacity onPress={navigateToChallenging}>
+                    <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../../../assets/back_arrow.png')} />
                     </TouchableOpacity>
                 );
@@ -84,14 +86,17 @@ export default function ChallengeCreate({ navigation, route }) {
         setDateEnd(fDate);
         setTimeEnd(fTime);
     }
+
     const showModeStart = (currentMode) => {
         setShowStart(true);
         setMode(currentMode);
     }
+
     const showModeEnd = (currentMode) => {
         setShowEnd(true);
         setMode(currentMode);
     }
+
     const getDateMonthYear = (cur) => {
         console.log("change format: ", cur)
         var day = '', month = '', year = ''
@@ -113,8 +118,19 @@ export default function ChallengeCreate({ navigation, route }) {
 
         // console.log("client email: ", emailUser)
 
-        await axios.post(BASE_API_URL + CHALLENGE_PREFIX + '/create_challenge', { emailUser, challenge })
+        await axios.post(BASE_API_URL + CHALLENGE_PREFIX + '/create_challenge', { userId, classId, challenge })
             .then(res => {
+                const newlyAddedChallenge = res.data;
+                console.log(newlyAddedChallenge);
+                if (type === 'challenging') {
+                    dispatch(addNewChallenge(newlyAddedChallenge))
+                } else if (type === 'upcoming') {
+                    dispatch(addNewChallenge(newlyAddedChallenge))
+                } else if (type === 'ended') {
+                    dispatch(addNewChallenge(newlyAddedChallenge))
+                } else {
+                    console.log('Invalid Challenge Type in ChallengeCreate');
+                }
                 console.log("send post request to create challenge")
             })
             .catch((err) => {

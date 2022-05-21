@@ -7,32 +7,6 @@ const UserModel = require('../model/UserModel');
 const ClassroomModel = require('../model/ClassroomModel');
 const UserJoinClassroomModel = require('../model/UserJoinClassroomModel');
 
-
-// const newJoin = new Join({
-//     accumulate_score: 5.4,
-//     rank: 12,
-//     role: "Leader",
-//     user: new_user_id,
-//     classroom: new_classroom_id
-// });
-
-// newJoin.save(function(err, result){
-//     if (err){
-//         console.log(err);
-//     }
-//     else{
-//         // console.log(result)
-//     }
-// })
-
-// Join
-//     .findOne({ rank: 12 })
-//     .populate('user')
-//     .exec(function(err, join) {
-//         if (err) console.log(err);
-//         else console.log(join.user);
-//     })
-
 const tokenValidation = require('../middleware/verifyToken');
 const { response } = require('express');
 router.post('/create', tokenValidation, async function (req, res) {

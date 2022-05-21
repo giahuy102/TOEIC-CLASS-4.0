@@ -5,6 +5,8 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { loadChallengingChallengesList } from './slice/challengesListSlice'
 
 import data from '../../Ignored_Challenge/DATA.json'
 import axios from 'axios';
@@ -13,12 +15,18 @@ import ClassroomDetailScreen from '../classrooms/ClassroomDetailScreen';
 const BASE_API_URL = `http://10.0.2.2:${3001}`;
 const CHALLENGE_PREFIX = '/api/challenge';
 
-export default function ChallengeChallenging({ navigation }) {
-    const [challengesList, setChallengesList] = useState([])
+export default function ChallengeChallenging({ navigation, route }) {
+    const dispatch = useDispatch();
+    const { classId } = route.params;
+    const challengesList = useSelector(state => state.challengesList.challengingChallengesList);
+    console.log('ChallengeChallenging Screen challengesList', challengesList);
+    // const [challengesList, setChallengesList] = useState([])
+
     useEffect(async () => {
-        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + '/get_challenges_challenging')
+        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_challenging/${classId}`)
             .then(res => {
-                setChallengesList(res.data)
+                console.log('Challenge Challenging load challenges list response data', res.data);
+                dispatch(loadChallengingChallengesList(res.data));
             })
             .catch((err) => {
                 console.log("Error: ", err)
@@ -88,7 +96,7 @@ export default function ChallengeChallenging({ navigation }) {
 
             <TouchableOpacity
                 style={styles.touchableOpacity}
-                onPress={() => navigation.navigate('ChallengeCreate', { challengesList, setChallengesList })}
+                onPress={() => navigation.navigate('ChallengeCreate', { type: 'challenging', classId })}
             >
                 <Image
                     style={styles.floatingButton}

@@ -1,7 +1,19 @@
 const mongoose = require('mongoose');
+const UserModel = require('./UserModel');
 
 const userSchema = new mongoose.Schema({
     challenge_id: Number,
+
+    create_user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserModel',
+    },
+
+    classroom_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ClassroomModel',
+    },
+
     status: Number, //0: upcoming, 1: ongoing, 2: finish
     title: String,
     start: Date,

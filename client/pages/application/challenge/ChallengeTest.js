@@ -43,14 +43,14 @@ export default function ChallengeTest({ navigation, route }) {
                         borderRadius='10'
                         color="#1570EF"
                         title='Start'
-                        onPress={() => navigation.navigate('Login')}
+                        onPress={() => alert('To the test')}
                     />
                     :
                     <Button
                         borderRadius='10'
                         color="#1570EF"
                         title='Done'
-                        onPress={() => navigation.navigate('Login')}
+                        onPress={() => alert('Done')}
                     />
                 }
             </View>

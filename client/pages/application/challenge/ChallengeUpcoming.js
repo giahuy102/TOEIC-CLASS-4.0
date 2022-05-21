@@ -3,16 +3,24 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react
 import data from '../../Ignored_Challenge/DATA.json'
 import axios from 'axios';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { loadUpcomingChallengesList } from './slice/challengesListSlice';
+
 const BASE_API_URL = `http://10.0.2.2:${3001}`;
 const CHALLENGE_PREFIX = '/api/challenge';
 
-export default function ChallengeUpcoming({ navigation }) {
-    const [challengesList, setChallengesList] = useState([])
+export default function ChallengeUpcoming({ navigation, route }) {
+    const { classId } = route.params;
+    const dispatch = useDispatch();
+
+    const challengesList = useSelector(state => state.challengesList.upcomingChallengesList);
+    // const [challengesList, setChallengesList] = useState([])
 
     useEffect(async () => {
-        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + '/get_challenges_upcoming')
+        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_upcoming/${classId}`)
             .then(res => {
-                setChallengesList(res.data)
+                console.log('Challenge Upcoming load challenges list response data', res.data);
+                dispatch(loadUpcomingChallengesList(res.data));
             })
             .catch((err) => {
                 console.log("Error: ", err)
@@ -80,7 +88,7 @@ export default function ChallengeUpcoming({ navigation }) {
 
             <TouchableOpacity
                 style={styles.touchableOpacity}
-                onPress={() => navigation.navigate('ChallengeCreate')}
+                onPress={() => navigation.navigate('ChallengeCreate', { type: 'upcoming', classId })}
             >
                 <Image
                     style={styles.floatingButton}
