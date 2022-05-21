@@ -25,7 +25,7 @@ export default function ChallengeDoingTest({ navigation }) {
     // useEffect(() => {
 
     // })
-
+    const [checked, setChecked] = React.useState('first');
     const FlatListItem = (item, index) => {
         return (
 
