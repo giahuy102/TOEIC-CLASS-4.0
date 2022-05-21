@@ -36,7 +36,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import TabSectionNavigator from './components/TabSectionNavigator';
 import ChallengeUpcoming from './pages/application/challenge/ChallengeUpcoming';
 import ChallengeChallenging from './pages/application/challenge/ChallengeChallenging';
-import ChallengeDoingTest from './pages/application/challenge/ChallengeDoingTest';
+import ChallengeDoingSection from './pages/application/challenge/ChallengeDoingSection';
 const Stack = createNativeStackNavigator();
 
 
@@ -128,8 +128,8 @@ export default function App({ navigation }) {
             />
 
             <Stack.Screen
-              name="ChallengeDoingTest"
-              component={ChallengeDoingTest}
+              name="ChallengeDoingSection"
+              component={ChallengeDoingSection}
               options={{ title: 'Doing test challenge' }}
             />
 

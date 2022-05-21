@@ -162,7 +162,7 @@ export default function StartScreen({ navigation }) {
       <View style={styles.button}>
         <Button
           title="Doing test"
-          onPress={() => navigation.navigate('ChallengeDoingTest')}
+          onPress={() => navigation.navigate('ChallengeDoingSection')}
         />
       </View>
 
