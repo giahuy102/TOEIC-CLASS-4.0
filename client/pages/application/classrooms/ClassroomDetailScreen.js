@@ -59,7 +59,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
                     <Ionicons name="calendar" color="black" size={20} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${dateStrFormatGetDate(end_date)}\n${dateStrFormatGetDate(start_date)}`}
+                        {`${dateStrFormatGetDate(start_date)}\n${dateStrFormatGetDate(end_date)}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>

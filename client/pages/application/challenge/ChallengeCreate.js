@@ -7,7 +7,7 @@ import { loadEmail } from '../../../services/JWTStorage';
 import axios from 'axios';
 
 import { useSelector, useDispatch } from "react-redux";
-import { addNewChallenge} from './slice/challengesListSlice';
+import { addNewChallenge } from './slice/challengesListSlice';
 
 const BASE_API_URL = `http://10.0.2.2:${3001}`;
 const CHALLENGE_PREFIX = '/api/challenge';

@@ -18,7 +18,7 @@ export default function Login({ navigation, route }) {
     const [memberList, setMemberList] = useState([]);
 
     const routeParams = route.params;
-    const { _id: classId } = routeParams;
+    const { classId } = routeParams;
 
     useEffect(async () => {
         const fetchClassroomDetailInfo = async () => {

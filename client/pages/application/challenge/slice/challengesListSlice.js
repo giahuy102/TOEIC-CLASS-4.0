@@ -25,11 +25,11 @@ const challengesListSlice = createSlice({
         addNewChallenge(state, action) {
             const newChallenge = action.payload;
             if (newChallenge.status === 0) {
-                state.challengingChallengesList.push(newChallengingChallenge);
+                state.challengingChallengesList.push(newChallenge);
             } else if (newChallenge.status === 1) {
-                state.upcomingChallengesList.push(newUpcomingChallenge);
+                state.upcomingChallengesList.push(newChallenge);
             } else if (newChallenge.status === 2) {
-                state.endedChallengesList.push(newEndedChallenge);
+                state.endedChallengesList.push(newChallenge);
             }
         },
     }
@@ -37,11 +37,9 @@ const challengesListSlice = createSlice({
 
 export const {
     loadChallengingChallengesList,
-    addNewChallengingChallenge,
     loadUpcomingChallengesList,
-    addNewUpcomingChallenge,
     loadEndedChallengesList,
-    addNewEndedChallenge
+    addNewChallenge
 }
     = challengesListSlice.actions;
 

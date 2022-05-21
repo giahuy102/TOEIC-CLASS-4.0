@@ -44,8 +44,8 @@ export default function ChallengeUpcoming({ navigation, route }) {
 
     const FlatListItem = (item, index) => {
         return (
-            // <TouchableOpacity style={styles.member} onPress={() => navigation.navigate('ChallengeTest', item)}>
-            <TouchableOpacity style={styles.member} onPress={() => navigation.pop()}>
+            // <TouchableOpacity style={styles.member} onPress={() => navigation.pop()}>
+            <TouchableOpacity style={styles.member} onPress={() => navigation.navigate('ChallengeTest', item)}>
                 <View style={styles.left}>
                     <View style={{
                         width: '80%',

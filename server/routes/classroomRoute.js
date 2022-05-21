@@ -139,6 +139,7 @@ router.post('/all', tokenValidation, async function (req, res) {
 
 router.get('/:class_id/get_basic_info_all_member', async function (req, res) {
     const classId = req.params.class_id;
+    console.log('/api/classroom/:class_id/get_basic_info_all_member class_id params', classId);
     try {
         await UserJoinClassroomModel
             .find({ classroom: classId })
@@ -148,6 +149,7 @@ router.get('/:class_id/get_basic_info_all_member', async function (req, res) {
                 /**
                  * queryResultList is currently a mongoose model instance returned from a mongoose query which is not mutable.
                  */
+
                 queryResultList = JSON.parse(JSON.stringify(queryResultList));
                 if (err) console.log(err);
                 else {
