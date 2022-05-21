@@ -76,6 +76,10 @@ const checkAndUpdateAllChallengeStatus = async () => {
                      *      - Then finally Run normalization in All Of ChallengeEventsRecordModel rankingChart scores
                      * 
                      */
+
+                    /**
+                     * You are currently here
+                     */
                 }
             }
 
