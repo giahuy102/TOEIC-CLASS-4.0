@@ -10,8 +10,27 @@ const cors = require('cors')
 app.use(cors())
 
 dbConnection.connect();
-
 app.use(express.json());
+
+/**
+ *      Socket IO 
+ */
+const expressHttpServer = require("http").createServer(app);
+const io = require("socket.io")(expressHttpServer, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST'],
+    }
+})
+require("./services/socket/socketIOConfig")(io);
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+})
+
+/**
+ *      Express Router & Controller
+ */
 
 const authRoute = require('./routes/authRoute');
 const classroomRoute = require('./routes/classroomRoute');
@@ -37,7 +56,4 @@ app.use('/api/test', testRoute);
     });
 */
 
-
-
-
-app.listen(process.env.PORT, () => console.log(`Server is running at http://localhost:${process.env.PORT}`));
+expressHttpServer.listen(process.env.PORT, () => console.log(`Http Server is running at http://localhost:${process.env.PORT}`));

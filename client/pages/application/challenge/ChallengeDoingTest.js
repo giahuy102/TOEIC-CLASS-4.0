@@ -26,6 +26,8 @@ export default function ChallengeDoingTest({ navigation }) {
 
     // })
 
+    const [checked, setChecked] = useState('')
+
     const FlatListItem = (item, index) => {
         return (
 

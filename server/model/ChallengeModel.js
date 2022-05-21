@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
         ref: 'TestModel',
     },
 
-    status: Number, //0: upcoming, 1: ongoing, 2: finish
+    status: Number, //0: ongoing, 1: upcoming, 2: finish
     title: String,
     start: Date,
     end: Date,

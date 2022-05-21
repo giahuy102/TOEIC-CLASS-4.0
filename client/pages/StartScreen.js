@@ -97,7 +97,7 @@ export default function StartScreen({ navigation }) {
     /**
      * Comment below line to check all Start Screen demo
      */
-    // isUserLogin();
+    isUserLogin();
 
 
   });

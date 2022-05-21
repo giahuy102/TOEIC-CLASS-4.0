@@ -5,30 +5,81 @@ const router = express.Router();
 const UserModel = require('../model/UserModel');
 const TestModel = require('../model/TestModel');
 const ChallengeModel = require('../model/ChallengeModel');
+const ChallengeEventsRecordModel = require('../model/ChallengeEventsRecordModel');
 
 const checkAndUpdateAllChallengeStatus = async () => {
-    cron.schedule('* * * * * *', async function () {
+    /**
+     * Is it every 10 second run cron task?
+     */
+    cron.schedule('10 * * * * *', async function () {
         var currentDate = new Date()
         const AllChallengesModel = await ChallengeModel.find({});
         for (const ChallengeModelItem of AllChallengesModel) {
             if (ChallengeModelItem.start > currentDate) {
                 if (ChallengeModelItem.status !== 1) {
                     console.log(`Status of challenge ${ChallengeModelItem.challenge_id} change to upcoming`)
+                    ChallengeModelItem.status = 1
                 }
-                ChallengeModelItem.status = 1
             }
             else if (ChallengeModelItem.start < currentDate && ChallengeModelItem.end > currentDate) {
                 if (ChallengeModelItem.status !== 0) {
                     console.log(`Status of challenge ${ChallengeModelItem.challenge_id} change to challenging`)
+                    ChallengeModelItem.status = 0;
+
+                    const newChallengeEventsRecordModel = new ChallengeEventsRecordModel({
+                        /** 
+                         * Currenly Challenge is create with challenge_id as main id 
+                         * -> Must change back to _id for JOIN query to be functional
+                         * */
+                        challenge_id: ChallengeModelItem._id,
+                        classroom_id: ChallengeModelItem.classroom_id,
+                        test_id: ChallengeModelItem.test_id,
+                        status: 0, //0: ongoing, 1: upcoming, 2: finish
+                        title: ChallengeModelItem.title,
+                        start: ChallengeModelItem.start,
+                        end: ChallengeModelItem.end,
+                        currentTime: currentDate,
+                        currentTimeLeft: 1000000, /** Hope Date() - Date() will throw a Number that is convertible back to HH:MM:SS unit */
+                        /**
+                         * Sort by score
+                         */
+                        rankingChart: []
+                    });
+                    try {
+                        await newChallengeEventsRecordModel.save();
+                    } catch (err) {
+                        console.log("checkAndUpdateAllChallengeStatus await newChallengeEventsRecordModel.save(); Error", err);
+                    }
+                } else {
+                    /**
+                     * Challenging is Still Ongoing, Update the currentTime field for ChallengeEventsRecordModel
+                     */
+                    const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge_id: ChallengeModelItem._id });
+                    ChallengeEventsRecordModelQuery.currentTime = currentDate;
+                    try {
+                        await ChallengeEventsRecordModelQuery.save();
+                    } catch (err) {
+                        console.log("checkAndUpdateAllChallengeStatus await ChallengeEventsRecordModelQuery.save(); Error", err);
+                    }
                 }
-                ChallengeModelItem.status = 0
             }
             else if (ChallengeModelItem.end < currentDate) {
                 if (ChallengeModelItem.status !== 2) {
                     console.log(`Status of challenge ${ChallengeModelItem.challenge_id} change to ended`)
+                    ChallengeModelItem.status = 2
+                    /**
+                     * 
+                     *      Code for Challenge EndTime Reached Here
+                     * 
+                     *      - Broadcast Changing Status Event to all Client to move all of them to Final Result Screen
+                     *      - From each of them client will send back an event to normalize (scale 10) the ChallengeParticipationModel score
+                     *      - Then finally Run normalization in All Of ChallengeEventsRecordModel rankingChart scores
+                     * 
+                     */
                 }
-                ChallengeModelItem.status = 2
             }
+
+
             ChallengeModelItem.save();
         }
     });
