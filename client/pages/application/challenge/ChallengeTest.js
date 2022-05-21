@@ -1,10 +1,14 @@
 import { NavigationHelpersContext } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import data from '../../Ignored_Challenge/TEST_DATA.json'
+import data from '../../Ignored_Challenge/TEST_DATA.json';
+import TestService from '../../../services/TestService';
 
 
 export default function ChallengeTest({ navigation, route }) {
+
+    const ChallengeItemData = route.params;
+    console.log('ChallengeTest.js ChallengeItemData', ChallengeItemData);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -21,12 +25,18 @@ export default function ChallengeTest({ navigation, route }) {
         });
     }, [navigation]);
 
-    useEffect(() => {
-        const param = route.params;
-        console.log("param challenge test: ", param)
-
-    })
-
+    const handleStartChallengeFeature = async () => {
+        const ChallengeTestId = ChallengeItemData.test_id;
+        try {
+            const ChallengeTestDetailInfoResponse = await TestService.getTestDetailById(ChallengeTestId);
+            const ChallengeTestDetailInfoData = ChallengeTestDetailInfoResponse.data;
+            console.log('ChallengeTest.js ChallengeTestDetailInfo', JSON.stringify(ChallengeTestDetailInfoData));
+            alert('To the Test');
+            navigation.navigate('ChallengeDoingTest')
+        } catch (err) {
+            console.log('ChallengeTest.js: const ChallengeTestDetailInfo = await TestService.getTestDetailById(ChallengeTestId);', err)
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -44,7 +54,7 @@ export default function ChallengeTest({ navigation, route }) {
                         borderRadius='10'
                         color="#1570EF"
                         title='Start'
-                        onPress={() => navigation.navigate('ChallengeDoingTest')}
+                        onPress={() => handleStartChallengeFeature()}
                     />
                     :
                     <Button

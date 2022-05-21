@@ -3,6 +3,7 @@ const cron = require('node-cron');
 const router = express.Router();
 
 const UserModel = require('../model/UserModel');
+const TestModel = require('../model/TestModel');
 const ChallengeModel = require('../model/ChallengeModel');
 
 const checkAndUpdateAllChallengeStatus = async () => {
@@ -62,11 +63,23 @@ router.post('/create_challenge', async (req, res) => {
             status_check = 2
         }
 
+        const NumberOfTestCount = await TestModel.countDocuments();
+        const RandomTestCountIndex = Math.floor(Math.random() * NumberOfTestCount);
+        console.log('challengeRoute /create_challenge TestModel Number Of Test', NumberOfTestCount);
+        let RandomTestModel = {};
+        try {
+            RandomTestModel = await TestModel.findOne().skip(RandomTestCountIndex).exec();
+        } catch (err) {
+            console.log('const RandomTestModel = await TestModel.findOne().skip(random); Error', err);
+            res.status(400).send(err);
+        }
+        console.log('challengeRoute /create_challenge TestModel RandomTestModel', RandomTestModel);
 
         const challenge = new ChallengeModel({
             challenge_id: Date.now(),
             create_user_id: userId,
             classroom_id: classId,
+            test_id: RandomTestModel._id,
             status: status_check,
             title: req.body['challenge']['title'],
             start: req.body['challenge']['startDate'],
