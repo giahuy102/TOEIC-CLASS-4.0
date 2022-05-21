@@ -1,3 +1,4 @@
+import { NavigationHelpersContext } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import data from '../../Ignored_Challenge/TEST_DATA.json'
@@ -43,7 +44,7 @@ export default function ChallengeTest({ navigation, route }) {
                         borderRadius='10'
                         color="#1570EF"
                         title='Start'
-                        onPress={() => alert('To the test')}
+                        onPress={() => navigation.navigate('ChallengeDoingTest')}
                     />
                     :
                     <Button
