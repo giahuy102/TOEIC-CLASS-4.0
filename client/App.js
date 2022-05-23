@@ -12,8 +12,11 @@ import Signup from './pages/authenticate/Signup';
 
 import ClassMember from './pages/ClassMember';
 import NewSection from './pages/NewSection';
+import Exams from './pages/Exams';
+import Sections from './pages/Sections';
 
 import NewExam from "./pages/NewExam";
+import NewQuestion from './pages/NewQuestion';
 
 import Challenge from './pages/Challenge.js';
 
@@ -158,6 +161,24 @@ export default function App({ navigation }) {
             name="NewExam"
             component={NewExam}
             options={{ title: 'Create new exam' }}
+          />
+
+          <Stack.Screen
+            name="Exams"
+            component={Exams}
+            options={{ title: 'Exams' }}
+          />
+
+          <Stack.Screen
+            name="Sections"
+            component={Sections}
+            options={{ title: 'Sections' }}
+          />
+
+          <Stack.Screen
+            name="NewQuestion"
+            component={NewQuestion}
+            options={{ title: 'New question' }}
           />
 
         </Stack.Navigator>
