@@ -37,6 +37,9 @@ import TabSectionNavigator from './components/TabSectionNavigator';
 import ChallengeUpcoming from './pages/application/challenge/ChallengeUpcoming';
 import ChallengeChallenging from './pages/application/challenge/ChallengeChallenging';
 import ChallengeDoingSection from './pages/application/challenge/ChallengeDoingSection';
+
+// import 'react-native-gesture-handler';
+
 const Stack = createNativeStackNavigator();
 
 

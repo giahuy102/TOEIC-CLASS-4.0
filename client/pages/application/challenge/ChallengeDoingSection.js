@@ -4,7 +4,11 @@ import { Modal, Button, StyleSheet, Text, View, Image, TouchableOpacity, FlatLis
 // import MultipleChoice from 'react-native-multiple-choice-picker'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { RadioButton } from 'react-native-paper';
-import data from './fakeData/SectionData.json'
+import data from './fakeData/SectionData.json';
+// import { createAppContainer } from '@react-navigation'
+// import 'react-native-gesture-handler';
+// import Animated from 'react-native-reanimated';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
 
 export default function ChallengeDoingSection({ navigation }) {
     const [questions, setQuestions] = React.useState([])
@@ -85,12 +89,18 @@ export default function ChallengeDoingSection({ navigation }) {
         setShow(!show)
     }
 
+    const openRanking = () => {
+
+    }
+
     return (
         <View style={styles.container}>
 
             <View style={styles.header}>
                 <View style={styles.left}>
-                    <Text>Icon</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('ChallengeRanking')}>
+                        <Image source={require('./images/ranking.png')} />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.right}>

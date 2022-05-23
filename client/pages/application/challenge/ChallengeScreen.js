@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Image, TouchableOpacity } from 'react-native';
-
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import data from '../../Ignored_Challenge/DATA.json'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ChallengeChallenging from './ChallengeChallenging';

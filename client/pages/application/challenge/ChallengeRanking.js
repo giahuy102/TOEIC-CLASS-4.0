@@ -1,29 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
-import data from '../../Ignored_Challenge/DATA.json'
-import axios from 'axios';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { loadEndedChallengesList } from './slice/challengesListSlice';
-
-const BASE_API_URL = `http://10.0.2.2:${3001}`;
-const CHALLENGE_PREFIX = '/api/challenge';
-
-export default function ChallengeEnded({ navigation, route }) {
-    const dispatch = useDispatch();
-    const { classId } = route.params;
-    const challengesList = useSelector(state => state.challengesList.endedChallengesList);
-    
-    useEffect(async () => {
-        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_ended/${classId}`)
-            .then(res => {
-                console.log('Challenge Ended load challenges list response data', res.data);
-                dispatch(loadEndedChallengesList(res.data))
-            })
-            .catch((err) => {
-                console.log("Error: ", err)
-            })
-    }, [])
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import data from '../../Ignored_Challenge/RANKING_DATA.json'
+export default function ChallengeRanking({ navigation, route }) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -42,7 +20,7 @@ export default function ChallengeEnded({ navigation, route }) {
 
     const FlatListItem = (item, index) => {
         return (
-            <View style={styles.member}>
+            <TouchableOpacity style={styles.member} onPress={() => navigation.navigate('ChallengeTest', item)}>
                 <View style={styles.left}>
                     <View style={{
                         width: '80%',
@@ -53,33 +31,29 @@ export default function ChallengeEnded({ navigation, route }) {
                         alignItems: 'center'
                     }}>
                         <Text style={styles.name_text}>
-                            T
+                            {index}
                         </Text>
 
                     </View>
                 </View>
 
                 <View style={styles.right}>
-                    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: '-2%' }}>
-                        <Text>{item.name}</Text>
-                        <Text onPress={() => navigation.navigate('ChallengeResult')} style={{ color: '#1570EF', textDecorationLine: 'underline' }}>
-                            View result
-                        </Text>
+                    <Text style={{ paddingTop: 10 }}>{item.username}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text>Score: <Text style={{ fontWeight: 'bold', color: '#1849A9' }}> {item.score} </Text> </Text>
+                        <Text>Answer: <Text style={{ fontWeight: 'bold', color: '#1849A9' }}> {item.answer} </Text> </Text>
                     </View>
-
-                    <Text style={{ paddingTop: 10 }}>ID: {item._id}</Text>
-                    <Text>Created by: {item.created_by}</Text>
-                    <Text>Will end: {new Date(item.end).toLocaleString()}</Text>
+                    {/* <Text>Will end: {new Date(item.end).toLocaleString()}</Text> */}
                 </View>
 
-            </View>
+            </TouchableOpacity>
         );
     }
 
     return (
         <View style={styles.container}>
             <FlatList
-                data={challengesList}
+                data={data}
                 renderItem={({ item, index }) => {
                     // console.log(`item = ${JSON.stringify(item)}, index = ${index}`)
                     return (
@@ -89,17 +63,6 @@ export default function ChallengeEnded({ navigation, route }) {
                 keyExtractor={(item, index) => index.toString()}
             >
             </FlatList>
-
-            <TouchableOpacity
-                style={styles.touchableOpacity}
-                onPress={() => navigation.navigate('ChallengeCreate', { type: 'ended', classId })}
-            >
-                <Image
-                    style={styles.floatingButton}
-                    source={require('../../Ignored_Challenge/assets/plus.png')}
-                />
-
-            </TouchableOpacity>
         </View>
     );
 }

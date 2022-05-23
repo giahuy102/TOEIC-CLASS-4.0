@@ -3,7 +3,6 @@ import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Ale
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { loadEmail } from '../../../services/JWTStorage';
 import axios from 'axios';
 
 import { useSelector, useDispatch } from "react-redux";
@@ -36,8 +35,6 @@ export default function ChallengeCreate({ navigation, route }) {
         navigation.setOptions({
             headerLeft: () => {
                 return (
-                    // <TouchableOpacity onPress={() => navigation.navigate('ChallengeChallenging')}>
-                    // <TouchableOpacity onPress={navigateToChallenging}>
                     <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../../../assets/back_arrow.png')} />
                     </TouchableOpacity>
