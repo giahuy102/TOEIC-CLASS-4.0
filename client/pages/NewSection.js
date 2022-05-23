@@ -14,7 +14,8 @@ import { storeToken } from '../services/JWTStorage';
 
 import SectionImageTitle from '../components/SectionImageTitle'
 
-export default function Login({navigation}) {
+
+export default function Login({navigation, route}) {
     const [isImage, setIsImage] = useState(true);
 
     React.useLayoutEffect(() => {
@@ -22,7 +23,11 @@ export default function Login({navigation}) {
             headerLeft: () => {
                 // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
-                    <TouchableOpacity onPress={() => navigation.pop()}>
+                    <TouchableOpacity onPress={() => navigation.navigate({
+                      name: 'Sections',
+                      params: route.params,
+                      merge: true
+                    })}>
                         <Image source={require('../assets/back_arrow.png') }/>
 
                     </TouchableOpacity>
@@ -30,14 +35,97 @@ export default function Login({navigation}) {
                 
             },
         });
-    }, [navigation]);
+    }, [navigation, route.params]);
+
+    React.useEffect(() => {
+      navigation.setParams({
+        ...route.params,
+        sections: [
+          ...route.params.sections,
+          {
+            key: route.params.sections.length,
+            section_question: '',
+            images: [
+              // ...route.params.sections[route.params.sections.length - 1].images,
+              {
+                
+                key: 0,
+                path: null //image object, not a string
+              }
+            ],
+            questions: [
+              
+            ]
+          }
+        ]
+      });
+    }, [])
+
+    const handleAddImage = () => {
+      
+      const idx = route.params.sections.length - 1;
+      
+      let newSections = [...route.params.sections]
+      
+      newSections[idx].images = [...newSections[idx].images, {
+        key: newSections[idx].images.length,
+        path: null
+      }]; 
+      navigation.setParams({
+        ...route.params,
+        sections: newSections
+      })
+      // let newImages = [...route.params.sections[route.params.sections.length - 1].images];
+
+    }
+
+    const handleDeleteImage = () => {
+      const idx = route.params.sections.length - 1;
+      
+      let newSections = [...route.params.sections]
+      
+      newSections[idx].images = [...newSections[idx].images];
+      if (newSections[idx].images.length > 1) newSections[idx].images.pop();
+      else newSections[idx].images[0].path = null; 
+      navigation.setParams({
+        ...route.params,
+        sections: newSections
+      })
+    }
+
+    const handleSetImage = (ob) => {
+      const idx = route.params.sections.length - 1;
+      
+      let newSections = [...route.params.sections]
+      const idxImg = newSections[idx].images.length - 1;
+      newSections[idx].images[idxImg].path = ob;
+      // console.log(ob);
+      navigation.setParams({
+        ...route.params,
+        sections: newSections
+      })
+    }
+
+    const handleSetText = (text) => {
+      const idx = route.params.sections.length - 1;
+      
+      let newSections = [...route.params.sections]
+      // const idxImg = newSections[idx].images.length - 1;
+      // newSections[idx].images[idxImg].path = ob;
+      newSections[idx].section_question = text;
+      // console.log(ob);
+      navigation.setParams({
+        ...route.params,
+        sections: newSections
+      })
+    }
+
+    const handleAddQuestion = () => {
+      navigation.navigate('NewQuestion', route.params);
+    }
     return (
+        <ScrollView contentContainerStyle={styles.container}>
 
-        // <View style={styles.container}>
-        //   <SectionImageTitle />
-        // </View>
-
-        <ScrollView>
           <View>
             <Text>Section title</Text>
             <View style={ styles.navigator }>
@@ -106,9 +194,6 @@ export default function Login({navigation}) {
                 </View>
                 
               </TouchableWithoutFeedback>
-              {/* <View>
-                <Text>Text</Text>
-              </View> */}
             </View>
           </View>
           <View
@@ -122,10 +207,21 @@ export default function Login({navigation}) {
               isImage ?
               (
                 <View>
-                  <SectionImageTitle />
-                  <SectionImageTitle />
-                  <SectionImageTitle />
-                  <SectionImageTitle />
+                  {
+                    route.params.sections[route.params.sections.length - 1] && 
+                    route.params.sections[route.params.sections.length - 1].images.map((item, index) => {
+                      return <SectionImageTitle key={item.key} 
+                                                index={index} 
+                                                item={item} 
+                                                images={route.params.sections[route.params.sections.length - 1].images} 
+                                                addImage={handleAddImage}
+                                                setNewImage={handleSetImage}
+                                                deleteImage={handleDeleteImage}
+                            />
+                    })
+                  }
+                    {/* <Text>{route.params.sections[0] && route.params.sections[0].key}</Text>                     */}
+                  
                 </View>
                 
 
@@ -141,6 +237,8 @@ export default function Login({navigation}) {
                     style={ styles.input }
                     numberOfLines={5}
                     multiline
+                    value={route.params.sections[route.params.sections.length - 1].section_question}
+                    onChangeText={(text) => handleSetText(text)}
                   >
                   </TextInput>
                 
@@ -149,7 +247,46 @@ export default function Login({navigation}) {
 
             }
           </View>
+          <View>
+            <Text>Question</Text>
+            {
+              route.params.sections[route.params.sections.length - 1] && 
+              route.params.sections[route.params.sections.length - 1].questions.map((item, index) => {
+                return <View 
+                
+                          key={item.key}
+                          style={
+                            {
+                              flexDirection: 'row'
+                            }
+                          }
+                      >
+                        <View>
+                          <Image 
+                            source={require('../assets/globe.png')}
+                          />
+                        </View>
+                        <View>
+                          <Text>Question {item.key + 1}</Text>
+                        </View>                    
+                      </View>
+                
+              })
+            }
+          </View>
+            <TouchableOpacity
+                style={styles.touchableOpacity}
+                onPress={handleAddQuestion}
+            >
+                <Image
+                    style={styles.floatingButton}
+                    // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
+                    // source={IMAGENAME}
+                    source={require('../assets/plus.png')}
+                />
 
+            </TouchableOpacity>
+            
         </ScrollView>
 
     );
@@ -158,7 +295,7 @@ export default function Login({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
     // justifyContent: 'center'
     // width: 100
   },
@@ -219,6 +356,21 @@ const styles = StyleSheet.create({
     width: '85%',
     height: 350,
     marginTop: 20
+  },
+  touchableOpacity: {
+      position: 'absolute',
+      width: 50,
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      right: 30,
+      bottom: 30,
+      flexDirection: 'row'
+  },
+  floatingButton: {
+      resizeMode: 'contain',
+      width: 50,
+      height: 50,
   }
 
 });

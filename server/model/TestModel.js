@@ -1,18 +1,26 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    is_used: Boolean,
-    type: Number, //0: Listening, 1: Reading
+    type: String, //Reading or Listening
     audio_path: String,
+    title: String,
+    duration: Number,
+    score: Number,
     sections: [
         {
+            key: Number, //1, 2, 3, 4, 5,...
             section_question: String,
-            image_path: String,
+            images: [{
+                key: Number,
+                path: Buffer
+            }],
             questions: [
                 {
+                    key: Number,
                     question: String,
                     answers: [
                         {
+                            key: Number,
                             answer: String,
                             is_correct: Boolean
                         }

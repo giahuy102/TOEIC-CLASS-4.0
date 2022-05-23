@@ -9,8 +9,78 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import data from './Ignored_Challenge/DATA.json'
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import axios from 'axios';
 
-export default function NewExam({ navigation }) {
+export default function NewExam({ navigation, route }) {
+    const handleSaveData = () => {
+        // console.log(route.params.type)
+        // console.log(route.params)
+        if (route.params) {
+            const data = new FormData();
+            // data.append('type', route.params.type);
+            // data.append('title', route.params.title);
+            // data.append('duration', route.params.duration);
+            // data.append('score', route.params.score);
+    
+            // let newSections = []
+            // route.params.sections.map((item, index) => {
+            //     let newItem = {...item};
+            //     delete newItem.images;
+            //     newSections.push(newItem);
+                
+            // })
+            
+            // data.append('sections', JSON.stringify(newSections));
+            data.append('new_exam', JSON.stringify(route.params));
+            route.params.sections.map((item, index) => {
+                // if (index == 0) {
+                    item.images.map((img, idx) => {
+                        // console.log(img)
+                        data.append('images_' + item.key, {
+                            name: 'image_' + item.key + "_" + img.key + '.jpg',
+                            type: 'image/jpeg',
+                            uri: img.path.uri
+                        })
+                        // console.log(img)
+                    })
+                // }
+
+                
+            })
+            console.log(data)
+            // return axios.post('http://192.168.1.37:3001/api/exam/create_new_exam', data,
+            //     {
+            //         headers:{
+            //             Accept: 'application/json',
+            //             'Content-Type':'multipart/form-data'
+            //         }
+            //     }
+            // )
+            //         .then(res => {
+            //             console.log(res)
+            //         })
+            //         .catch(err => {
+    
+            //         })
+            axios({
+                method: 'post',
+                url: 'http://192.168.1.37:3001/api/exam/create_new_exam',
+                data: data,
+                headers:{
+                    Accept: 'application/json',
+                    'Content-Type':'multipart/form-data'
+                }
+            })
+            .then(res => {
+                
+            })
+            .catch(err => {
+
+            })
+        }
+
+
+    }
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -23,74 +93,96 @@ export default function NewExam({ navigation }) {
                 );
 
             },
+            headerRight: () => {
+                return (
+                    <TouchableOpacity onPress={handleSaveData}>
+                        {/* <Image source={require('../assets/back_arrow.png')} /> */}
+                        <Text 
+                            style={
+                                {
+                                    color: '#1570EF',
+                                    // fontWeight: 'bold',
+                                    fontSize: 18
+                                }
+                            }
+                        >
+                            Save
+                        </Text>
+
+                    </TouchableOpacity>
+                );
+
+            },
         });
     }, [navigation]);
 
-    const [pickerValue, setPickerValue] = useState('Reading');
+    const [testData, setTestData] = useState({
+        type: 'Reading',
+        audio: '',
+        title: '',
+        duration: '',
+        score: '',
+        sections: [
 
-    const [title, setTitle] = useState('');
-    const [duration, setDuration] = useState('');
-    const [score, setScore] = useState('');
+        ]
 
-    // const [startDate, setStartDate] = useState(new Date());
-    // const [endDate, setEndDate] = useState(new Date());
-    // const [mode, setMode] = useState('date');
-    // const [showStart, setShowStart] = useState(false);
-    // const [showEnd, setShowEnd] = useState(false);
-    // const [dateStart, setDateStart] = useState('Select date');
-    // const [timeStart, setTimeStart] = useState('Select time');
-    // const [dateEnd, setDateEnd] = useState('Select date');
-    // const [timeEnd, setTimeEnd] = useState('Select time');
+    });
 
-    // const onChangeStart = (event, selectedDateStart) => {
-    //     const currentDate = selectedDateStart || startDate;
-    //     setShowStart(false);
-    //     setStartDate(currentDate);
-
-    //     let tempDate = new Date(currentDate);
-    //     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-    //     // let fTime = 'Hours: ' + tempDate.getHours() + ' | Minutes: ' + tempDate.getMinutes();
-    //     let fTime = tempDate.getHours() + 'h' + tempDate.getMinutes();
-    //     // setStartText(fDate + '\n' + fTime);
-    //     setDateStart(fDate);
-    //     setTimeStart(fTime);
-    // }
-
-    // const onChangeEnd = (event, selectedDatEnd) => {
-    //     const currentDate = selectedDatEnd || endDate;
-    //     setShowEnd(false);
-    //     setEndDate(currentDate);
-
-    //     let tempDate = new Date(currentDate);
-    //     let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-    //     // let fTime = 'Hours: ' + tempDate.getHours() + ' | Minutes: ' + tempDate.getMinutes();
-    //     let fTime = tempDate.getHours() + 'h' + tempDate.getMinutes();
-    //     // setEndText(fDate + '\n' + fTime);
-    //     setDateEnd(fDate);
-    //     setTimeEnd(fTime);
-    // }
-    // const showModeStart = (currentMode) => {
-    //     setShowStart(true);
-    //     setMode(currentMode);
-    // }
-    // const showModeEnd = (currentMode) => {
-    //     setShowEnd(true);
-    //     setMode(currentMode);
-    // }
-    const onPressHandler = () => {
-        Alert.alert('Congratulation!', 'Create new challenge successfully', [
-            { text: 'OK', onPress: () => navigation.pop() }
-        ]);
+    const handleChangeData = (field, value) => {
+        if (field == 'type') {
+            if (route.params) navigation.setParams({
+                ...route.params,
+                type: value     
+            })
+            else setTestData({
+                ...testData,
+                type: value
+            })
+        }
+        else if (field == 'title') {
+            if (route.params) navigation.setParams({
+                ...route.params,
+                title: value     
+            })
+            else setTestData({
+                ...testData,
+                title: value
+            })
+            // console.log(testData.title)
+        }
+        else if (field == 'duration') {
+            if (route.params) navigation.setParams({
+                ...route.params,
+                duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))     
+            })
+            else setTestData({
+                ...testData,
+                duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+            })
+            // console.log(testData.duration)
+        }
+        else if (field == 'score') {
+            if (route.params) navigation.setParams({
+                ...route.params,
+                score: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+            })
+            else setTestData({
+                ...testData,
+                score: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+            })
+        }
     }
+
     return (
         <View style={styles.container}>
+            {/* <Text>{route.params?.score}</Text> */}
             <View style={{ marginTop: 30, width: 350 }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Title</Text>
                 <TextInput
-                    value={title}
-                    onChangeText={setTitle}
+                    value={route.params? route.params.title : testData.title}
+                    onChangeText={(text) => handleChangeData('title', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
-                    placeholder='Enter challenge name'
+                    placeholder='Enter title'
                 />
             </View>
 
@@ -98,8 +190,8 @@ export default function NewExam({ navigation }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Duration (mins)</Text>
                 <TextInput
                     keyboardType='numeric'
-                    value={duration}
-                    onChangeText={setDuration}
+                    value={route.params ? route.params.duration : testData.duration}
+                    onChangeText={(text) => handleChangeData('duration', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter duration'
                 />
@@ -109,8 +201,8 @@ export default function NewExam({ navigation }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Score</Text>
                 <TextInput
                     keyboardType='numeric'
-                    value={score}
-                    onChangeText={setScore}
+                    value={route.params ? route.params.score: testData.score}
+                    onChangeText={(text) => handleChangeData('score', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter score'
                 />
@@ -120,23 +212,44 @@ export default function NewExam({ navigation }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Skill</Text>
                 <Picker
                     style={styles.picker}
-                    selectedValue={pickerValue}
-                    onValueChange={(itemValue) => setPickerValue(itemValue)}
+                    selectedValue={route.params ? route.params.type: testData.type}
+                    onValueChange={(itemValue) => handleChangeData('type', itemValue)}
                 >
                     <Picker.Item label="Reading" value="reading"></Picker.Item>
                     <Picker.Item label="Listening" value="listening"></Picker.Item>
                 </Picker>
             </View>
 
-            <View style={{ width: '25%', marginTop: 30 }}>
+            {/* <View style={{ width: '25%', marginTop: 30 }}>
                 <Button
                     onPress={onPressHandler}
                     title='Create'
                     color='#1570EF'
                 >
                 </Button>
-            </View>
+            </View> */}
+            <TouchableOpacity
+                style={styles.touchableOpacity}
+                onPress={() => navigation.navigate('Sections', route.params ? route.params : testData)}
+            >
+                <Text
+                    style={
+                        {
+                            color: '#1570EF',
+                            fontWeight: 'bold'
+                        }
+                    }
+                >
+                    Next
+                </Text>
+                <Image
+                    style={styles.floatingButton}
+                    // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
+                    // source={IMAGENAME}
+                    source={require('../assets/next.png')}
+                />
 
+            </TouchableOpacity>
 
 
         </View >
@@ -159,4 +272,19 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingLeft: 10,
     },
+    touchableOpacity: {
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+        flexDirection: 'row'
+    },
+    floatingButton: {
+        resizeMode: 'contain',
+        width: 30,
+        height: 30,
+    }
 });

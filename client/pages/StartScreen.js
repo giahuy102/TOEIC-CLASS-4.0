@@ -166,6 +166,20 @@ export default function StartScreen({ navigation }) {
         />
       </View>
 
+      <View style={styles.button}>
+        <Button
+          title="Exams"
+          onPress={() => navigation.navigate('Exams')}
+        />
+      </View>
+
+      {/* <View style={styles.button}>
+        <Button
+          title="NewQuestion"
+          onPress={() => navigation.navigate('NewQuestion')}
+        />
+      </View> */}
+
     </View >
 
   );
