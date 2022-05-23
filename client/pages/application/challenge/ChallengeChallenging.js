@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
-
-
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadChallengingChallengesList } from './slice/challengesListSlice'
-
 import data from '../../Ignored_Challenge/DATA.json'
 import axios from 'axios';
-import ClassroomDetailScreen from '../classrooms/ClassroomDetailScreen';
 
 const BASE_API_URL = `http://10.0.2.2:${3001}`;
 const CHALLENGE_PREFIX = '/api/challenge';
@@ -38,12 +31,8 @@ export default function ChallengeChallenging({ navigation, route }) {
         navigation.setOptions({
             headerLeft: () => {
                 return (
-                    // <TouchableOpacity onPress={() => navigation.pop()}>
-                    // <TouchableOpacity onPress={() => navigation.push('ClassroomDetailScreen', 1)}>
                     <TouchableOpacity onPress={() => navigation.pop()}>
-
                         <Image source={require('../../../assets/back_arrow.png')} />
-
                     </TouchableOpacity>
                 );
 

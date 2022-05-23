@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
-
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import AuthService from '../../../services/AuthService';
-
-import { storeToken } from '../../../services/JWTStorage';
-
+import {StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import data from '../../Ignored_Challenge/DATA.json'
 // import { IMAGENAME } from './Challenge/assets'
 
@@ -86,8 +75,6 @@ export default function Challenge({ navigation }) {
             >
                 <Image
                     style={styles.floatingButton}
-                    // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
-                    // source={IMAGENAME}
                     source={require('../../Ignored_Challenge/assets/plus.png')}
                 />
 

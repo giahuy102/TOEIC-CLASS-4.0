@@ -1,9 +1,6 @@
-import { NavigationHelpersContext } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import data from '../../Ignored_Challenge/TEST_DATA.json';
-import TestService from '../../../services/TestService';
-
 
 export default function ChallengeTest({ navigation, route }) {
 
@@ -28,10 +25,10 @@ export default function ChallengeTest({ navigation, route }) {
     const handleStartChallengeFeature = async () => {
         const ChallengeTestId = ChallengeItemData.test_id;
         try {
-            const ChallengeTestDetailInfoResponse = await TestService.getTestDetailById(ChallengeTestId);
-            const ChallengeTestDetailInfoData = ChallengeTestDetailInfoResponse.data;
-            console.log('ChallengeTest.js ChallengeTestDetailInfo', JSON.stringify(ChallengeTestDetailInfoData));
-            alert('To the Test');
+            // const ChallengeTestDetailInfoResponse = await TestService.getTestDetailById(ChallengeTestId);
+            // const ChallengeTestDetailInfoData = ChallengeTestDetailInfoResponse.data;
+            // console.log('ChallengeTest.js ChallengeTestDetailInfo', JSON.stringify(ChallengeTestDetailInfoData));
+            // alert('To the Test');
             navigation.navigate('ChallengeDoingSection')
         } catch (err) {
             console.log('ChallengeTest.js: const ChallengeTestDetailInfo = await TestService.getTestDetailById(ChallengeTestId);', err)
