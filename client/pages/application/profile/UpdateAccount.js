@@ -7,7 +7,16 @@ import { TextInput } from "react-native-paper";
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function UpdateAccount({ navigation }) {
+import ProfileService from '../../../services/ProfileService';
+
+export default function UpdateAccount({ navigation, route }) {
+	const userData = route.params;
+	const [username, setUsername] = useState(userData.username);
+	const [email, setEmail] = useState(userData.email);
+
+	console.log("userData before update: ", userData);
+	const oldEmail = userData.email;
+
 	React.useLayoutEffect(() => {																			// cancel button
 		navigation.setOptions({
 			headerLeft: () => {
@@ -20,10 +29,22 @@ export default function UpdateAccount({ navigation }) {
 			},
 		});
 	}, [navigation]);
-	const onPressHandler = () => {
-		Alert.alert('Updated!', '', [
-			{ text: 'OK', onPress: () => navigation.pop() }
-		]);
+
+	const onPressHandler = (event) => {
+		event.preventDefault();
+		ProfileService.update(
+			userData, username, email, oldEmail
+		).then( res => {
+			Alert.alert('Updated!', '', [
+				{ text: 'OK', onPress: () => navigation.pop() }
+			]);
+			console.log("userData after update: ", userData);
+		}).catch (err => {
+			console.warn(err)
+		})
+		// Alert.alert('Updated!', '', [
+		// 	{ text: 'OK', onPress: () => navigation.pop() }
+		// ]);		
 	}
 	return (
 		<View style={styles.container}>
@@ -33,6 +54,8 @@ export default function UpdateAccount({ navigation }) {
 				</Text>
 				<TextInput
 					style={styles.input}
+					placeholder={userData.username}
+					onChangeText={text => setUsername(text)}
 				/>
 			</View>
 
@@ -43,6 +66,8 @@ export default function UpdateAccount({ navigation }) {
 				<TextInput
 					style={styles.input}
 					keyboardType='email-address'
+					placeholder={userData.email}
+					onChangeText={text => setEmail(text)}
 				/>
 			</View>
 

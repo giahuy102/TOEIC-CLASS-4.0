@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
-
+import {useSelector} from 'react-redux';
 
 export default function Profile({ navigation, route }) {
-	const { username } = route.params;
+	const email = useSelector(state => state.profile.email);
+	const username = useSelector (state => state.profile.username);
+	const userData = {
+		email: email,
+		username: username,
+	}
+	console.log("user: ", userData);
 
 	return (
 		<View style={styles.container}>
@@ -11,7 +17,7 @@ export default function Profile({ navigation, route }) {
 				<Text style={{ fontWeight: 'bold', fontSize: 22 }}>
 					{"Account information"}
 				</Text>
-				<TouchableOpacity onPress={() => navigation.navigate('UpdateAccount')}>
+				<TouchableOpacity onPress={() => navigation.navigate('UpdateAccount', userData)}>
 					<Image source={require('../../../assets/edit.png')} />
 				</TouchableOpacity>
 			</View>
@@ -25,7 +31,7 @@ export default function Profile({ navigation, route }) {
 						{"User name"}
 					</Text>
 					<Text>
-						{"minhnhan"}
+						{username}
 					</Text>
 				</View>
 			</View>
@@ -39,7 +45,7 @@ export default function Profile({ navigation, route }) {
 						{"Email"}
 					</Text>
 					<Text>
-						{"myemail@gmail.com"}
+						{email}
 					</Text>
 				</View>
 			</View>
@@ -48,7 +54,7 @@ export default function Profile({ navigation, route }) {
 				<Text style={{ fontWeight: 'bold', fontSize: 22 }}>
 					{"Personal information"}
 				</Text>
-				<TouchableOpacity onPress={() => navigation.navigate('ChangeInformation')}>
+				<TouchableOpacity onPress={() => navigation.navigate('ChangeInformation', userData)}>
 					<Image source={require('../../../assets/edit.png')} />
 				</TouchableOpacity>
 			</View>
@@ -62,7 +68,7 @@ export default function Profile({ navigation, route }) {
 						{"Full name"}
 					</Text>
 					<Text>
-						{"Le Ngoc Minh Nhan"}
+						{username}
 					</Text>
 				</View>
 			</View>
@@ -76,7 +82,7 @@ export default function Profile({ navigation, route }) {
 						{"Birthdate"}
 					</Text>
 					<Text>
-						{"21/07/2001"}
+						{"10/10/2001"}
 					</Text>
 				</View>
 			</View>

@@ -19,7 +19,6 @@ export default function MoreSettingsScreen({ navigation, route }) {
 
     return (
         <View style={AppStyles.container}>
-            <Text>More Settings Screen</Text>
             <Pressable style={AppStyles.MoreSettingsScreenButton} onPress={() => navigation.navigate("AboutUsScreen")}>
                 <Text style={AppStyles.MoreSettingsScreenButtonText}>About Us</Text>
             </Pressable>

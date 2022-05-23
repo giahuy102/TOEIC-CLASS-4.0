@@ -68,7 +68,7 @@ export default function StartScreen({ navigation }) {
                     state: {
                       routes: [{
                         name: 'Profile',
-                        params: {}
+                        params: userData 
                       }]
                     }
                   }]
