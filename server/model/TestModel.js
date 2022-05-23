@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     score: Number,
     sections: [
         {
-            key: Number, //1, 2, 3, 4, 5,...
+            key: Number, //0, 1, 2, 3, 4, 5,...
             section_question: String,
             images: [{
                 key: Number,
@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
                 {
                     key: Number,
                     question: String,
+                    answerState: String, //'NG','WA','AC'
+                    chosenAnswer: String,
                     answers: [
                         {
                             key: Number,
@@ -28,7 +30,6 @@ const userSchema = new mongoose.Schema({
                 }
             ]
         }
-
     ]
 });
 

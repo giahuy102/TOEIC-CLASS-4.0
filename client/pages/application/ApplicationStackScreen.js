@@ -17,6 +17,12 @@ import Profile from './profile/Profile.js';
 import UpdateAccount from './profile/UpdateAccount.js';
 import ChangeInformation from './profile/ChangeInformation.js';
 
+import Exams from './exam/Exams';
+import NewExam from './exam/NewExam';
+import NewQuestion from './exam/NewQuestion';
+import Sections from './exam/Sections';
+import NewSection from './exam/NewSection';
+
 import AppStyles from "../../styles/SystemFontStyles.scss";
 
 const Stack = createNativeStackNavigator();
@@ -102,6 +108,39 @@ export default function ApplicationStackScreen({ navigation, route }) {
                     component={ChangeInformation}
                     options={{ title: 'Change Information' }}
                 />
+            </Stack.Group>
+
+            <Stack.Group>
+                <Stack.Screen
+                    name="Exams"
+                    component={Exams}
+                    options={{ title: 'Exams' }}
+                />
+
+                <Stack.Screen
+                    name="Sections"
+                    component={Sections}
+                    options={{ title: 'Sections' }}
+                />
+
+                <Stack.Screen
+                    name="NewQuestion"
+                    component={NewQuestion}
+                    options={{ title: 'New question' }}
+                />
+
+                <Stack.Screen
+                    name="NewExam"
+                    component={NewExam}
+                    options={{ title: 'Create new exam' }}
+                />
+
+                <Stack.Screen
+                    name="NewSection"
+                    component={NewSection}
+                    options={{ title: 'New section' }}
+                />
+
             </Stack.Group>
         </Stack.Navigator>
     )

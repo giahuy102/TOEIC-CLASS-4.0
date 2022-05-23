@@ -68,7 +68,7 @@ export default function StartScreen({ navigation }) {
                     state: {
                       routes: [{
                         name: 'Profile',
-                        params: userData 
+                        params: userData
                       }]
                     }
                   }]
@@ -78,7 +78,7 @@ export default function StartScreen({ navigation }) {
           })
           return;
         } catch (err) {
-          console.log("Error caught successfully");
+          console.log("JWT Token invalid, must relogin");
           await isOnboardingScreenOpen();
         }
       } else {

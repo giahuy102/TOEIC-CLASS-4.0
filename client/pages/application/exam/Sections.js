@@ -6,7 +6,7 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer, NavigationHelpersContext } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function Exams({navigation, route}) {
+export default function Exams({ navigation, route }) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -18,11 +18,11 @@ export default function Exams({navigation, route}) {
                         params: route.params,
                         merge: true
                     })}>
-                        <Image source={require('../assets/back_arrow.png') }/>
+                        <Image source={require('../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>
                 );
-                
+
             },
         });
     }, [navigation, route.params]);
@@ -32,26 +32,26 @@ export default function Exams({navigation, route}) {
         //     ...route.params,
         //     score: 67
         // })
-    //   navigation.setParams({
-    //     ...route.params,
-    //     sections: [
-    //       ...route.params.sections,
-    //       {
-    //         key: route.params.sections.length,
-    //         section_question: 'fsfsffffffffffffdfdfdfdffd',
-    //         images: [
-    //           // ...route.params.sections[route.params.sections.length - 1].images,
-    //           {
-                
-    //             key: 0,
-    //             path: null //image object, not a string
-    //           }
-    //         ]
-    //       }
-    //     ]
-    //   });
+        //   navigation.setParams({
+        //     ...route.params,
+        //     sections: [
+        //       ...route.params.sections,
+        //       {
+        //         key: route.params.sections.length,
+        //         section_question: 'fsfsffffffffffffdfdfdfdffd',
+        //         images: [
+        //           // ...route.params.sections[route.params.sections.length - 1].images,
+        //           {
+
+        //             key: 0,
+        //             path: null //image object, not a string
+        //           }
+        //         ]
+        //       }
+        //     ]
+        //   });
         navigation.navigate('NewSection', route.params);
-        
+
     }
     const test = () => {
         navigation.setParams({
@@ -64,7 +64,7 @@ export default function Exams({navigation, route}) {
         <View style={styles.container}>
             {
                 route.params.sections.map((item, index) => {
-                    return <Text>{item.key}</Text>
+                    return <Text key={item.key}>{item.key}</Text>
                 })
             }
 
@@ -76,13 +76,13 @@ export default function Exams({navigation, route}) {
                     style={styles.floatingButton}
                     // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
                     // source={IMAGENAME}
-                    source={require('../assets/plus.png')}
+                    source={require('../../../assets/plus.png')}
                 />
 
             </TouchableOpacity>
         </View>
     );
-} 
+}
 
 const styles = StyleSheet.create({
     container: {

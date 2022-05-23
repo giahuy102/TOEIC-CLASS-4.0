@@ -1,4 +1,5 @@
 const cron = require('node-cron');
+const jwt = require('jsonwebtoken');
 
 const UserModel = require("../../model/UserModel");
 const ChallengeModel = require("../../model/ChallengeModel");
@@ -11,8 +12,8 @@ const socketIOConfig = (io) => {
     /**
      * Application has multiple tenants so you want to dynamically create one namespace per tenant
      */
-    const socketIOAllServersNamespace = io.of(/^\/w+$/);
-
+    const socketIOAllServersNamespace = io.of(/^\/dynamic-\d+$/);
+    // const socketIOAllServersNamespace = io.of('/');
 
     socketIOAllServersNamespace.on("connection", async function (socket) {
         console.log("/******************* 'socketIOConfig.js io.on('connection')' ********************/");
@@ -23,32 +24,28 @@ const socketIOConfig = (io) => {
          * that adding a score in server RankingChart)
          */
         socket.isAuthenticated = false;
+
+
+
         socket.on('authenticate', async function (token) {
             try {
                 const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
-                req.user = decoded;
-                const user_id = req.user.user_id;
+                const user_id = decoded.user_id;
                 const verifyUserModel = await UserModel.find({ _id: user_id })
                 if (!verifyUserModel) {
                     console.log("socketIOConfig.js io.on('connection') token invalid since user_id not match with any user");
                 } else {
                     console.log("Authenticated socket, socket.id:", socket.id);
+                    console.log("Authenticated socket, socket.handshake.auth:", socket.handshake.auth);
                     socket.isAuthenticated = true;
                     socket.verifyUserModel = JSON.parse(JSON.stringify(verifyUserModel));
                     const { user_id, challenge_id, classroom_id } = socket.handshake.auth; /** Line 20 SocketClient.js */
-                    const UserModelQuery = new UserModel.findOne({ _id: user_id });
-                    const ChallengeModelQuery = new ChallengeModel.findOne({ _id: challenge_id });
-                    const ClassroomModelQuery = new ClassroomModel.findOne({ _id: classroom_id });
+                    const ChallengeModelQuery = await ChallengeModel.findOne({ _id: challenge_id });
 
                     const test_id = ChallengeModelQuery.test_id;
-                    const TestModelQuery = new TestModel.findOne({ _id: test_id });
+                    const TestModelQuery = await TestModel.findOne({ _id: test_id });
                     let TestModelQueryMutableObject = JSON.parse(JSON.stringify(TestModelQuery));
                     let TestModelQuerySections = TestModelQueryMutableObject.sections;
-                    TestModelQuerySections.forEach(section => {
-                        section.questions.forEach(question => {
-                            question['questionState'] = 'Not answered';
-                        })
-                    })
 
                     const newChallengeParticipationModel = new ChallengeParticipationModel({
                         user: user_id,
@@ -64,14 +61,17 @@ const socketIOConfig = (io) => {
                         const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({
                             challenge_id: challenge_id,
                         })
-
+                        console.log("socket.on('authenticate',...) ChallengeEventsRecordModelQuery challenge_id", challenge_id)
+                        console.log("socket.on('authenticate',...) ChallengeEventsRecordModelQuery", ChallengeEventsRecordModelQuery)
                         ChallengeEventsRecordModelQuery.rankingChart.push({
-                            user_id, score: 0
+                            user_id,
+                            score: 0,
+                            answers: 0,
+                            username: verifyUserModel.username
                         })
-
                         try {
-                            ChallengeEventsRecordModelQuery.save();
-                            socketIOServerDedicatedNamespaceByChallengeId.emit('newUserParticipateChallenge', { user_id, score: 0 })
+                            await ChallengeEventsRecordModelQuery.save();
+                            socketIOServerDedicatedNamespaceByChallengeId.emit('newUserParticipateChallenge', { user_id, score: 0, answers: 0 })
                             /** 
                              * Hope the Query is change accordingly to the current database value after using .save() method 
                              * */
@@ -79,16 +79,52 @@ const socketIOConfig = (io) => {
                         } catch (err) {
                             console.log("socketIOConfig.js io.on('connection') ChallengeEventsRecordModelQuery.save() Error", err);
                         }
-
                     } catch (err) {
                         console.log("socketIOConfig.js io.on('connection') newChallengeParticipationModel.save() Error", err)
                     }
                 }
-                // console.log(req.user);
             } catch (err) {
                 console.log("socketIOConfig.js io.on('connection') error:", err);
             }
         });
+
+
+
+        socket.on('userChooseAnAnswer', async function (data) {
+            const { user_id, sectionIndex, questionIndex, theAnswer, isAnswerCorrected, challenge_id } = data;
+            const ChallengeParticipationModelQuery = await ChallengeParticipationModel.findOne({ user: user_id, challenge: challenge_id });
+            const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge: challenge_id });
+            if (!isAnswerCorrected) {
+                ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].chosenAnswer = theAnswer;
+                ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].answerState = 'WA';
+                for (const rankingChartItemPointer of ChallengeEventsRecordModelQuery.rankingChart) {
+                    if (rankingChartItemPointer.user_id === user_id) {
+                        rankingChartItemPointer.answers += 1;
+                    }
+                }
+            }
+            else {
+                ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].chosenAnswer = theAnswer;
+                ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].answerState = 'AC';
+                for (const rankingChartItemPointer of ChallengeEventsRecordModelQuery.rankingChart) {
+                    if (rankingChartItemPointer.user_id === user_id) {
+                        rankingChartItemPointer.answers += 1;
+                        rankingChartItemPointer.score += 1;
+                    }
+                }
+                ChallengeEventsRecordModelQuery.rankingChart.sort((user1, user2) => user1.score - user2.score);
+            }
+            try {
+                await ChallengeParticipationModelQuery.save();
+                try {
+                    await ChallengeEventsRecordModelQuery.save();
+                } catch (err) {
+                    console.log("socket.on('userChooseAnAnswer', ...): await ChallengeEventsRecordModelQuery.save(); Error", err)
+                }
+            } catch (err) {
+                console.log("socket.on('userChooseAnAnswer', ...): await ChallengeParticipationModelQuery.save(); Error", err)
+            }
+        })
 
 
         setTimeout(function () {
@@ -96,13 +132,13 @@ const socketIOConfig = (io) => {
                 console.log("Disconnecting unauthorized by token socket ", socket.id);
                 socket.disconnect('unauthorized')
             }
-        }, 60000);
+        }, 20000);
     })
 }
 
 const checkAndUpdateAllChallengeStatus = async (io) => {
     cron.schedule('* * * * * *', async function () {
-        // console.log('checkAndUpdateAllChallengeStatus every second');
+        console.log('checkAndUpdateAllChallengeStatus every second');
         var currentDate = new Date()
         const AllChallengesModel = await ChallengeModel.find({});
         for (const ChallengeModelItem of AllChallengesModel) {
@@ -114,7 +150,7 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
             }
             else if (ChallengeModelItem.start < currentDate && ChallengeModelItem.end > currentDate) {
                 if (ChallengeModelItem.status !== 0) {
-                    console.log(`Status of challenge ${ChallengeModelItem.challenge_id} change to challenging`)
+                    console.log(`Status of challenge ${ChallengeModelItem._id} change to challenging`)
                     ChallengeModelItem.status = 0;
 
                     const newChallengeEventsRecordModel = new ChallengeEventsRecordModel({
@@ -151,6 +187,8 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                     ChallengeEventsRecordModelQuery.currentTimeLeft = ChallengeEventsRecordModelQuery.end - currentDate;
                     try {
                         await ChallengeEventsRecordModelQuery.save();
+                        const socketIOServerDedicatedNamespaceByChallengeId = io.of(`/${ChallengeModelItem._id}`);
+                        socketIOServerDedicatedNamespaceByChallengeId.emit('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', { ChallengeEventsRecordModelQuery });
                     } catch (err) {
                         console.log("checkAndUpdateAllChallengeStatus await ChallengeEventsRecordModelQuery.save(); Error", err);
                     }

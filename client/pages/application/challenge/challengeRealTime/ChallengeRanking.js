@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import data from '../../Ignored_Challenge/RANKING_DATA.json'
+
+import { useSelector } from 'react-redux';
+
 export default function ChallengeRanking({ navigation, route }) {
+    const rankingChart = useSelector(state => state.challengeRealTime.rankingChart);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -9,7 +12,7 @@ export default function ChallengeRanking({ navigation, route }) {
                 // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../../../assets/back_arrow.png')} />
+                        <Image source={require('../../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>
                 );
@@ -41,7 +44,7 @@ export default function ChallengeRanking({ navigation, route }) {
                     <Text style={{ paddingTop: 10 }}>{item.username}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text>Score: <Text style={{ fontWeight: 'bold', color: '#1849A9' }}> {item.score} </Text> </Text>
-                        <Text>Answer: <Text style={{ fontWeight: 'bold', color: '#1849A9' }}> {item.answer} </Text> </Text>
+                        <Text>Answer: <Text style={{ fontWeight: 'bold', color: '#1849A9' }}> {item.answers} </Text> </Text>
                     </View>
                     {/* <Text>Will end: {new Date(item.end).toLocaleString()}</Text> */}
                 </View>
@@ -53,7 +56,7 @@ export default function ChallengeRanking({ navigation, route }) {
     return (
         <View style={styles.container}>
             <FlatList
-                data={data}
+                data={rankingChart}
                 renderItem={({ item, index }) => {
                     // console.log(`item = ${JSON.stringify(item)}, index = ${index}`)
                     return (

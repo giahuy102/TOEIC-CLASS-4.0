@@ -43,7 +43,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
         { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen', params: { classId } },
         { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember', params: { classId } },
         { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult', params: { classId } },
-        { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: '' },
+        { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: 'Exams' },
         { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen', params: { classId } }
     ]
 

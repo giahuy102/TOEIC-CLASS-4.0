@@ -7,12 +7,12 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import AuthService from '../services/AuthService';
+import AuthService from '../../../services/AuthService';
 
-import { storeToken } from '../services/JWTStorage';
+import { storeToken } from '../../../services/JWTStorage';
 
 
-import SectionImageTitle from '../components/SectionImageTitle'
+import SectionImageTitle from '../../../components/SectionImageTitle'
 
 export default function Login({navigation, route}) {
     
@@ -27,7 +27,7 @@ export default function Login({navigation, route}) {
                       params: route.params,
                       merge: true
                     })}>
-                        <Image source={require('../assets/back_arrow.png') }/>
+                        <Image source={require('../../../assets/back_arrow.png') }/>
 
                     </TouchableOpacity>
                 );

@@ -6,13 +6,14 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import data from './Ignored_Challenge/DATA.json'
+import data from '../../Ignored_Challenge/DATA.json'
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 
 export default function NewExam({ navigation, route }) {
     const handleSaveData = () => {
+        console.log("allllllllllllllllllllllllllllllllllllllllllllllo")
         // console.log(route.params.type)
         // console.log(route.params)
         if (route.params) {
@@ -21,33 +22,33 @@ export default function NewExam({ navigation, route }) {
             // data.append('title', route.params.title);
             // data.append('duration', route.params.duration);
             // data.append('score', route.params.score);
-    
+
             // let newSections = []
             // route.params.sections.map((item, index) => {
             //     let newItem = {...item};
             //     delete newItem.images;
             //     newSections.push(newItem);
-                
+
             // })
-            
+
             // data.append('sections', JSON.stringify(newSections));
             data.append('new_exam', JSON.stringify(route.params));
             route.params.sections.map((item, index) => {
                 // if (index == 0) {
-                    item.images.map((img, idx) => {
-                        // console.log(img)
-                        data.append('images_' + item.key, {
-                            name: 'image_' + item.key + "_" + img.key + '.jpg',
-                            type: 'image/jpeg',
-                            uri: img.path.uri
-                        })
-                        // console.log(img)
+                item.images.map((img, idx) => {
+                    // console.log(img)
+                    data.append('images_' + item.key, {
+                        name: 'image_' + item.key + "_" + img.key + '.jpg',
+                        type: 'image/jpeg',
+                        uri: img.path.uri
                     })
+                    // console.log(img)
+                })
                 // }
 
-                
+
             })
-            console.log(data)
+            console.log("NewExam submit data", data);
             // return axios.post('http://192.168.1.37:3001/api/exam/create_new_exam', data,
             //     {
             //         headers:{
@@ -60,26 +61,23 @@ export default function NewExam({ navigation, route }) {
             //             console.log(res)
             //         })
             //         .catch(err => {
-    
+
             //         })
             axios({
                 method: 'post',
-                url: 'http://192.168.1.37:3001/api/exam/create_new_exam',
+                url: 'http://10.0.0.2:3001/api/test/create_test',
                 data: data,
-                headers:{
+                headers: {
                     Accept: 'application/json',
-                    'Content-Type':'multipart/form-data'
+                    'Content-Type': 'multipart/form-data'
                 }
             })
-            .then(res => {
-                
-            })
-            .catch(err => {
+                .then(res => {
+                })
+                .catch(err => {
 
-            })
+                })
         }
-
-
     }
 
     React.useLayoutEffect(() => {
@@ -87,7 +85,7 @@ export default function NewExam({ navigation, route }) {
             headerLeft: () => {
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../assets/back_arrow.png')} />
+                        <Image source={require('../../../assets/back_arrow.png')} />
 
                     </TouchableOpacity>
                 );
@@ -95,9 +93,9 @@ export default function NewExam({ navigation, route }) {
             },
             headerRight: () => {
                 return (
-                    <TouchableOpacity onPress={handleSaveData}>
-                        {/* <Image source={require('../assets/back_arrow.png')} /> */}
-                        <Text 
+                    <TouchableOpacity onPress={() => handleSaveData()}>
+                        {/* <Image source={require('../../../assets/back_arrow.png')} /> */}
+                        <Text
                             style={
                                 {
                                     color: '#1570EF',
@@ -132,7 +130,7 @@ export default function NewExam({ navigation, route }) {
         if (field == 'type') {
             if (route.params) navigation.setParams({
                 ...route.params,
-                type: value     
+                type: value
             })
             else setTestData({
                 ...testData,
@@ -142,7 +140,7 @@ export default function NewExam({ navigation, route }) {
         else if (field == 'title') {
             if (route.params) navigation.setParams({
                 ...route.params,
-                title: value     
+                title: value
             })
             else setTestData({
                 ...testData,
@@ -153,7 +151,7 @@ export default function NewExam({ navigation, route }) {
         else if (field == 'duration') {
             if (route.params) navigation.setParams({
                 ...route.params,
-                duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))     
+                duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
             })
             else setTestData({
                 ...testData,
@@ -179,7 +177,7 @@ export default function NewExam({ navigation, route }) {
             <View style={{ marginTop: 30, width: 350 }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Title</Text>
                 <TextInput
-                    value={route.params? route.params.title : testData.title}
+                    value={route.params ? route.params.title : testData.title}
                     onChangeText={(text) => handleChangeData('title', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter title'
@@ -201,7 +199,7 @@ export default function NewExam({ navigation, route }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Score</Text>
                 <TextInput
                     keyboardType='numeric'
-                    value={route.params ? route.params.score: testData.score}
+                    value={route.params ? route.params.score : testData.score}
                     onChangeText={(text) => handleChangeData('score', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter score'
@@ -212,7 +210,7 @@ export default function NewExam({ navigation, route }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Skill</Text>
                 <Picker
                     style={styles.picker}
-                    selectedValue={route.params ? route.params.type: testData.type}
+                    selectedValue={route.params ? route.params.type : testData.type}
                     onValueChange={(itemValue) => handleChangeData('type', itemValue)}
                 >
                     <Picker.Item label="Reading" value="reading"></Picker.Item>
@@ -246,7 +244,7 @@ export default function NewExam({ navigation, route }) {
                     style={styles.floatingButton}
                     // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
                     // source={IMAGENAME}
-                    source={require('../assets/next.png')}
+                    source={require('../../../assets/next.png')}
                 />
 
             </TouchableOpacity>

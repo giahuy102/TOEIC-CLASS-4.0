@@ -2,35 +2,36 @@ import { io } from "socket.io-client";
 import { initiateEventListeners } from '../slice/challengeRealTimeSlice';
 import { loadToken } from "../../../../services/JWTStorage";
 
-const ServerURI = '';
+const ServerURI = 'http://10.0.2.2:3001';
 
 
 
-export const createSocket = (userData, challenge_id, classroom_id) => {
+export const createSocket = (user_id, challenge_id, classroom_id) => {
 
     /**
      * Connecting to the namespace `${challenge_id}` of the URL `${ServerURI}`,
      * still only One Socket created
      */
+    console.log(`Socket namespace ${ServerURI}/${challenge_id}`,)
     const socket = io(`${ServerURI}/${challenge_id}`, {
         autoConnect: false,
         withCredentials: false,
     })
 
     socket.auth = {
-        uniqueSessionID: userData._id,
-        user_id: userData._id,
-        challenge_id, classroom_id
+        user_id,
+        challenge_id,
+        classroom_id
     };
     return socket;
 }
 
 export class SocketClient {
-    constructor(userData, challenge_id, classroom_id, dispatch, navigation) {
+    constructor(user_id, challenge_id, classroom_id, dispatch, navigation) {
         /**
          * navigation of ChallengesStackScreen
          */
-        this.socket = createSocket(userData, challenge_id, classroom_id);
+        this.socket = createSocket(user_id, challenge_id, classroom_id);
         this.socket.onAny((event, ...args) => {
             console.log(event, args);
         });

@@ -7,15 +7,11 @@ const challengeRealTimeAdapter = createEntityAdapter();
 
 const initialState = challengeRealTimeAdapter.getInitialState({
     status: 'disconnected',
+    challenge_id: null,
     chatSocketId: null,
     socketOwnerId: null,
-    socketSessionId: null,
     rankingChart: [],
     examState: [],
-    currentSections: null,
-    challengeTimeStart: null,
-    challengeTimeEnd: null,
-    challengeCurrentTime: null
 })
 
 /**
@@ -41,6 +37,10 @@ const challengeRealTimeSlice = createSlice({
         endingChallengeRealTimeEvent(state, action) {
             const { ChallengeModelItem, ChallengeEventsRecordModelQuery } = action.payload;
             state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart;
+        },
+        updateRankingChartFromServerData(state, action) {
+            const { ChallengeEventsRecordModelQuery } = action.payload;
+            state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart
         }
     },
     extraReducers: builder => {
@@ -52,7 +52,7 @@ const challengeRealTimeSlice = createSlice({
                 state.status = "connected";
                 state.chatSocketId = action.payload.chatSocketId;
                 state.socketOwnerId = action.payload.socketOwnerId;
-                state.socketSessionId = action.payload.socketSessionId;
+                state.challenge_id = action.payload.challenge_id
             })
             .addCase(initiateChallengeRealTimeSocket.rejected, (error) => {
 
@@ -62,7 +62,6 @@ const challengeRealTimeSlice = createSlice({
                 state.status = "disconnected";
                 state.chatSocketId = null;
                 state.socketOwnerId = null;
-                state.socketSessionId = null;
             })
     }
 })
@@ -72,13 +71,19 @@ export const { initChallengeRealTimeSlice, addNewUserParticipateChallenge } = ch
 export default challengeRealTimeSlice.reducer;
 
 export const initiateChallengeRealTimeSocket = createAsyncThunk('challengeRealTime/initiateChallengeRealTimeSocket', async (socket, thunkAPI) => {
-    const { uniqueSessionId, userId } = socket.socket.auth;
+    const { userId, challenge_id } = socket.socket.auth;
     try {
+        /**
+         * After socket.connect(), server will also emit:
+         * socket.emit('initChallengeRealTimeSliceDataEmitted', { newChallengeParticipationModel, ChallengeEventsRecordModelQuery })
+         * and the rankingChart and examState Redux State has been modified, triggering rerender in ChallengeRealTimeStackScreen.js
+         */
         await socket.connect();
         console.log('challengeRealTimeSlice initiateChallengeRealTimeSocket');
-        return { chatSocketId: socket.id, socketOwnerId: userId, socketSessionId: uniqueSessionId };
+        return { chatSocketId: socket.id, socketOwnerId: userId, challenge_id };
     }
     catch (error) {
+        console.log('initiateChallengeRealTimeSocket Thunk rejected Error', error);
         return thunkAPI.rejectWithValue(error);
     }
 })
@@ -122,7 +127,17 @@ export const initiateEventListeners = createAsyncThunk('challengeRealTime/initia
          * Move user to ChallengeResult Screen
          */
         thunkAPI.dispatch(endingChallengeRealTimeEvent({ ChallengeModelItem, ChallengeEventsRecordModelQuery }));
-        navigation.navigate('ChallengeResult');
+        /**
+         * Actually must dispatch somehow with an CommonAction (with previous history state) to fully reset
+         * the history to erase the ChallengeRealTimeStackScreen StackNavigator out of history tree but still keep
+         * the Stack Navigator parent that one level above it (which is ClassoomChallengesStackScreen)
+         */
+        navigation.navigate('ChallengeResult', { rankingChart: ChallengeEventsRecordModelQuery.rankingChart });
+    })
+
+    await socket.on('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', (data) => {
+        const { ChallengeEventsRecordModelQuery } = data;
+        thunk.dispatch(updateRankingChartFromServerData({ ChallengeEventsRecordModelQuery }));
     })
 })
 
@@ -143,7 +158,20 @@ export const destroyChallengeRealTimeSocket = createAsyncThunk('challengeRealTim
 
 
 
-
+export const socketEmitUserChooseAnAnswerEvent = createAsyncThunk('challengeRealTime/socketEmitUserChooseAnAnswerEvent', async ({ socket, user_id, sectionIndex, questionIndex, theAnswer, isAnswerCorrected, challenge_id }, thunkAPI) => {
+    try {
+        await socket.emit('userChooseAnAnswer', {
+            user_id,
+            sectionIndex,
+            questionIndex,
+            theAnswer,
+            isAnswerCorrected,
+            challenge_id
+        })
+    } catch (err) {
+        console.log('challengeRealTimeSlice.js: socketEmitUserChooseAnAnswerEvent Socket emit error', err);
+    }
+})
 
 
 

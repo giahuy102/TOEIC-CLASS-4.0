@@ -4,12 +4,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AppStyles from "../../../styles/SystemFontStyles";
 
-import ChallengeDoingSection from "./ChallengeDoingSection"
 import ChallengeScreen from "./ChallengeScreen";
 import ChallengeCreate from "./ChallengeCreate";
 import ChallengeTest from "./ChallengeTest";
 import ChallengeResult from "./ChallengeResult";
-import ChallengeRanking from "./ChallengeRanking";
+import ChallengeRealTimeStackScreen from './challengeRealTime/ChallengeRealTimeStackScreen';
+import ChallengeRanking from "./challengeRealTime/ChallengeRanking";
 
 export default function ClassroomChallengesStackScreen({ navigation, route }) {
 
@@ -56,13 +56,13 @@ export default function ClassroomChallengesStackScreen({ navigation, route }) {
 
             />
 
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="ChallengeDoingSection"
                 component={ChallengeDoingSection}
                 options={{ title: 'Doing test section' }}
             // initialParams={{ classId }}
 
-            />
+            /> */}
 
             <Stack.Screen
                 name="ChallengeRanking"
@@ -73,6 +73,15 @@ export default function ClassroomChallengesStackScreen({ navigation, route }) {
                 }}
             // initialParams={{ classId }}
 
+            />
+
+            <Stack.Screen
+                name="ChallengeRealTimeStackScreen"
+                component={ChallengeRealTimeStackScreen}
+                initialParams={{ classId }}
+                options={{
+                    headerShown: false
+                }}
             />
 
 
