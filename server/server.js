@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+const cron = require('node-cron');
 const dbConnection = require('./services/database/dbInitConnectionService')
 
 dotenv.config();
@@ -9,15 +10,50 @@ const cors = require('cors')
 app.use(cors())
 
 dbConnection.connect();
-
 app.use(express.json());
+
+/**
+ *      Socket IO 
+ */
+const expressHttpServer = require("http").createServer(app);
+const io = require("socket.io")(expressHttpServer, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST'],
+    }
+})
+require("./services/socket/socketIOConfig")(io);
+app.use((req, res, next) => {
+    req.io = io;
+    next();
+})
+
+/**
+ *      Express Router & Controller
+ */
 
 const authRoute = require('./routes/authRoute');
 const classroomRoute = require('./routes/classroomRoute');
-
+const challengeRoute = require('./routes/challengeRoute');
+const testRoute = require('./routes/testRoute');
 
 app.use('/api/classroom', classroomRoute);
 app.use('/api/user', authRoute);
+app.use('/api/challenge', challengeRoute);
+app.use('/api/test', testRoute);
 
+/*
+    * * * * * *
+    | | | | | |
+    | | | | | day of week
+    | | | | month
+    | | | day of month
+    | | hour
+    | minute
+    second ( optional )
+    cron.schedule('* * * * * *', function () {
+        console.log('running a task every second');
+    });
+*/
 
-app.listen(process.env.PORT, () => console.log(`Server is running at http://localhost:${process.env.PORT}`));
+expressHttpServer.listen(process.env.PORT, () => console.log(`Http Server is running at http://localhost:${process.env.PORT}`));

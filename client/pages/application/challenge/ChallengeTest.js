@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
-
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, TouchableHighlight, FlatList } from 'react-native';
-
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import AuthService from '../../../services/AuthService';
-
-import { storeToken } from '../../../services/JWTStorage';
-
-import data from '../../Ignored_Challenge/TEST_DATA.json'
+import { NavigationHelpersContext } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import data from '../../Ignored_Challenge/TEST_DATA.json';
+import TestService from '../../../services/TestService';
 
 
-export default function ChallengeTest({ navigation }) {
+export default function ChallengeTest({ navigation, route }) {
+
+    const ChallengeItemData = route.params;
+    console.log('ChallengeTest.js ChallengeItemData', ChallengeItemData);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -31,13 +25,26 @@ export default function ChallengeTest({ navigation }) {
         });
     }, [navigation]);
 
+    const handleStartChallengeFeature = async () => {
+        const ChallengeTestId = ChallengeItemData.test_id;
+        try {
+            const ChallengeTestDetailInfoResponse = await TestService.getTestDetailById(ChallengeTestId);
+            const ChallengeTestDetailInfoData = ChallengeTestDetailInfoResponse.data;
+            console.log('ChallengeTest.js ChallengeTestDetailInfo', JSON.stringify(ChallengeTestDetailInfoData));
+            alert('To the Test');
+            navigation.navigate('ChallengeDoingSection')
+        } catch (err) {
+            console.log('ChallengeTest.js: const ChallengeTestDetailInfo = await TestService.getTestDetailById(ChallengeTestId);', err)
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={{ marginTop: 20, borderWidth: 2, borderColor: '#1570EF', borderRadius: 5, padding: 15 }}>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Challenge: <Text style={{ fontWeight: 'normal' }}>{data[0].name}</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>{data[0].id}</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Start time: <Text style={{ fontWeight: 'normal' }}>{data[0].start_time}</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>End time: <Text style={{ fontWeight: 'normal' }}>{data[0].end_time}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Challenge: <Text style={{ fontWeight: 'normal' }}>{route.params['title']}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>{route.params['challenge_id']}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Start: <Text style={{ fontWeight: 'normal' }}>{new Date(route.params['start']).toLocaleString()}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>End: <Text style={{ fontWeight: 'normal' }}>{new Date(route.params['end']).toLocaleString()}</Text> </Text>
                 <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Score: <Text style={{ fontWeight: 'normal' }}>{data[0].score}</Text> </Text>
             </View>
 
@@ -47,14 +54,14 @@ export default function ChallengeTest({ navigation }) {
                         borderRadius='10'
                         color="#1570EF"
                         title='Start'
-                        onPress={() => navigation.navigate('Login')}
+                        onPress={() => handleStartChallengeFeature()}
                     />
                     :
                     <Button
                         borderRadius='10'
                         color="#1570EF"
                         title='Done'
-                        onPress={() => navigation.navigate('Login')}
+                        onPress={() => alert('Done')}
                     />
                 }
             </View>

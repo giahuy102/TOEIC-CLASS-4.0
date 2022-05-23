@@ -7,3 +7,10 @@
 # Note
 * React Native Paper [Ref](https://callstack.github.io/react-native-paper/)
 * Material Community [Icons](https://materialdesignicons.com/)
+
+# React Native Debugger
+*Note: Expo Start Port and React Native Debugger attempt-to-connect port must be the same*
+
+1. Open expo at port 19000: expo start --port 19000
+2. Open React Native Debugger .exe file choose port 19000 (default is 8081 which is not matched)
+3. Open Expo Application in Android, inside application press Ctrl + M to pop up Debugging Menu, choose Remote Debug Js, the application will reload and the Debugger is connected by now.

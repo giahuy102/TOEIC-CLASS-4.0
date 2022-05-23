@@ -14,6 +14,8 @@ export default function ClassroomDetailScreen({ navigation, route }) {
         navigation.setOptions({
             headerLeft: () => {
                 return (
+                    // <TouchableOpacity onPress={() => navigation.pop()}>
+                    // <TouchableOpacity onPress={() => navigation.navikgate('StartScreen')}>
                     <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../../../assets/back_arrow.png')} />
 
@@ -25,7 +27,10 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [navigation]);
 
     const routeParams = route.params;
-    const { _id, teacherId, number_student, level, end_date, start_date, classname } = routeParams;
+    const { _id: classId, teacherId, number_student, level, end_date, start_date, classname } = routeParams;
+
+    console.log('ClassroomDetailScreen classId', classId);
+
     useEffect(() => {
         if (routeParams && routeParams.classname) {
             navigation.setOptions({
@@ -35,11 +40,11 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     }, [])
 
     const buttonInfoList = [
-        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen', params: { _id } },
-        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember', params: { _id } },
-        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult', params: { _id } },
+        { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen', params: { classId } },
+        { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember', params: { classId } },
+        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult', params: { classId } },
         { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: '' },
-        { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen', params: { _id } }
+        { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen', params: { classId } }
     ]
 
     return (
@@ -54,7 +59,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
                     <Ionicons name="calendar" color="black" size={20} />
                     <Text style={AppStyles.ClassroomsListItemText}>
-                        {`${dateStrFormatGetDate(end_date)}\n${dateStrFormatGetDate(start_date)}`}
+                        {`${dateStrFormatGetDate(start_date)}\n${dateStrFormatGetDate(end_date)}`}
                     </Text>
                 </View>
                 <View style={AppStyles.ClassroomDetailScreenHeaderInfoView}>
@@ -65,16 +70,19 @@ export default function ClassroomDetailScreen({ navigation, route }) {
                 </View>
             </View>
             <View style={AppStyles.ClassroomDetailScreenBody}>
-                {buttonInfoList.map((buttonInfo) => (
-                    <Pressable
-                        key={buttonInfo.buttonName}
-                        onPress={() => navigation.navigate(buttonInfo.routeName, buttonInfo.params)}
-                        style={AppStyles.ClassoomDetailScreenButtonView}
-                    >
-                        <Text style={AppStyles.ClassroomDetailScreenButtonNameText}>{buttonInfo.buttonName}</Text>
-                        <Text style={AppStyles.ClassroomDetailScreenButtonDescriptionText}>{buttonInfo.buttonDescription}</Text>
-                    </Pressable>
-                ))}
+                {buttonInfoList.map((buttonInfo) => {
+                    console.log('ClassroomDetailScreen buttonInfo params', buttonInfo.params);
+                    return (
+                        <Pressable
+                            key={buttonInfo.buttonName}
+                            onPress={() => navigation.navigate(buttonInfo.routeName, buttonInfo.params)}
+                            style={AppStyles.ClassoomDetailScreenButtonView}
+                        >
+                            <Text style={AppStyles.ClassroomDetailScreenButtonNameText}>{buttonInfo.buttonName}</Text>
+                            <Text style={AppStyles.ClassroomDetailScreenButtonDescriptionText}>{buttonInfo.buttonDescription}</Text>
+                        </Pressable>
+                    )
+                })}
             </View>
         </View>
     )

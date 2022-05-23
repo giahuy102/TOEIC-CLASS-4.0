@@ -1,45 +1,61 @@
 const express = require('express');
+const cron = require('node-cron');
 const router = express.Router();
 
-const mongoose = require('mongoose');
-
-const UserModel = require('../model/UserModel');
 const ClassroomModel = require('../model/ClassroomModel');
 const UserJoinClassroomModel = require('../model/UserJoinClassroomModel');
 
+const checkAndUpdateAllClassroomsStatus = () => {
+    cron.schedule("* * * * * *", async function () {
+        var currentDate = new Date();
+        const AllClassroomsModel = await ClassroomModel.find({});
+        for (const ClassroomModelItem of AllClassroomsModel) {
+            if (ClassroomModelItem.start_date > currentDate) {
+                if (ClassroomModelItem.status !== 1) {
+                    console.log(`Status of challenge ${ClassroomModelItem.challenge_id} change to upcoming`)
+                }
+                ClassroomModelItem.status = 1
+            }
 
-// const newJoin = new Join({
-//     accumulate_score: 5.4,
-//     rank: 12,
-//     role: "Leader",
-//     user: new_user_id,
-//     classroom: new_classroom_id
-// });
+            else if (ClassroomModelItem.start_date < currentDate && ClassroomModelItem.end_date > currentDate) {
+                if (ClassroomModelItem.status !== 0) {
+                    console.log(`Status of challenge ${ClassroomModelItem.challenge_id} change to ongoing`)
+                }
+                ClassroomModelItem.status = 0
+            }
 
-// newJoin.save(function(err, result){
-//     if (err){
-//         console.log(err);
-//     }
-//     else{
-//         // console.log(result)
-//     }
-// })
-
-// Join
-//     .findOne({ rank: 12 })
-//     .populate('user')
-//     .exec(function(err, join) {
-//         if (err) console.log(err);
-//         else console.log(join.user);
-//     })
+            else if (ClassroomModelItem.end_date < currentDate) {
+                if (ClassroomModelItem.status !== 2) {
+                    console.log(`Status of challenge ${ClassroomModelItem.challenge_id} change to ended`)
+                }
+                ClassroomModelItem.status = 2
+            }
+            ClassroomModelItem.save();
+        }
+    })
+}
+checkAndUpdateAllClassroomsStatus();
 
 const tokenValidation = require('../middleware/verifyToken');
-const { response } = require('express');
 router.post('/create', tokenValidation, async function (req, res) {
     const requestBody = req.body;
-    // console.log("Create classroom request body", requestBody);
-    // console.log("Request user decoded from token", req.user);
     const { classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword } = requestBody;
+
+    const status_check = 0;
+    var currentDate = new Date()
+    if (startDateValue > endDateValue) {
+        res.status(400).send({ message: 'Invalid end date and start date' })
+    }
+    if (startDateValue > currentDate) {
+        status_check = 1
+    }
+    else if (startDateValue < currentDate && endDateValue > currentDate) {
+        status_check = 0
+    }
+    else if (endDateValue < currentDate) {
+        status_check = 2
+    }
+
     const newClassroomModel = new ClassroomModel({
         classname: classroomName,
         number_student: number_student,
@@ -47,6 +63,7 @@ router.post('/create', tokenValidation, async function (req, res) {
         start_date: startDateValue,
         end_date: endDateValue,
         password: classroomPassword,
+        status: status_check
     });
 
     try {
@@ -65,8 +82,8 @@ router.post('/create', tokenValidation, async function (req, res) {
             console.log('create UserJoinClassroomModel error', err);
         }
 
-        const responseData = { _id: newClassroomModel._id, classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword }
-        responsePayload = { data: responseData, message: 'Create Classroom Successfully' }
+        // const responseData = { _id: newClassroomModel._id, classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword }
+        responsePayload = { data: newClassroomModel, message: 'Create Classroom Successfully' }
         res.status(201).send(responsePayload);
     } catch (err) {
         console.log('Create new Classroom err', err);
@@ -122,6 +139,7 @@ router.post('/all', tokenValidation, async function (req, res) {
 
 router.get('/:class_id/get_basic_info_all_member', async function (req, res) {
     const classId = req.params.class_id;
+    console.log('/api/classroom/:class_id/get_basic_info_all_member class_id params', classId);
     try {
         await UserJoinClassroomModel
             .find({ classroom: classId })
@@ -131,6 +149,7 @@ router.get('/:class_id/get_basic_info_all_member', async function (req, res) {
                 /**
                  * queryResultList is currently a mongoose model instance returned from a mongoose query which is not mutable.
                  */
+
                 queryResultList = JSON.parse(JSON.stringify(queryResultList));
                 if (err) console.log(err);
                 else {

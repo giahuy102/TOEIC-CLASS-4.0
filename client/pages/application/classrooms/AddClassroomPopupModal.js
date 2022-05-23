@@ -57,15 +57,18 @@ export default function AddClassroomPopupModal({ ClassroomsListData, setClassroo
             const AddNewClassroomRequestPayload = { classroomName, number_student, toeicLevel, startDateValue, endDateValue, classroomPassword, token: loadTokenResponse };
             const AddNewClassroomResponse = await ClassroomService.createClassroom(AddNewClassroomRequestPayload);
             const AddNewClassroomResponseData = AddNewClassroomResponse.data['data'];
+            console.log('AddClassroomPopupModal AddNewClassroomResponseData', AddNewClassroomResponseData);
             const AccessToClassroomDetailScreenData = {
                 _id: AddNewClassroomResponseData._id,
                 number_student: AddNewClassroomResponseData.number_student,
-                level: AddNewClassroomResponseData.toeicLevel,
-                classname: AddNewClassroomResponseData.classroomName,
-                start_date: AddNewClassroomResponseData.startDateValue.slice(0, 10),
-                end_date: AddNewClassroomResponseData.endDateValue.slice(0, 10),
+                level: AddNewClassroomResponseData.level,
+                classname: AddNewClassroomResponseData.classname,
+                start_date: AddNewClassroomResponseData.start_date.slice(0, 10),
+                end_date: AddNewClassroomResponseData.end_date.slice(0, 10),
+                status: AddNewClassroomResponseData.status,
                 isJoined: true,
             }
+            console.log('AddClassroomPopupModal new Class append to useState', AccessToClassroomDetailScreenData);
             setClassroomsListData([...ClassroomsListData, AccessToClassroomDetailScreenData]);
             setAddClassroomModalVisible(!addClassroomModalVisible);
             /**

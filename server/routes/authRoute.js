@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 // const { username } = require('../services/mqtt/config');
 
 router.post('/register', async (req, res) => {
+
     //validate before saving to database
     const { error } = registerValidation(req.body);
     if (error) return res.status(404).send(error.details[0].message);
@@ -66,7 +67,6 @@ router.post('/login', async (req, res) => {
         res.status(400).send('Invalid password');
     }
 });
-
 
 const auth = require('../middleware/verifyToken');
 router.post('/get_user', auth, async (req, res) => {

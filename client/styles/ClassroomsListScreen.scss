@@ -30,10 +30,45 @@
     color: white;
 }
 
+.AddClassroomModalPressableText {
+    font-size: 1rem;
+    font-family: $primary-font;
+    margin-left: 10px;
+    margin-top: 15px;
+}
+
+.ClassroomsListScreenOtherButton {
+    @extend %PrimaryButton;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    margin: 5px;
+}
+
+.ClassroomsListScreenOtherButtonText {
+    @extend %PrimaryButtonTextFont;
+    font-weight: normal;
+    font-size: 15;
+    color: white;
+}
 
 
+.ClassroomsListCategoriesButtonView {
+    width: 95%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
-.ClassroomsListSearchAndCategoriesButtonView {}
+.ClassroomsListSearchView {
+    width: 90%;
+    margin: 10px;
+}
+
+.ClassroomsListSearch {
+    margin: 10px;
+    width: 90%;
+}
 
 .ClassroomsListItemView {
     flex: 3;
