@@ -3,9 +3,14 @@
 .MoreSettingsScreenButton {
     @extend %PrimaryButton;
     margin: 10px;
+    align-items: center;
 }
 
 .MoreSettingsScreenButtonText {
     @extend %PrimaryButtonTextFont;
     color: white;
+}
+
+.container {
+    margin-top: 15px;
 }

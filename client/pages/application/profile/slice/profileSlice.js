@@ -4,6 +4,7 @@ const initialState = {
     _id: null,
     email: "",
     username: "",
+    
 }
 
 const profileSlice = createSlice({

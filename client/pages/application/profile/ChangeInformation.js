@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useDebugValue, useState } from 'react';
 
 import { Button, StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Alert } from 'react-native';
 
@@ -6,7 +6,14 @@ import { TextInput } from "react-native-paper";
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function ChangeInformation ({ navigation }) {
+import ProfileService from '../../../services/ProfileService';
+
+export default function ChangeInformation ({ navigation, route }) {
+	const userData = route.params;
+	console.log("userData before change: ", userData);
+	const [fullname, setFullname] = useState('');
+	const [birthday, setBirthday] = useState(new Date());
+
     const [showCalendar, setShowCalendar] = useState(false);
     const [date, setDate] = useState(new Date());
     const [maxDate, setMaxDate] = useState(new Date());
@@ -31,14 +38,23 @@ export default function ChangeInformation ({ navigation }) {
         setShowCalendar(false);
         if (selectedValue)
             setDate(selectedValue);
+			setBirthday(selectedValue);
     }
     const onCancel = () => {
         setShowCalendar(false);
     }
-	const onPressHandler = () => {
-		Alert.alert('Saved!', '', [
-			{ text: 'OK', onPress: () => navigation.pop() }
-		]);
+	const onPressHandler = (event) => {
+		event.preventDefault();
+		ProfileService.change(
+			userData, fullname, birthday
+		).then (res => {
+			Alert.alert('Saved!', '', [
+				{ text: 'OK', onPress: () => navigation.pop() }
+			]);
+		}).catch (err => {
+			console.warn(err);
+		})
+	
 	}
 
 	return (
@@ -49,6 +65,7 @@ export default function ChangeInformation ({ navigation }) {
 				</Text>
 				<TextInput
 					style={styles.input}
+					onChangeText={text => setFullname(text)}
 				/>
 			</View>
 
