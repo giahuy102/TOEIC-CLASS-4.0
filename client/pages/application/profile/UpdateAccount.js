@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-
-import { Button, StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Alert } from 'react-native';
-
+import { Button, StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import { TextInput } from "react-native-paper";
+import axios from 'axios'
+import Profile from './Profile';
+import { useDispatch } from 'react-redux';
+import { updateProfileState } from './slice/profileSlice';
 
-import { Picker } from '@react-native-picker/picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+const BASE_API_URL = `http://10.0.2.2:${3001}`;
+const PROFILE_PREFIX = '/api/profile';
 
-export default function UpdateAccount({ navigation }) {
+export default function UpdateAccount({ navigation, route }) {
+	const userData = route.params;
+	const [newUsername, setNewUsername] = useState('');
+	const [newEmail, setNewEmail] = useState('');
+	const oldEmail = userData.email
+	const dispatch = useDispatch()
+
 	React.useLayoutEffect(() => {																			// cancel button
 		navigation.setOptions({
 			headerLeft: () => {
@@ -20,11 +28,29 @@ export default function UpdateAccount({ navigation }) {
 			},
 		});
 	}, [navigation]);
-	const onPressHandler = () => {
+
+	const onPressHandler = async () => {
+		// console.log("old email: ", oldEmail)
+		// console.log("new username: ", newUsername)
+		// console.log("new email: ", newEmail)
+
+
+		const newAccountData = { newUsername, newEmail, oldEmail }
+		await axios.put(BASE_API_URL + PROFILE_PREFIX + '/update_account', newAccountData)
+			.then(res => {
+				const updateAccount = res.data
+				dispatch(updateProfileState(updateAccount))
+				console.log("update account successfully")
+			})
+			.catch(err => {
+				console.log("Error update account: ", err)
+			})
+
 		Alert.alert('Updated!', '', [
 			{ text: 'OK', onPress: () => navigation.pop() }
 		]);
 	}
+
 	return (
 		<View style={styles.container}>
 			<View style={{ marginTop: 30 }}>
@@ -33,6 +59,7 @@ export default function UpdateAccount({ navigation }) {
 				</Text>
 				<TextInput
 					style={styles.input}
+					onChangeText={setNewUsername}
 				/>
 			</View>
 
@@ -43,6 +70,7 @@ export default function UpdateAccount({ navigation }) {
 				<TextInput
 					style={styles.input}
 					keyboardType='email-address'
+					onChangeText={setNewEmail}
 				/>
 			</View>
 
