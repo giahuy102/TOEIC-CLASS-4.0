@@ -26,13 +26,16 @@ export const createSocket = (userData, challenge_id, classroom_id) => {
 }
 
 export class SocketClient {
-    constructor(userData, challenge_id, classroom_id, dispatch) {
+    constructor(userData, challenge_id, classroom_id, dispatch, navigation) {
+        /**
+         * navigation of ChallengesStackScreen
+         */
         this.socket = createSocket(userData, challenge_id, classroom_id);
         this.socket.onAny((event, ...args) => {
             console.log(event, args);
         });
         console.log("SocketClient constructor");
-        dispatch(initiateEventListeners(this.socket));
+        dispatch(initiateEventListeners({ socket: this.socket, navigation }));
     }
     async connect() {
         this.socket.connect();

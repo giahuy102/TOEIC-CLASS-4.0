@@ -31,7 +31,8 @@ const userSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'UserModel',
             },
-            score: Number
+            score: Number,
+            answers: Number,
         }
     ]
 

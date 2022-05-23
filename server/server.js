@@ -21,8 +21,21 @@ const io = require("socket.io")(expressHttpServer, {
         origin: '*',
         methods: ['GET', 'POST'],
     }
-})
-require("./services/socket/socketIOConfig")(io);
+});
+exports.io = io;
+
+const { socketIOConfig, checkAndUpdateAllChallengeStatus } = require("./services/socket/socketIOConfig");
+socketIOConfig(io);
+checkAndUpdateAllChallengeStatus(io);
+
+/**
+ * Export Io Server to use all over the project for methods not having access to req, res object
+ */
+
+/**
+ * io Server availabele from now on
+ */
+
 app.use((req, res, next) => {
     req.io = io;
     next();

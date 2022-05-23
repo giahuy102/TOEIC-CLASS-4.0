@@ -37,6 +37,10 @@ const challengeRealTimeSlice = createSlice({
             newRankingChart.push({ user_id, score });
             newRankingChart.sort((user1, user2) => user1.score - user2.score);
             state.rankingChart = newRankingChart;
+        },
+        endingChallengeRealTimeEvent(state, action) {
+            const { ChallengeModelItem, ChallengeEventsRecordModelQuery } = action.payload;
+            state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart;
         }
     },
     extraReducers: builder => {
@@ -87,7 +91,7 @@ export const initiateChallengeRealTimeSocket = createAsyncThunk('challengeRealTi
  * because no event listener registered yet, the client socket have just connected 
  */
 
-export const initiateEventListeners = createAsyncThunk('challengeRealTime/initiateEventListeners', async (socket, thunkAPI) => {
+export const initiateEventListeners = createAsyncThunk('challengeRealTime/initiateEventListeners', async ({ socket, navigation }, thunkAPI) => {
     console.log("challengeRealTimeSlice: Initiate Event Listener thunk called");
 
     /**
@@ -110,6 +114,15 @@ export const initiateEventListeners = createAsyncThunk('challengeRealTime/initia
         console.log("newUserParticipateChallenge event data", data);
         const { user_id, score } = data;
         thunkAPI.dispatch(addNewUserParticipateChallenge({ user_id, score }));
+    })
+
+    await socket.on("endingChallengeRealTimeEvent", (data) => {
+        const { ChallengeModelItem, ChallengeEventsRecordModelQuery } = data;
+        /**                             
+         * Move user to ChallengeResult Screen
+         */
+        thunkAPI.dispatch(endingChallengeRealTimeEvent({ ChallengeModelItem, ChallengeEventsRecordModelQuery }));
+        navigation.navigate('ChallengeResult');
     })
 })
 
