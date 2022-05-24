@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
-
-import { Button, StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, Alert } from 'react-native';
-
+import { Button, StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import { TextInput } from "react-native-paper";
+import axios from 'axios'
+import Profile from './Profile';
+import { useDispatch } from 'react-redux';
+import { updateProfileState } from './slice/profileSlice';
 
-import { Picker } from '@react-native-picker/picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-
-import ProfileService from '../../../services/ProfileService';
+const BASE_API_URL = `http://10.0.2.2:${3001}`;
+const PROFILE_PREFIX = '/api/profile';
 
 export default function UpdateAccount({ navigation, route }) {
 	const userData = route.params;
-	const [username, setUsername] = useState(userData.username);
-	const [email, setEmail] = useState(userData.email);
-
-	console.log("userData before update: ", userData);
-	const oldEmail = userData.email;
+	const [newUsername, setNewUsername] = useState('');
+	const [newEmail, setNewEmail] = useState('');
+	const oldEmail = userData.email
+	const dispatch = useDispatch()
 
 	React.useLayoutEffect(() => {																			// cancel button
 		navigation.setOptions({
@@ -30,22 +29,28 @@ export default function UpdateAccount({ navigation, route }) {
 		});
 	}, [navigation]);
 
-	const onPressHandler = (event) => {
-		event.preventDefault();
-		ProfileService.update(
-			username, email, oldEmail
-		).then( res => {
-			Alert.alert('Updated!', '', [
-				{ text: 'OK', onPress: () => navigation.pop() }
-			]);
-			console.log("userData after update: ", userData);
-		}).catch (err => {
-			console.warn(err)
-		})
-		// Alert.alert('Updated!', '', [
-		// 	{ text: 'OK', onPress: () => navigation.pop() }
-		// ]);		
+	const onPressHandler = async () => {
+		// console.log("old email: ", oldEmail)
+		// console.log("new username: ", newUsername)
+		// console.log("new email: ", newEmail)
+
+
+		const newAccountData = { newUsername, newEmail, oldEmail }
+		await axios.put(BASE_API_URL + PROFILE_PREFIX + '/update_account', newAccountData)
+			.then(res => {
+				const updateAccount = res.data
+				dispatch(updateProfileState(updateAccount))
+				console.log("update account successfully")
+			})
+			.catch(err => {
+				console.log("Error update account: ", err)
+			})
+
+		Alert.alert('Updated!', '', [
+			{ text: 'OK', onPress: () => navigation.pop() }
+		]);
 	}
+
 	return (
 		<View style={styles.container}>
 			<View style={{ marginTop: 30 }}>
@@ -54,8 +59,7 @@ export default function UpdateAccount({ navigation, route }) {
 				</Text>
 				<TextInput
 					style={styles.input}
-					placeholder={userData.username}
-					onChangeText={text => setUsername(text)}
+					onChangeText={setNewUsername}
 				/>
 			</View>
 
@@ -66,8 +70,7 @@ export default function UpdateAccount({ navigation, route }) {
 				<TextInput
 					style={styles.input}
 					keyboardType='email-address'
-					placeholder={userData.email}
-					onChangeText={text => setEmail(text)}
+					onChangeText={setNewEmail}
 				/>
 			</View>
 

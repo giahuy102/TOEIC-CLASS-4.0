@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import data from '../../Ignored_Challenge/DATA.json'
 import axios from 'axios';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { loadUpcomingChallengesList } from './slice/challengesListSlice';
 
@@ -12,9 +11,7 @@ const CHALLENGE_PREFIX = '/api/challenge';
 export default function ChallengeUpcoming({ navigation, route }) {
     const { classId } = route.params;
     const dispatch = useDispatch();
-
     const challengesList = useSelector(state => state.challengesList.upcomingChallengesList);
-    // const [challengesList, setChallengesList] = useState([])
 
     useEffect(async () => {
         await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_upcoming/${classId}`)

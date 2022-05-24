@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState } from "react";
-import { View, Text, Pressable } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AppStyles from "../../../styles/SystemFontStyles";
@@ -10,9 +9,7 @@ import ChallengeScreen from "./ChallengeScreen";
 import ChallengeCreate from "./ChallengeCreate";
 import ChallengeTest from "./ChallengeTest";
 import ChallengeResult from "./ChallengeResult";
-import Challenge from './Challenge';
-import ChallengeChallenging from "./ChallengeChallenging";
-// import ChallengeScreen from "./ChallengeScreen";
+import ChallengeRanking from "./ChallengeRanking";
 
 export default function ClassroomChallengesStackScreen({ navigation, route }) {
 
@@ -25,6 +22,7 @@ export default function ClassroomChallengesStackScreen({ navigation, route }) {
             screenOptions={{
                 headerTitleAlign: 'center',
                 headerTitleStyle: AppStyles.HeaderTitleStyle,
+
             }}
         >
 
@@ -33,6 +31,7 @@ export default function ClassroomChallengesStackScreen({ navigation, route }) {
                 component={ChallengeTest}
                 options={{ title: 'Taking challenge test' }}
                 initialParams={{ classId }}
+
             />
 
             <Stack.Screen
@@ -54,13 +53,26 @@ export default function ClassroomChallengesStackScreen({ navigation, route }) {
                 component={ChallengeCreate}
                 options={{ title: 'Create new challenge' }}
                 initialParams={{ classId }}
+
             />
 
             <Stack.Screen
                 name="ChallengeDoingSection"
                 component={ChallengeDoingSection}
-                options={{ title: 'Doing challenge test' }}
+                options={{ title: 'Doing test section' }}
             // initialParams={{ classId }}
+
+            />
+
+            <Stack.Screen
+                name="ChallengeRanking"
+                component={ChallengeRanking}
+                options={{
+                    title: 'Ranking challenge',
+                    animation: 'slide_from_left'
+                }}
+            // initialParams={{ classId }}
+
             />
 
 
