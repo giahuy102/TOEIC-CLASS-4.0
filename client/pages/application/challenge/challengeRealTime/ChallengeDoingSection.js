@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { DeviceEventEmitter, Modal, Button, StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
-// import data from '../../Ignored_Challenge/RESULT_DATA.json'
-// import MultipleChoice from 'react-native-multiple-choice-picker'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { RadioButton } from 'react-native-paper';
-// import { createAppContainer } from '@react-navigation'
-// import 'react-native-gesture-handler';
-// import Animated from 'react-native-reanimated';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
+import { CommonActions } from '@react-navigation/native';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { socketEmitUserChooseAnAnswerEvent } from '../slice/challengeRealTimeSlice';
@@ -24,18 +19,6 @@ export default function ChallengeDoingSection({ navigation, route }) {
     const [show, setShow] = useState(false)
 
     React.useLayoutEffect(() => {
-        navigation.setOptions({
-            headerLeft: () => {
-                // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
-                return (
-                    <TouchableOpacity onPress={() => navigation.pop()}>
-                        <Image source={require('../../../../assets/back_arrow.png')} />
-
-                    </TouchableOpacity>
-                );
-
-            }
-        });
     }, [navigation]);
 
     useEffect(() => {
@@ -70,7 +53,13 @@ export default function ChallengeDoingSection({ navigation, route }) {
         if (sectionIndex < lastSectionIndex) {
             navigation.navigate(`ChallengeDoingSection${sectionIndex + 1}`);
         } else {
-            navigation.navigate('ChallengeRanking');
+            navigation.dispatch(state => {
+                const routes = state.routes.filter(route => (route.name !== 'ChallengeRealTimeStackScreen'))
+                return CommonActions.reset({
+                    ...state,
+                    routes
+                })
+            });
         }
     }
 

@@ -72,11 +72,12 @@ export default function ChallengeRealTimeStackScreen({ navigation, route }) {
                         component={ChallengeDoingSection}
                         initialParams={{
                             sectionIndex: sectionData.key,
-                            lastSectionIndex: examState.length,
+                            lastSectionIndex: examState.length - 1,
                         }}
                         options={{
                             title: `Section ${sectionData.key}`,
                             animation: 'slide_from_right',
+                            headerLeft: () => null
                         }}
                     />
                 ))}

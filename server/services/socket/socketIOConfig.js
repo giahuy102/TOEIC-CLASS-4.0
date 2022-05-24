@@ -20,7 +20,7 @@ const socketIOConfig = (io, challenge_id) => {
     socketIOServerDedicatedNamespaceByChallengeId.on("connection", async function (socket) {
         console.log("/******************* 'socketIOConfig.js io.on('connection')' ********************/");
         const socketIOServerDedicatedNamespaceByChallengeId = socket.nsp;
-        console.log('io.of(`/${challenge_id}`).on("connection",...) socketIOServerDedicatedNamespaceByChallengeId', socketIOServerDedicatedNamespaceByChallengeId);
+        // console.log('io.of(`/${challenge_id}`).on("connection",...) socketIOServerDedicatedNamespaceByChallengeId', socketIOServerDedicatedNamespaceByChallengeId);
         /**
          * socketIOServerDedicatedNamespaceByChallengeId.emit() to emit notify all other client about
          * a changing in ChallengeEventsRecordModel RankingChart (whenever a user emit a right answer
@@ -36,8 +36,8 @@ const socketIOConfig = (io, challenge_id) => {
                 if (!verifyUserModel) {
                     console.log("socketIOConfig.js socket.on('authenticate') token invalid since user_id not match with any user");
                 } else {
-                    console.log("Authenticated socket, socket.id:", socket.id);
-                    console.log("Authenticated socket, socket.handshake.auth:", socket.handshake.auth);
+                    // console.log("Authenticated socket, socket.id:", socket.id);
+                    // console.log("Authenticated socket, socket.handshake.auth:", socket.handshake.auth);
                     socket.isAuthenticated = true;
                     socket.verifyUserModel = JSON.parse(JSON.stringify(verifyUserModel));
                     const { user_id, challenge_id, classroom_id } = socket.handshake.auth; /** Line 20 SocketClient.js */
@@ -73,8 +73,8 @@ const socketIOConfig = (io, challenge_id) => {
                         try {
                             await ChallengeEventsRecordModelQuery.save();
                             socketIOServerDedicatedNamespaceByChallengeId.emit('newUserParticipateChallenge', { user_id, score: 0, answers: 0 })
-                            /** 
-                             * Hope the Query is change accordingly to the current database value after using .save() method 
+                            /**
+                             * Hope the Query is change accordingly to the current database value after using .save() method
                              * */
                             socket.emit('initChallengeRealTimeSliceDataEmitted', { newChallengeParticipationModel, ChallengeEventsRecordModelQuery })
                         } catch (err) {
@@ -96,12 +96,15 @@ const socketIOConfig = (io, challenge_id) => {
             const { user_id, sectionIndex, questionIndex, theAnswer, isAnswerCorrected, challenge_id } = data;
             const ChallengeParticipationModelQuery = await ChallengeParticipationModel.findOne({ user: user_id, challenge: challenge_id });
             const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge: challenge_id });
+
             if (!isAnswerCorrected) {
                 ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].chosenAnswer = theAnswer;
                 ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].answerState = 'WA';
                 for (const rankingChartItemPointer of ChallengeEventsRecordModelQuery.rankingChart) {
-                    if (rankingChartItemPointer.user_id === user_id) {
+                    // console.log(`${rankingChartItemPointer.user_id} ${user_id} ${rankingChartItemPointer.user_id == user_id}`);
+                    if (rankingChartItemPointer.user_id == user_id) {
                         rankingChartItemPointer.answers += 1;
+                        break;
                     }
                 }
             }
@@ -109,12 +112,13 @@ const socketIOConfig = (io, challenge_id) => {
                 ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].chosenAnswer = theAnswer;
                 ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].answerState = 'AC';
                 for (const rankingChartItemPointer of ChallengeEventsRecordModelQuery.rankingChart) {
-                    if (rankingChartItemPointer.user_id === user_id) {
+                    if (rankingChartItemPointer.user_id == user_id) {
                         rankingChartItemPointer.answers += 1;
                         rankingChartItemPointer.score += 1;
+                        break;
                     }
                 }
-                // ChallengeEventsRecordModelQuery.rankingChart.sort((user1, user2) => user1.score - user2.score);
+                ChallengeEventsRecordModelQuery.rankingChart.sort((user1, user2) => user1.score - user2.score);
             }
             try {
                 await ChallengeParticipationModelQuery.save();
@@ -139,7 +143,7 @@ const socketIOConfig = (io, challenge_id) => {
 }
 
 const checkAndUpdateAllChallengeStatus = async (io) => {
-    cron.schedule('*/10 * * * * *', async function () {
+    cron.schedule('*/6 * * * * *', async function () {
         var currentDate = new Date()
         const AllChallengesModel = await ChallengeModel.find({});
         for (const ChallengeModelItem of AllChallengesModel) {
@@ -159,8 +163,8 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
 
                 if (!ChallengeEventsRecordModelQuery) {
                     const newChallengeEventsRecordModel = new ChallengeEventsRecordModel({
-                        /** 
-                         * Currenly Challenge is create with challenge_id as main id 
+                        /**
+                         * Currenly Challenge is create with challenge_id as main id
                          * -> Must change back to _id for JOIN query to be functional
                          * */
                         challenge_id: ChallengeModelItem._id,
@@ -207,13 +211,13 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                 if (ChallengeModelItem.status !== 2) {
                     console.log(`Status of challenge ${ChallengeModelItem._id} change to ended`)
                     /**
-                     * 
+                     *
                      *      Code for Challenge EndTime Reached Here
-                     * 
+                     *
                      *      - Broadcast Changing Status Event to all Client to move all of them to Final Result Screen
                      *      - From each of them client will send back an event to normalize (scale 10) the ChallengeParticipationModel score
                      *      - Then finally Run normalization in All Of ChallengeEventsRecordModel rankingChart scores
-                     * 
+                     *
                      */
                     ChallengeModelItem.status = 2;
                     const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge_id: ChallengeModelItem._id });
@@ -221,7 +225,7 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                         await ChallengeEventsRecordModelQuery.save();
                         /**
                          * Get the namespace by ChallengeModelItem._id to broadcast 'endingChallengeRealTimeEvent'event
-                         * to all the sockets belongs to that namespace IO Server only 
+                         * to all the sockets belongs to that namespace IO Server only
                          */
                         const socketIOServerDedicatedNamespaceByChallengeId = io.of(`/${ChallengeModelItem._id}`);
                         socketIOServerDedicatedNamespaceByChallengeId.emit('endingChallengeRealTimeEvent', { ChallengeModelItem, ChallengeEventsRecordModelQuery });
