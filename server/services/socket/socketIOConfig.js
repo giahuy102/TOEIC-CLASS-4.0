@@ -14,6 +14,7 @@ const socketIOConfig = (io, challenge_id) => {
      */
     // const socketIOAllServersNamespace = io.of(/^\/dynamic-\d+$/);
     // const socketIOAllServersNamespace = io.of('/');
+    console.log('New Challenge _id is submitted with creation of new dedicated SocketIO Server Namespace', challenge_id);
     const socketIOServerDedicatedNamespaceByChallengeId = io.of(`/${challenge_id}`);
 
     socketIOServerDedicatedNamespaceByChallengeId.on("connection", async function (socket) {
@@ -91,6 +92,7 @@ const socketIOConfig = (io, challenge_id) => {
 
 
         socket.on('userChooseAnAnswer', async function (data) {
+            console.log("[socketIOConfig.js]  socket.on('userChooseAnAnswer',...) data ", data);
             const { user_id, sectionIndex, questionIndex, theAnswer, isAnswerCorrected, challenge_id } = data;
             const ChallengeParticipationModelQuery = await ChallengeParticipationModel.findOne({ user: user_id, challenge: challenge_id });
             const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge: challenge_id });
@@ -112,7 +114,7 @@ const socketIOConfig = (io, challenge_id) => {
                         rankingChartItemPointer.score += 1;
                     }
                 }
-                ChallengeEventsRecordModelQuery.rankingChart.sort((user1, user2) => user1.score - user2.score);
+                // ChallengeEventsRecordModelQuery.rankingChart.sort((user1, user2) => user1.score - user2.score);
             }
             try {
                 await ChallengeParticipationModelQuery.save();
@@ -137,7 +139,7 @@ const socketIOConfig = (io, challenge_id) => {
 }
 
 const checkAndUpdateAllChallengeStatus = async (io) => {
-    cron.schedule('*/1 * * * *', async function () {
+    cron.schedule('*/10 * * * * *', async function () {
         var currentDate = new Date()
         const AllChallengesModel = await ChallengeModel.find({});
         for (const ChallengeModelItem of AllChallengesModel) {
@@ -182,7 +184,7 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                          * Register on('connection') for now newly challenging Challenge to start
                          * receiving connection request from socket clients for this namespace ('challenge_id') socket
                          */
-                        socketIOConfig(io, challenge_id);
+                        socketIOConfig(io, ChallengeModelItem._id);
                     } catch (err) {
                         console.log("checkAndUpdateAllChallengeStatus await newChallengeEventsRecordModel.save(); Error", err);
                     }

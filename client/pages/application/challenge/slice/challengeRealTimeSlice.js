@@ -1,7 +1,4 @@
 import { createAsyncThunk, createSelector, createEntityAdapter, createSlice, useSelector, current } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const ServerURI = '';
 
 const challengeRealTimeAdapter = createEntityAdapter();
 
@@ -160,6 +157,14 @@ export const destroyChallengeRealTimeSocket = createAsyncThunk('challengeRealTim
 
 export const socketEmitUserChooseAnAnswerEvent = createAsyncThunk('challengeRealTime/socketEmitUserChooseAnAnswerEvent', async ({ socket, user_id, sectionIndex, questionIndex, theAnswer, isAnswerCorrected, challenge_id }, thunkAPI) => {
     try {
+        console.log("socketEmitUserChooseAnAnswerEvent Thunk prepare to emit 'userChooseAnAnswer' event", {
+            user_id,
+            sectionIndex,
+            questionIndex,
+            theAnswer,
+            isAnswerCorrected,
+            challenge_id
+        });
         await socket.emit('userChooseAnAnswer', {
             user_id,
             sectionIndex,

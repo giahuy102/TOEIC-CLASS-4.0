@@ -51,12 +51,12 @@ router.post('/createFakeTestModelData', async function (req, res) {
         "audio_path": "",
         "sections": [
             {
-                "key": 1,
+                "key": 0,
                 "section_questions": "I. Sections I Reading Pargraph Blah Blah",
                 "image_path": "",
                 "questions": [
                     {
-                        "key": 1,
+                        "key": 0,
                         "question": "1. Question 1 Choose A",
                         "answerState": 'NG',
                         "chosenAnswer": "",
@@ -81,7 +81,7 @@ router.post('/createFakeTestModelData', async function (req, res) {
                         ]
                     },
                     {
-                        "key": 2,
+                        "key": 1,
                         "question": "2. Question 2 Choose B",
                         "answerState": 'NG',
                         "chosenAnswer": "",
@@ -107,7 +107,7 @@ router.post('/createFakeTestModelData', async function (req, res) {
                 ]
             },
             {
-                "key": 2,
+                "key": 1,
                 "section_questions": "II. Sections II Reading Pargraph Blah Blah",
                 "image_path": "",
                 "questions": [

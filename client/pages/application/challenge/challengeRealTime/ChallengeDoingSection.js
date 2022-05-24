@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { DeviceEventEmitter, Modal, Button, StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 // import data from '../../Ignored_Challenge/RESULT_DATA.json'
 // import MultipleChoice from 'react-native-multiple-choice-picker'
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -18,7 +18,7 @@ export default function ChallengeDoingSection({ navigation, route }) {
     const user_id = useSelector(state => state.profile._id);
     const challenge_id = useSelector(state => state.challengeRealTime.challenge_id);
 
-    const { sectionIndex, lastSectionIndex, challengeRealTimeSocketClient } = route.params;
+    const { sectionIndex, lastSectionIndex } = route.params;
     const examStateSectionInfo = examState[sectionIndex]
     const [answersContainer, setAnswersContainer] = useState([])
     const [show, setShow] = useState(false)
@@ -63,7 +63,15 @@ export default function ChallengeDoingSection({ navigation, route }) {
          * This will dispatch and emit socket event to Server to notify about
          * an True answer or Wrong answer by the user
          */
-        dispatch(socketEmitUserChooseAnAnswerEvent({ socket: challengeRealTimeSocketClient, user_id, questionIndex, sectionIndex, theAnswer, isAnswerCorrected, challenge_id }))
+        DeviceEventEmitter.emit('callbackUsingChallengeRealTimeSocketClient', { dispatchAction: socketEmitUserChooseAnAnswerEvent, eventData: { user_id, questionIndex, sectionIndex, theAnswer, isAnswerCorrected, challenge_id } });
+    }
+
+    const handleNavigationToNextSection = () => {
+        if (sectionIndex < lastSectionIndex) {
+            navigation.navigate(`ChallengeDoingSection${sectionIndex + 1}`);
+        } else {
+            navigation.navigate('ChallengeRanking');
+        }
     }
 
     const FlatListItem = (item, index) => {
@@ -158,7 +166,7 @@ export default function ChallengeDoingSection({ navigation, route }) {
             >
             </FlatList>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleNavigationToNextSection()}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
                     <Text style={{ textAlign: 'right', margin: 15, fontSize: 17, color: '#1570EF' }}>Next</Text>
                     <Image style={{}} source={require('../images/next.png')} />
