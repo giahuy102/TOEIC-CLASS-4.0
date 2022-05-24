@@ -14,23 +14,22 @@ export default function JoinClassroomPopupModal({ ClassroomsListData, setClassro
         const token = await loadToken();
         try {
             const JoinClassroomResponse = await ClassroomService.joinClassroomRequest(joinClassroomPassword, currentClassId, token);
-            console.log("JoinClassroomResponse", JoinClassroomResponse);
+            // console.log("JoinClassroomResponse", JoinClassroomResponse);
             const JoinClassroomResponseData = JoinClassroomResponse.data;
-            console.log("JoinClassroomResponseData", JoinClassroomResponseData);
+            // console.log("JoinClassroomResponseData", JoinClassroomResponseData);
             const JoinedClassroomId = JoinClassroomResponseData._id;
-            console.log("JoinedClassroomId", JoinedClassroomId);
+            // console.log("JoinedClassroomId", JoinedClassroomId);
             const newClassroomsListData = ClassroomsListData;
-            console.log('Classroom List Data', newClassroomsListData);
-            console.log('In Loop');
+            // console.log('Classroom List Data', newClassroomsListData);
             for (const ClassroomInfo of newClassroomsListData) {
-                console.log('ClassroomInfo', ClassroomInfo);
+                // console.log('ClassroomInfo', ClassroomInfo);
                 if (ClassroomInfo._id === JoinedClassroomId) {
                     ClassroomInfo['isJoined'] = true;
                     break;
                 }
             }
 
-            console.log('Join Classroom Success, current Classroom List Data', newClassroomsListData);
+            // console.log('Join Classroom Success, current Classroom List Data', newClassroomsListData);
             setClassroomsListData(newClassroomsListData);
             setJoinClassroomModalVisible(false);
         } catch (err) {

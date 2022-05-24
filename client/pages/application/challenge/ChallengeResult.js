@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 
 export default function ChallengeResult({ navigation, route }) {
-    const { rankingChart } = route.params;
+    const rankingChart = useSelector(state => state.challengeRealTime.rankingChart);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -70,6 +71,7 @@ export default function ChallengeResult({ navigation, route }) {
                         FlatListItem(item, index)
                     );
                 }}
+                keyExtractor={(item, index) => index.toString()}
             >
 
             </FlatList>

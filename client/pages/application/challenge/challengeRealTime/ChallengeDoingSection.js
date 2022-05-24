@@ -53,13 +53,19 @@ export default function ChallengeDoingSection({ navigation, route }) {
         if (sectionIndex < lastSectionIndex) {
             navigation.navigate(`ChallengeDoingSection${sectionIndex + 1}`);
         } else {
-            navigation.dispatch(state => {
-                const routes = state.routes.filter(route => (route.name !== 'ChallengeRealTimeStackScreen'))
-                return CommonActions.reset({
-                    ...state,
-                    routes
-                })
-            });
+
+            // navigation.dispatch(state => {
+            //     console.log('ChallengeDoingSection handleNavigationToNextSection ReactNavigation state.routes', state.routes);
+            //     const routes = state.routes.filter(route => (route.name !== 'ChallengeRealTimeStackScreen'))
+            //     return CommonActions.reset({
+            //         ...state,
+            //         routes
+            //     })
+            // });
+
+            navigation.popToTop();
+            navigation.pop();
+            navigation.navigate("ChallengeResult");
         }
     }
 

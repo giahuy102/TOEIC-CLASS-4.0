@@ -32,10 +32,10 @@ export class SocketClient {
          * navigation of ChallengesStackScreen
          */
         this.socket = createSocket(user_id, challenge_id, classroom_id);
-        this.socket.onAny((event, ...args) => {
-            console.log(event, args);
-        });
-        console.log("SocketClient constructor");
+        // this.socket.onAny((event, ...args) => {
+        //     console.log(event, args);
+        // });
+        // console.log("SocketClient constructor");
         dispatch(initiateEventListeners({ socket: this.socket, navigation }));
     }
     async connect() {

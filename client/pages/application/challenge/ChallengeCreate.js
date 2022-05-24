@@ -118,7 +118,7 @@ export default function ChallengeCreate({ navigation, route }) {
         await axios.post(BASE_API_URL + CHALLENGE_PREFIX + '/create_challenge', { userId, classId, challenge })
             .then(res => {
                 const newlyAddedChallenge = res.data;
-                console.log(newlyAddedChallenge);
+                // console.log(newlyAddedChallenge);
                 if (type === 'challenging') {
                     dispatch(addNewChallenge(newlyAddedChallenge))
                 } else if (type === 'upcoming') {
@@ -128,7 +128,7 @@ export default function ChallengeCreate({ navigation, route }) {
                 } else {
                     console.log('Invalid Challenge Type in ChallengeCreate');
                 }
-                console.log("send post request to create challenge")
+                // console.log("send post request to create challenge")
             })
             .catch((err) => {
                 console.log("err: ", err)

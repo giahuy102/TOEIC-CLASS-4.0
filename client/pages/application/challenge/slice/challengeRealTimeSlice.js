@@ -76,11 +76,11 @@ export const initiateChallengeRealTimeSocket = createAsyncThunk('challengeRealTi
          * and the rankingChart and examState Redux State has been modified, triggering rerender in ChallengeRealTimeStackScreen.js
          */
         await socket.connect();
-        console.log('challengeRealTimeSlice initiateChallengeRealTimeSocket');
+        // console.log('challengeRealTimeSlice initiateChallengeRealTimeSocket');
         return { chatSocketId: socket.id, socketOwnerId: user_id, challenge_id };
     }
     catch (error) {
-        console.log('initiateChallengeRealTimeSocket Thunk rejected Error', error);
+        // console.log('initiateChallengeRealTimeSocket Thunk rejected Error', error);
         return thunkAPI.rejectWithValue(error);
     }
 })
@@ -94,26 +94,26 @@ export const initiateChallengeRealTimeSocket = createAsyncThunk('challengeRealTi
  */
 
 export const initiateEventListeners = createAsyncThunk('challengeRealTime/initiateEventListeners', async ({ socket, navigation }, thunkAPI) => {
-    console.log("challengeRealTimeSlice: Initiate Event Listener thunk called");
+    // console.log("challengeRealTimeSlice: Initiate Event Listener thunk called");
 
     /**
      * An example
      */
     await socket.on("an event", (data) => {
-        console.log("client receive an event, info", data);
+        // console.log("client receive an event, info", data);
         /**
          * thunkAPI.dispatch(updateNewMessage(data));
          */
     })
 
     await socket.on("initChallengeRealTimeSliceDataEmitted", (data) => {
-        console.log("initChallengeRealTimeSliceDataEmitted event data", data);
+        // console.log("initChallengeRealTimeSliceDataEmitted event data", data);
         const { newChallengeParticipationModel, ChallengeEventsRecordModelQuery } = data;
         thunkAPI.dispatch(initChallengeRealTimeSlice({ newChallengeParticipationModel, ChallengeEventsRecordModelQuery }))
     })
 
     await socket.on("newUserParticipateChallenge", (data) => {
-        console.log("newUserParticipateChallenge event data", data);
+        // console.log("newUserParticipateChallenge event data", data);
         const { user_id, score } = data;
         thunkAPI.dispatch(addNewUserParticipateChallenge({ user_id, score }));
     })
@@ -139,7 +139,7 @@ export const initiateEventListeners = createAsyncThunk('challengeRealTime/initia
 })
 
 export const destroyChallengeRealTimeSocket = createAsyncThunk('challengeRealTime/destroyChallengeRealTimeSocket', async (socket, thunkAPI) => {
-    console.log("challengeRealTimeSlice: destroyChallengeRealTimeSocket Thunk socket.socket", socket.socket);
+    // console.log("challengeRealTimeSlice: destroyChallengeRealTimeSocket Thunk socket.socket", socket.socket);
     if (!socket.socket.connected) {
         return thunkAPI.rejectWithValue({ message: 'Socket has disconnected already' });
     } else {
@@ -157,14 +157,14 @@ export const destroyChallengeRealTimeSocket = createAsyncThunk('challengeRealTim
 
 export const socketEmitUserChooseAnAnswerEvent = createAsyncThunk('challengeRealTime/socketEmitUserChooseAnAnswerEvent', async ({ socket, user_id, sectionIndex, questionIndex, theAnswer, isAnswerCorrected, challenge_id }, thunkAPI) => {
     try {
-        console.log("socketEmitUserChooseAnAnswerEvent Thunk prepare to emit 'userChooseAnAnswer' event", {
-            user_id,
-            sectionIndex,
-            questionIndex,
-            theAnswer,
-            isAnswerCorrected,
-            challenge_id
-        });
+        // console.log("socketEmitUserChooseAnAnswerEvent Thunk prepare to emit 'userChooseAnAnswer' event", {
+        //     user_id,
+        //     sectionIndex,
+        //     questionIndex,
+        //     theAnswer,
+        //     isAnswerCorrected,
+        //     challenge_id
+        // });
         await socket.emit('userChooseAnAnswer', {
             user_id,
             sectionIndex,

@@ -13,7 +13,6 @@ import axios from 'axios';
 
 export default function NewExam({ navigation, route }) {
     const handleSaveData = () => {
-        console.log("allllllllllllllllllllllllllllllllllllllllllllllo")
         // console.log(route.params.type)
         // console.log(route.params)
         if (route.params) {

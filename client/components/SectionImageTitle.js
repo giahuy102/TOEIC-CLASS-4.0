@@ -37,7 +37,7 @@ export default function SectionImageTitle({navigation, index, item, images, addI
         allowsEditing: true,
       });
     
-      console.log(result);
+      // console.log(result);
     
       if (!result.cancelled) {
         //  setImage(result.uri);

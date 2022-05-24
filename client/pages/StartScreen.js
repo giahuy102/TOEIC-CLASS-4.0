@@ -78,7 +78,7 @@ export default function StartScreen({ navigation }) {
           })
           return;
         } catch (err) {
-          console.log("JWT Token invalid, must relogin");
+          // console.log("JWT Token invalid, must relogin");
           await isOnboardingScreenOpen();
         }
       } else {
@@ -88,7 +88,7 @@ export default function StartScreen({ navigation }) {
 
     const isOnboardingScreenOpen = async () => {
       const isOnboardingTriggered = await isApplicationVisited();
-      console.log("isOnboardingScreenOpen visited answer", isOnboardingTriggered);
+      // console.log("isOnboardingScreenOpen visited answer", isOnboardingTriggered);
       if (!isOnboardingTriggered) {
         navigation.navigate('Onboarding1')
       }

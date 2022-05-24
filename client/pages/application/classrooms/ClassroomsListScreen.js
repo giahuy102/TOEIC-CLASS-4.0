@@ -63,9 +63,8 @@ export default function ClassroomsListScreen({ navigation, route }) {
     }, []);
 
     const handleAccessToClassroomDetailScreen = async (classroomDetailData) => {
-        console.log(classroomDetailData);
+        // console.log(classroomDetailData);
         const classId = classroomDetailData._id;
-        console.log('classId', classId);
         const getClassroomDetailInfoResponse = await ClassroomService.getClassroomDetailInfo(classId);
         const getClassroomDetailInfoData = getClassroomDetailInfoResponse.data;
         const classroomStudentIdList = getClassroomDetailInfoData['students_list'].map(student_info => student_info._id);

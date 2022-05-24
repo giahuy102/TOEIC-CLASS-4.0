@@ -19,11 +19,11 @@ import { initiateChallengeRealTimeSocket, destroyChallengeRealTimeSocket, socket
 let challengeRealTimeSocketClient = {};
 const initDeviceEventEmitter = (dispatch) => {
     DeviceEventEmitter.addListener('callbackUsingChallengeRealTimeSocketClient', async ({ dispatchAction, eventData }) => {
-        console.log("DeviceEventEmitter.addListener('callbackUsingChallengeRealTimeSocketClient', ...) event triggered");
+        // console.log("DeviceEventEmitter.addListener('callbackUsingChallengeRealTimeSocketClient', ...) event triggered");
         if (challengeRealTimeSocketClient) {
             dispatch(dispatchAction({ ...eventData, socket: challengeRealTimeSocketClient }))
         } else {
-            console.log("DeviceEventEmitter.addListener('challengeRealTimeSocketClientEmitEvent',...) Error: challengeRealTimeSocketClient not yet initializt to point to SocketClient, still a empty object {}");
+            // console.log("DeviceEventEmitter.addListener('challengeRealTimeSocketClientEmitEvent',...) Error: challengeRealTimeSocketClient not yet initializt to point to SocketClient, still a empty object {}");
         }
     })
 
@@ -77,7 +77,7 @@ export default function ChallengeRealTimeStackScreen({ navigation, route }) {
                         options={{
                             title: `Section ${sectionData.key}`,
                             animation: 'slide_from_right',
-                            headerLeft: () => null
+                            headerBackVisible: false
                         }}
                     />
                 ))}
