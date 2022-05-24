@@ -6,7 +6,7 @@ import data from '../../Ignored_Challenge/TEST_DATA.json';
 export default function ChallengeTest({ navigation, route }) {
 
     const ChallengeItemData = route.params;
-    console.log('ChallengeTest.js ChallengeItemData', ChallengeItemData);
+    // console.log('ChallengeTest.js ChallengeItemData', ChallengeItemData);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({

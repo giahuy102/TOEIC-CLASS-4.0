@@ -36,7 +36,6 @@ router.post('/create_challenge', async (req, res) => {
 
         const NumberOfTestCount = await TestModel.countDocuments();
         const RandomTestCountIndex = Math.floor(Math.random() * NumberOfTestCount);
-        console.log('challengeRoute /create_challenge TestModel Number Of Test', NumberOfTestCount);
         let RandomTestModel = {};
         try {
             RandomTestModel = await TestModel.findOne().skip(RandomTestCountIndex).exec();
@@ -44,7 +43,6 @@ router.post('/create_challenge', async (req, res) => {
             console.log('const RandomTestModel = await TestModel.findOne().skip(random); Error', err);
             res.status(400).send(err);
         }
-        console.log('challengeRoute /create_challenge TestModel RandomTestModel', RandomTestModel);
 
         const challenge = new ChallengeModel({
             challenge_id: Date.now(),
@@ -73,7 +71,7 @@ router.post('/create_challenge', async (req, res) => {
 router.get('/get_all_challenges', async (req, res) => {
     try {
         let challenges = await ChallengeModel.find({})
-        console.log("challenges list: ", challenges)
+        // console.log("challenges list: ", challenges)
         res.status(200).send(challenges);
     } catch (err) {
         res.status(400).send(err);
@@ -84,7 +82,7 @@ router.get('/get_challenges_challenging/:class_id', async (req, res) => {
     try {
         const { class_id } = req.params;
         let challenges = await ChallengeModel.find({ status: 0, classroom_id: class_id })
-        console.log("challenges list: ", challenges)
+        // console.log("challenges list: ", challenges)
         res.status(200).send(challenges);
     } catch (err) {
         res.status(400).send(err);
@@ -95,7 +93,7 @@ router.get('/get_challenges_upcoming/:class_id', async (req, res) => {
     try {
         const { class_id } = req.params;
         let challenges = await ChallengeModel.find({ status: 1, classroom_id: class_id })
-        console.log("challenges list: ", challenges)
+        // console.log("challenges list: ", challenges)
         res.status(200).send(challenges);
     } catch (err) {
         res.status(400).send(err);
@@ -106,7 +104,7 @@ router.get('/get_challenges_ended/:class_id', async (req, res) => {
     try {
         const { class_id } = req.params;
         let challenges = await ChallengeModel.find({ status: 2, classroom_id: class_id })
-        console.log("challenges list: ", challenges)
+        // console.log("challenges list: ", challenges)
         res.status(200).send(challenges);
     } catch (err) {
         res.status(400).send(err);

@@ -8,32 +8,32 @@ const ChallengeParticipationModel = require("../../model/ChallengeParticipationM
 const ChallengeEventsRecordModel = require("../../model/ChallengeEventsRecordModel");
 const ClassroomModel = require("../../model/ClassroomModel");
 
-const socketIOConfig = (io) => {
+const socketIOConfig = (io, challenge_id) => {
     /**
      * Application has multiple tenants so you want to dynamically create one namespace per tenant
      */
-    const socketIOAllServersNamespace = io.of(/^\/dynamic-\d+$/);
+    // const socketIOAllServersNamespace = io.of(/^\/dynamic-\d+$/);
     // const socketIOAllServersNamespace = io.of('/');
+    const socketIOServerDedicatedNamespaceByChallengeId = io.of(`/${challenge_id}`);
 
-    socketIOAllServersNamespace.on("connection", async function (socket) {
+    socketIOServerDedicatedNamespaceByChallengeId.on("connection", async function (socket) {
         console.log("/******************* 'socketIOConfig.js io.on('connection')' ********************/");
         const socketIOServerDedicatedNamespaceByChallengeId = socket.nsp;
+        console.log('io.of(`/${challenge_id}`).on("connection",...) socketIOServerDedicatedNamespaceByChallengeId', socketIOServerDedicatedNamespaceByChallengeId);
         /**
          * socketIOServerDedicatedNamespaceByChallengeId.emit() to emit notify all other client about
          * a changing in ChallengeEventsRecordModel RankingChart (whenever a user emit a right answer
          * that adding a score in server RankingChart)
          */
         socket.isAuthenticated = false;
-
-
-
         socket.on('authenticate', async function (token) {
             try {
+                console.log("Inside socketIOConfig.js socket.on('authenticate')");
                 const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
                 const user_id = decoded.user_id;
                 const verifyUserModel = await UserModel.find({ _id: user_id })
                 if (!verifyUserModel) {
-                    console.log("socketIOConfig.js io.on('connection') token invalid since user_id not match with any user");
+                    console.log("socketIOConfig.js socket.on('authenticate') token invalid since user_id not match with any user");
                 } else {
                     console.log("Authenticated socket, socket.id:", socket.id);
                     console.log("Authenticated socket, socket.handshake.auth:", socket.handshake.auth);
@@ -137,14 +137,13 @@ const socketIOConfig = (io) => {
 }
 
 const checkAndUpdateAllChallengeStatus = async (io) => {
-    cron.schedule('* * * * * *', async function () {
-        console.log('checkAndUpdateAllChallengeStatus every second');
+    cron.schedule('*/1 * * * *', async function () {
         var currentDate = new Date()
         const AllChallengesModel = await ChallengeModel.find({});
         for (const ChallengeModelItem of AllChallengesModel) {
             if (ChallengeModelItem.start > currentDate) {
                 if (ChallengeModelItem.status !== 1) {
-                    console.log(`Status of challenge ${ChallengeModelItem.challenge_id} change to upcoming`)
+                    console.log(`Status of challenge ${ChallengeModelItem._id} change to upcoming`)
                     ChallengeModelItem.status = 1
                 }
             }
@@ -152,7 +151,11 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                 if (ChallengeModelItem.status !== 0) {
                     console.log(`Status of challenge ${ChallengeModelItem._id} change to challenging`)
                     ChallengeModelItem.status = 0;
+                }
 
+                const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge_id: ChallengeModelItem._id });
+
+                if (!ChallengeEventsRecordModelQuery) {
                     const newChallengeEventsRecordModel = new ChallengeEventsRecordModel({
                         /** 
                          * Currenly Challenge is create with challenge_id as main id 
@@ -167,7 +170,7 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                         end: ChallengeModelItem.end,
                         currentTime: currentDate,
                         /* Date() - Date() will throw a Number that in ms unit */
-                        currentTimeLeft: currentDate - ChallengeModelItem.start,
+                        currentTimeLeft: Math.max(ChallengeModelItem.end - currentDate, 0),
                         /**
                          * Sort by score
                          */
@@ -175,6 +178,11 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                     });
                     try {
                         await newChallengeEventsRecordModel.save();
+                        /**
+                         * Register on('connection') for now newly challenging Challenge to start
+                         * receiving connection request from socket clients for this namespace ('challenge_id') socket
+                         */
+                        socketIOConfig(io, challenge_id);
                     } catch (err) {
                         console.log("checkAndUpdateAllChallengeStatus await newChallengeEventsRecordModel.save(); Error", err);
                     }
@@ -182,7 +190,6 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                     /**
                      * Challenging is Still Ongoing, Update the currentTime field for ChallengeEventsRecordModel
                      */
-                    const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge_id: ChallengeModelItem._id });
                     ChallengeEventsRecordModelQuery.currentTime = currentDate;
                     ChallengeEventsRecordModelQuery.currentTimeLeft = ChallengeEventsRecordModelQuery.end - currentDate;
                     try {
@@ -196,7 +203,7 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
             }
             else if (ChallengeModelItem.end < currentDate) {
                 if (ChallengeModelItem.status !== 2) {
-                    console.log(`Status of challenge ${ChallengeModelItem.challenge_id} change to ended`)
+                    console.log(`Status of challenge ${ChallengeModelItem._id} change to ended`)
                     /**
                      * 
                      *      Code for Challenge EndTime Reached Here

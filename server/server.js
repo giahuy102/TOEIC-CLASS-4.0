@@ -25,7 +25,6 @@ const io = require("socket.io")(expressHttpServer, {
 exports.io = io;
 
 const { socketIOConfig, checkAndUpdateAllChallengeStatus } = require("./services/socket/socketIOConfig");
-socketIOConfig(io);
 checkAndUpdateAllChallengeStatus(io);
 
 /**

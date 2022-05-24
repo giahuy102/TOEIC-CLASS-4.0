@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 
 export default function ChallengeScreen({ navigation, route }) {
 
-    console.log('ClassroomDetailScreen routeParams', route.params);
+    // console.log('ClassroomDetailScreen routeParams', route.params);
     const { classId } = route.params;
 
     React.useLayoutEffect(() => {

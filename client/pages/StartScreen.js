@@ -52,10 +52,10 @@ export default function StartScreen({ navigation }) {
 
       if (loadTokenResponse) {
         try {
-          console.log("load token in try: ", loadTokenResponse)
+          // console.log("load token in try: ", loadTokenResponse)
           const authServiceResponse = await AuthService.getUser(loadTokenResponse);
           const userData = authServiceResponse.data;
-          console.log("user data: ", userData)
+          // console.log("user data: ", userData)
           dispatch(updateProfileState(userData));
           navigation.dispatch(state => {
             return CommonActions.reset({

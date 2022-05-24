@@ -66,12 +66,12 @@ const challengeRealTimeSlice = createSlice({
     }
 })
 
-export const { initChallengeRealTimeSlice, addNewUserParticipateChallenge } = challengeRealTimeSlice.actions;
+export const { initChallengeRealTimeSlice, addNewUserParticipateChallenge, updateRankingChartFromServerData, endingChallengeRealTimeEvent } = challengeRealTimeSlice.actions;
 
 export default challengeRealTimeSlice.reducer;
 
 export const initiateChallengeRealTimeSocket = createAsyncThunk('challengeRealTime/initiateChallengeRealTimeSocket', async (socket, thunkAPI) => {
-    const { userId, challenge_id } = socket.socket.auth;
+    const { user_id, challenge_id } = socket.socket.auth;
     try {
         /**
          * After socket.connect(), server will also emit:
@@ -80,7 +80,7 @@ export const initiateChallengeRealTimeSocket = createAsyncThunk('challengeRealTi
          */
         await socket.connect();
         console.log('challengeRealTimeSlice initiateChallengeRealTimeSocket');
-        return { chatSocketId: socket.id, socketOwnerId: userId, challenge_id };
+        return { chatSocketId: socket.id, socketOwnerId: user_id, challenge_id };
     }
     catch (error) {
         console.log('initiateChallengeRealTimeSocket Thunk rejected Error', error);
@@ -137,7 +137,7 @@ export const initiateEventListeners = createAsyncThunk('challengeRealTime/initia
 
     await socket.on('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', (data) => {
         const { ChallengeEventsRecordModelQuery } = data;
-        thunk.dispatch(updateRankingChartFromServerData({ ChallengeEventsRecordModelQuery }));
+        thunkAPI.dispatch(updateRankingChartFromServerData({ ChallengeEventsRecordModelQuery }));
     })
 })
 

@@ -16,7 +16,7 @@ export default function ChallengeUpcoming({ navigation, route }) {
     useEffect(async () => {
         await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_upcoming/${classId}`)
             .then(res => {
-                console.log('Challenge Upcoming load challenges list response data', res.data);
+                // console.log('Challenge Upcoming load challenges list response data', res.data);
                 dispatch(loadUpcomingChallengesList(res.data));
             })
             .catch((err) => {

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function Profile({ navigation, route }) {
 	const email = useSelector(state => state.profile.email);
-	const username = useSelector (state => state.profile.username);
+	const username = useSelector(state => state.profile.username);
 	const userData = {
 		email: email,
 		username: username,
 	}
-	console.log("user: ", userData);
+	// console.log("user: ", userData);
 
 	return (
 		<View style={styles.container}>

@@ -12,13 +12,13 @@ export default function ChallengeChallenging({ navigation, route }) {
     const dispatch = useDispatch();
     const { classId } = route.params;
     const challengesList = useSelector(state => state.challengesList.challengingChallengesList);
-    console.log('ChallengeChallenging Screen challengesList', challengesList);
+    // console.log('ChallengeChallenging Screen challengesList', challengesList);
     // const [challengesList, setChallengesList] = useState([])
 
     useEffect(async () => {
         await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_challenging/${classId}`)
             .then(res => {
-                console.log('Challenge Challenging load challenges list response data', res.data);
+                // console.log('Challenge Challenging load challenges list response data', res.data);
                 dispatch(loadChallengingChallengesList(res.data));
             })
             .catch((err) => {
