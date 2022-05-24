@@ -3,59 +3,53 @@ const router = express.Router();
 
 const UserModel = require("../model/UserModel");
 
+router.put('/update_account', async (req, res) => {
+    // console.log("req body: ", req.body)
+    const newUsername = req.body['newUsername']
+    const newEmail = req.body['newEmail']
+    const oldEmail = req.body['oldEmail']
 
-// const auth = require('../middleware/verifyToken');
-// router.post('/get_user', auth, async (req, res) => {
-//     try {
-//         const user = await UserModel.findOne({ _id: req.user.user_id });
-//         if (!user) {
-//             res.status(404).send('User Not Found');
-//         } else {
-//             const responseData = JSON.parse(JSON.stringify(user));
-//             responseData['password'] = '';
-//             responseData['created_at'] = '';
-//             res.status(201).send(responseData);
-//         }
-//     } catch (err) {
-//         res.status(404).send(`Mongoose query error: ${err}`);
-//     }
-// });
+    let foundUser = await UserModel.findOne({ email: oldEmail })
 
-/* 
-    Loi 404. Kha nang cao loi giong o dong 12 cua file authRoute.js
-    handle update, change -> finish
-    challenge result not done -> must be done
-*/
-
-router.post('/update', async (req, res) => {
-    const user = req.body.user;
-    console.log("/update -> user: ", user);
-    if (req.body.email != req.body.oldEmail) {
-        const emailExist = await UserModel.findOne({ email: req.body.email });
-        if (emailExist) return res.status(400).send('Email already exists');
-        user.email = req.body.email;
+    if (newEmail != oldEmail) {
+        let emailExist = await UserModel.findOne({ email: newEmail })
+        if (emailExist) {
+            return res.status(404).send("Email exists")
+        }
+        foundUser['email'] = newEmail
+        foundUser['username'] = newUsername
     }
-    user.username = req.body.username;
+
     try {
-        const saved = await user.saved();
-        res.status(201).send("Update account successfully");
+        await foundUser.save()
+        res.status(200).send(foundUser)
     }
     catch (err) {
-        res.status(400).send(err);
+        res.status(404).send("Error when updating account")
     }
+
 });
 
-router.post('/change', async (req, res) => {
-    const user = req.body.user;
-    console.log("/change -> user: ", user);
-    user.fullname = req.body.fullname;
-    user.birthday = req.body.birthday;
+router.put('/change_info', async (req, res) => {
+    // console.log("req body: ", req.body)
+    const newFullName = req.body['newFullName']
+    const newBirthDate = req.body['newBirthDate']
+    const email = req.body['email']
+
+    let foundUser = await UserModel.findOne({ email: email })
+
+    console.log("test: ", foundUser['fullname'])
+    console.log("test: ", foundUser['birthdate'])
+
+    foundUser['fullname'] = newFullName
+    foundUser['birthdate'] = newBirthDate
+
     try {
-        const saved = await user.saved();
-        res.status(201).send("Change information successfully");
+        await foundUser.save()
+        res.status(200).send(foundUser)
     }
     catch (err) {
-        res.status(400).send(err);
+        res.status(404).send("Error when change info")
     }
 });
 

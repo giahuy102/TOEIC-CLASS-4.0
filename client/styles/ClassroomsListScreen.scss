@@ -52,6 +52,20 @@
     color: white;
 }
 
+.ClassroomsListScreenNotPressedButton {
+    @extend %PrimaryNotPressedButton;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    margin: 5px;
+}
+
+.ClassroomsListScreenNotPressedButtonText {
+    @extend %PrimaryButtonTextFont;
+    font-weight: normal;
+    font-size: 15;
+    color: white;
+}
 
 .ClassroomsListCategoriesButtonView {
     width: 95%;

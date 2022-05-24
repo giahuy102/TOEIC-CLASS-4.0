@@ -33,6 +33,7 @@
     "react-native": "0.64.3",
     "react-native-date-picker": "^4.2.1",
     "react-native-image-zoom-viewer": "^3.0.1",
+    "react-native-indicator": "^1.2.2",
     "react-native-multiple-choice-picker": "^1.0.6",
     "react-native-pager-view": "5.4.9",
     "react-native-paper": "^4.12.1",

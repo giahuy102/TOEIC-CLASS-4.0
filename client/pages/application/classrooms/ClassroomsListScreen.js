@@ -82,28 +82,28 @@ export default function ClassroomsListScreen({ navigation, route }) {
         <View style={AppStyles.ClassroomsListFlexStartContainer}>
             <View style={AppStyles.ClassroomsListCategoriesButtonView}>
                 <Pressable
-                    style={AppStyles.ClassroomsListScreenOtherButton}
+                    style={categoriesQuery === "all" ? AppStyles.ClassroomsListScreenOtherButton : AppStyles.ClassroomsListScreenNotPressedButton}
                     onPress={() => { setCategoriesQuery('all') }}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>All</Text>
                 </Pressable>
 
                 <Pressable
-                    style={AppStyles.ClassroomsListScreenOtherButton}
+                    style={categoriesQuery === "upcoming" ? AppStyles.ClassroomsListScreenOtherButton : AppStyles.ClassroomsListScreenNotPressedButton}
                     onPress={() => { setCategoriesQuery('upcoming') }}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Upcoming</Text>
                 </Pressable>
 
                 <Pressable
-                    style={AppStyles.ClassroomsListScreenOtherButton}
+                    style={categoriesQuery === "ongoing" ? AppStyles.ClassroomsListScreenOtherButton : AppStyles.ClassroomsListScreenNotPressedButton}
                     onPress={() => { setCategoriesQuery('ongoing') }}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Ongoing</Text>
                 </Pressable>
 
                 <Pressable
-                    style={AppStyles.ClassroomsListScreenOtherButton}
+                    style={categoriesQuery === "finished" ? AppStyles.ClassroomsListScreenOtherButton : AppStyles.ClassroomsListScreenNotPressedButton}
                     onPress={() => { setCategoriesQuery('finished') }}
                 >
                     <Text style={AppStyles.ClassroomsListScreenOtherButtonText}>Finished</Text>
