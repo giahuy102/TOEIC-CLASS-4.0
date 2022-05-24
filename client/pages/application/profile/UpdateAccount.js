@@ -33,7 +33,7 @@ export default function UpdateAccount({ navigation, route }) {
 	const onPressHandler = (event) => {
 		event.preventDefault();
 		ProfileService.update(
-			userData, username, email, oldEmail
+			username, email, oldEmail
 		).then( res => {
 			Alert.alert('Updated!', '', [
 				{ text: 'OK', onPress: () => navigation.pop() }

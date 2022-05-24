@@ -28,7 +28,7 @@ const UserModel = require("../model/UserModel");
 */
 
 router.post('/update', async (req, res) => {
-    const user = req.body.user;
+    const user = UserModel.findOne({email: req.body.email});
     console.log("/update -> user: ", user);
     if (req.body.email != req.body.oldEmail) {
         const emailExist = await UserModel.findOne({ email: req.body.email });
@@ -37,7 +37,7 @@ router.post('/update', async (req, res) => {
     }
     user.username = req.body.username;
     try {
-        const saved = await user.saved();
+        const saved = await user.save();
         res.status(201).send("Update account successfully");
     }
     catch (err) {

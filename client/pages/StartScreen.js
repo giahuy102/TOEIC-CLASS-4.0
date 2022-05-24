@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, SafeAreaView } from 'react-native';
-
+import { Button, StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
+import AppStyles from "../styles/OnboardingScreen.scss"
 
 import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,6 +15,10 @@ import { updateProfileState } from "./application/profile/slice/profileSlice";
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import axios from 'axios';
+
+import { ActivityIndicator, Colors } from 'react-native-paper';
+
+//import { CirclesLoader } from 'react-native-indicator'
 
 // const BASE_API_URL = `http://localhost:${3001}`;
 // const CHALLENGE_PREFIX = '/api/challenge';
@@ -68,7 +72,7 @@ export default function StartScreen({ navigation }) {
                     state: {
                       routes: [{
                         name: 'Profile',
-                        params: userData 
+                        params: userData
                       }]
                     }
                   }]
@@ -131,12 +135,12 @@ export default function StartScreen({ navigation }) {
         />
       </View>
 
-      {/* <View style={styles.button}>
+      <View style={styles.button}>
         <Button
           title="Challenge"
           onPress={() => navigation.navigate('Challenge')}
         />
-      </View> */}
+      </View>
 
       <View style={styles.button}>
         <Button
@@ -164,8 +168,17 @@ export default function StartScreen({ navigation }) {
           title="Doing test"
           onPress={() => navigation.navigate('ChallengeDoingSection')}
         />
-      </View>
+      </View> */}
 
+      <View style={AppStyles.OnboardingTextView}>
+        <Image
+          style={AppStyles.OnboardingImage}
+          source={require('../assets/onboardingImage/Onboarding1.png')}
+        />
+        <Text style={AppStyles.OnboardingHeader}>{"Toeic 4.0"}</Text>
+        <Text style={AppStyles.OnboardingText}>{"Version 0.0.1\nMobile App Team"}</Text>
+        <ActivityIndicator animating={true} color={Colors.red800} />
+      </View>
     </View >
 
   );
