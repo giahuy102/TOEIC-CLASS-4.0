@@ -120,7 +120,7 @@ const socketIOConfig = (io, challenge_id) => {
             const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge: challenge_id });
 
             /**
-             * Only if the question state is still 'NG' shall we update examState
+             * Only if the question state is still 'NG' shall we update examStatew
              */
             if (ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].answerState === 'NG') {
                 if (!isAnswerCorrected) {
