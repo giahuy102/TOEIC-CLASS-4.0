@@ -93,6 +93,9 @@ export const initiateChallengeRealTimeSocket = createAsyncThunk('challengeRealTi
  * because no event listener registered yet, the client socket have just connected 
  */
 
+/**
+ * The 'navigation' is belong to ClassroomChallengesStackScreen
+ */
 export const initiateEventListeners = createAsyncThunk('challengeRealTime/initiateEventListeners', async ({ socket, navigation }, thunkAPI) => {
     // console.log("challengeRealTimeSlice: Initiate Event Listener thunk called");
 
@@ -129,9 +132,13 @@ export const initiateEventListeners = createAsyncThunk('challengeRealTime/initia
          * the history to erase the ChallengeRealTimeStackScreen StackNavigator out of history tree but still keep
          * the Stack Navigator parent that one level above it (which is ClassoomChallengesStackScreen)
          */
-        navigation.popToTop();
-        navigation.pop();
-        navigation.navigate('ChallengeResult', { rankingChart: ChallengeEventsRecordModelQuery.rankingChart });
+        /**
+         * The 'navigation' is belong to ClassroomChallengesStackScreen
+         */
+        navigation.pop(); /**Since navigation belongs to ClassroomChallengesStackScreen, the current top of the stack 
+        * is the whole ChallengeRealTimeStackScreen Stack Navigator -> pop() the whole Stack.Navigator and all of its sub history tree
+        */
+        navigation.navigate('ChallengeResult');
     })
 
     await socket.on('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', (data) => {
@@ -159,14 +166,6 @@ export const destroyChallengeRealTimeSocket = createAsyncThunk('challengeRealTim
 
 export const socketEmitUserChooseAnAnswerEvent = createAsyncThunk('challengeRealTime/socketEmitUserChooseAnAnswerEvent', async ({ socket, user_id, sectionIndex, questionIndex, theAnswer, isAnswerCorrected, challenge_id }, thunkAPI) => {
     try {
-        // console.log("socketEmitUserChooseAnAnswerEvent Thunk prepare to emit 'userChooseAnAnswer' event", {
-        //     user_id,
-        //     sectionIndex,
-        //     questionIndex,
-        //     theAnswer,
-        //     isAnswerCorrected,
-        //     challenge_id
-        // });
         await socket.emit('userChooseAnAnswer', {
             user_id,
             sectionIndex,

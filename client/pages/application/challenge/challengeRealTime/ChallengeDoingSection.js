@@ -63,9 +63,13 @@ export default function ChallengeDoingSection({ navigation, route }) {
             //     })
             // });
 
-            navigation.popToTop();
-            navigation.pop();
-            navigation.navigate("ChallengeResult");
+            /**
+             * ChallengeRealTimeStackScreen.js navigation
+             */
+
+            navigation.popToTop(); /* Pop until the last screen left in ChallengeRealTimeStackScreen Stack.Navigator */
+            navigation.pop(); /* Pop that final last Screen, ReactNavigation will trigger the pop() of the whole Stack.Navigator of ChallengeRealTimeStackScreen */
+            navigation.navigate("ChallengeResult"); /* Now the nearest parent navigator is in ClassroomChallengesStackScreen */
         }
     }
 
