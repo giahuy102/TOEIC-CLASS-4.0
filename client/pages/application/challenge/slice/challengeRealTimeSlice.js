@@ -129,6 +129,8 @@ export const initiateEventListeners = createAsyncThunk('challengeRealTime/initia
          * the history to erase the ChallengeRealTimeStackScreen StackNavigator out of history tree but still keep
          * the Stack Navigator parent that one level above it (which is ClassoomChallengesStackScreen)
          */
+        navigation.popToTop();
+        navigation.pop();
         navigation.navigate('ChallengeResult', { rankingChart: ChallengeEventsRecordModelQuery.rankingChart });
     })
 

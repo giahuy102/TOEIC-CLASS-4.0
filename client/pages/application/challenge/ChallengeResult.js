@@ -59,6 +59,7 @@ export default function ChallengeResult({ navigation, route }) {
                         FlatListHeader(item, index)
                     );
                 }}
+                keyExtractor={(item) => item.username}
             >
 
             </FlatList>
@@ -71,7 +72,7 @@ export default function ChallengeResult({ navigation, route }) {
                         FlatListItem(item, index)
                     );
                 }}
-                keyExtractor={(item, index) => index.toString()}
+                keyExtractor={(item) => item.username}
             >
 
             </FlatList>

@@ -18,7 +18,7 @@ const socketIOConfig = (io, challenge_id) => {
     const socketIOServerDedicatedNamespaceByChallengeId = io.of(`/${challenge_id}`);
 
     socketIOServerDedicatedNamespaceByChallengeId.on("connection", async function (socket) {
-        console.log("/******************* 'socketIOConfig.js io.on('connection')' ********************/");
+        console.log("'socketIOConfig.js io.of(`/${challenge_id}`).on('connection')' challenge_id Namespace", challenge_id);
         const socketIOServerDedicatedNamespaceByChallengeId = socket.nsp;
         // console.log('io.of(`/${challenge_id}`).on("connection",...) socketIOServerDedicatedNamespaceByChallengeId', socketIOServerDedicatedNamespaceByChallengeId);
         /**
@@ -29,7 +29,7 @@ const socketIOConfig = (io, challenge_id) => {
         socket.isAuthenticated = false;
         socket.on('authenticate', async function (token) {
             try {
-                console.log("Inside socketIOConfig.js socket.on('authenticate')");
+                console.log("Inside socketIOConfig.js socket.on('authenticate') Namespace", socket.nsp.name);
                 const decoded = jwt.verify(token, process.env.SECRET_TOKEN);
                 const user_id = decoded.user_id;
                 const verifyUserModel = await UserModel.find({ _id: user_id })
@@ -115,9 +115,11 @@ const socketIOConfig = (io, challenge_id) => {
 
         socket.on('userChooseAnAnswer', async function (data) {
             // console.log("[socketIOConfig.js]  socket.on('userChooseAnAnswer',...) data ", data);
+            console.log("Inside socketIOConfig.js socket.on('userChooseAnAnswer',...) Namespace", socket.nsp.name);
+            console.log("Inside socketIOConfig.js socket.on('userChooseAnAnswer',...) challenge_id", data.challenge_id);
             const { user_id, sectionIndex, questionIndex, theAnswer, isAnswerCorrected, challenge_id } = data;
             const ChallengeParticipationModelQuery = await ChallengeParticipationModel.findOne({ user: user_id, challenge: challenge_id });
-            const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge: challenge_id });
+            const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge_id: challenge_id });
 
             /**
              * Only if the question state is still 'NG' shall we update examStatew
@@ -144,12 +146,12 @@ const socketIOConfig = (io, challenge_id) => {
                             break;
                         }
                     }
-                    ChallengeEventsRecordModelQuery.rankingChart = ChallengeEventsRecordModelQuery.rankingChart.sort((user1, user2) => user1.score - user2.score);
                 }
                 try {
                     await ChallengeParticipationModelQuery.save();
                     try {
                         await ChallengeEventsRecordModelQuery.save();
+                        socketIOServerDedicatedNamespaceByChallengeId.emit('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', { ChallengeEventsRecordModelQuery });
                     } catch (err) {
                         console.log("socket.on('userChooseAnAnswer', ...): await ChallengeEventsRecordModelQuery.save(); Error", err)
                     }
@@ -228,7 +230,7 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                     try {
                         await ChallengeEventsRecordModelQuery.save();
                         const socketIOServerDedicatedNamespaceByChallengeId = io.of(`/${ChallengeModelItem._id}`);
-                        socketIOServerDedicatedNamespaceByChallengeId.emit('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', { ChallengeEventsRecordModelQuery });
+                        // socketIOServerDedicatedNamespaceByChallengeId.emit('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', { ChallengeEventsRecordModelQuery });
                     } catch (err) {
                         console.log("checkAndUpdateAllChallengeStatus await ChallengeEventsRecordModelQuery.save(); Error", err);
                     }

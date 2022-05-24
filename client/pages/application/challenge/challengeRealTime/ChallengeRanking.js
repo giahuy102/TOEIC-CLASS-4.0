@@ -23,7 +23,7 @@ export default function ChallengeRanking({ navigation, route }) {
 
     const FlatListItem = (item, index) => {
         return (
-            <TouchableOpacity style={styles.member} onPress={() => navigation.navigate('ChallengeTest', item)}>
+            <TouchableOpacity style={styles.member} onPress={() => { }}>
                 <View style={styles.left}>
                     <View style={{
                         width: '80%',

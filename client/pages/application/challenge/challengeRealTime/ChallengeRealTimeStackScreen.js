@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import ChallengeDoingSection from "./ChallengeDoingSection";
 import ChallengeRanking from "./ChallengeRanking";
+import ChallengeWaitingScreen from "./ChallengeWaitingScreen";
 
 import AppStyles from "../../../../styles/SystemFontStyles";
 
@@ -18,20 +19,19 @@ import { initiateChallengeRealTimeSocket, destroyChallengeRealTimeSocket, socket
  */
 let challengeRealTimeSocketClient = {};
 const initDeviceEventEmitter = (dispatch) => {
-    DeviceEventEmitter.addListener('callbackUsingChallengeRealTimeSocketClient', async ({ dispatchAction, eventData }) => {
-        // console.log("DeviceEventEmitter.addListener('callbackUsingChallengeRealTimeSocketClient', ...) event triggered");
+    const callbackUsingChallengeRealTimeSocketClient_DeviceEventEmitterSubscription = DeviceEventEmitter.addListener('callbackUsingChallengeRealTimeSocketClient', async ({ dispatchAction, eventData }) => {
+        console.log("DeviceEventEmitter.addListener('callbackUsingChallengeRealTimeSocketClient', ...) event triggered");
         if (challengeRealTimeSocketClient) {
             dispatch(dispatchAction({ ...eventData, socket: challengeRealTimeSocketClient }))
         } else {
             // console.log("DeviceEventEmitter.addListener('challengeRealTimeSocketClientEmitEvent',...) Error: challengeRealTimeSocketClient not yet initializt to point to SocketClient, still a empty object {}");
         }
     })
-
+    return callbackUsingChallengeRealTimeSocketClient_DeviceEventEmitterSubscription;
 }
 
 export default function ChallengeRealTimeStackScreen({ navigation, route }) {
     const dispatch = useDispatch();
-    initDeviceEventEmitter(dispatch);
     const examState = useSelector(state => state.challengeRealTime.examState);
 
     const { ChallengeId: challenge_id, ChallengeClassId: class_id } = route.params;
@@ -43,13 +43,13 @@ export default function ChallengeRealTimeStackScreen({ navigation, route }) {
          * The 'navigation' is belong to ClassroomChallengesStackScreen
          */
         challengeRealTimeSocketClient = new SocketClient(user_id, challenge_id, class_id, dispatch, navigation);
+        const callbackUsingChallengeRealTimeSocketClient_DeviceEventEmitterSubscription = initDeviceEventEmitter(dispatch);
         dispatch(initiateChallengeRealTimeSocket(challengeRealTimeSocketClient));
-        // return () => {
-        //     dispatch(destroyChallengeRealTimeSocket(challengeRealTimeSocketClient));
-        //     challengeRealTimeSocketClient = {};
-        // };
         return () => {
-        }
+            dispatch(destroyChallengeRealTimeSocket(challengeRealTimeSocketClient));
+            callbackUsingChallengeRealTimeSocketClient_DeviceEventEmitterSubscription.remove();
+            challengeRealTimeSocketClient = {};
+        };
     }, [])
 
 
@@ -58,12 +58,16 @@ export default function ChallengeRealTimeStackScreen({ navigation, route }) {
 
     return (
         <Stack.Navigator
-            initialRouteName={examState[0] ? `ChallengeDoingSection${examState[0].key}` : `ChallengeDoingSection${0}`}
+            initialRouteName={"ChallengeWaitingScreen"}
             screenOptions={{
                 headerTitleAlign: 'center',
                 headerTitleStyle: AppStyles.HeaderTitleStyle,
             }}
         >
+            <Stack.Group>
+                <Stack.Screen name="ChallengeWaitingScreen" component={ChallengeWaitingScreen} options={{ headerBackVisible: false }} />
+            </Stack.Group>
+
             <Stack.Group>
                 {examState.map(sectionData => (
                     <Stack.Screen

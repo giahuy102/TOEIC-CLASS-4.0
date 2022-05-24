@@ -9,7 +9,7 @@ const ChallengeEventsRecordModel = require('../model/ChallengeEventsRecordModel'
 
 router.post('/create_challenge', async (req, res) => {
     try {
-        console.log("req body: ", req.body)
+        // console.log("req body: ", req.body)
         const { userId, classId } = req.body;
         const user = await UserModel.findOne({ _id: userId });
         console.log("user: ", user)
