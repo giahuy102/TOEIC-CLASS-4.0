@@ -29,7 +29,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     const routeParams = route.params;
     const { _id: classId, teacherId, number_student, level, end_date, start_date, classname } = routeParams;
 
-    console.log('ClassroomDetailScreen classId', classId);
+    // console.log('ClassroomDetailScreen classId', classId);
 
     useEffect(() => {
         if (routeParams && routeParams.classname) {
@@ -43,7 +43,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
         { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen', params: { classId } },
         { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember', params: { classId } },
         { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult', params: { classId } },
-        { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: '' },
+        { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: 'Exams' },
         { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen', params: { classId } }
     ]
 
@@ -71,7 +71,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
             </View>
             <View style={AppStyles.ClassroomDetailScreenBody}>
                 {buttonInfoList.map((buttonInfo) => {
-                    console.log('ClassroomDetailScreen buttonInfo params', buttonInfo.params);
+                    // console.log('ClassroomDetailScreen buttonInfo params', buttonInfo.params);
                     return (
                         <Pressable
                             key={buttonInfo.buttonName}

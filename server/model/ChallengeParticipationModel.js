@@ -17,11 +17,25 @@ const userSchema = new mongoose.Schema({
     status: Number, //0: Not done, 1: Done
     examState: [
         {
+            key: Number, //0, 1, 2, 3, 4, 5,...
             section_question: String,
+            images: [{
+                key: Number,
+                path: Buffer
+            }],
             questions: [
                 {
+                    key: Number,
                     question: String,
-                    questionState: String, // "Not answered", "Wrong Answer", "Corrected Answer"
+                    answerState: String, //'NG','WA','AC'
+                    chosenAnswer: String,
+                    answers: [
+                        {
+                            key: Number,
+                            answer: String,
+                            is_correct: Boolean
+                        }
+                    ]
                 }
             ]
         }

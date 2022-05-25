@@ -45,15 +45,14 @@ export default function ClassroomsListScreen({ navigation, route }) {
         } else if (categoriesQuery === 'finished') {
             newSearchedClassroomsListData = newSearchedClassroomsListData.filter(ClassroomInfo => ClassroomInfo.status === 2)
         }
-        console.log('ClassroomListScreen categoriesQuery', newSearchedClassroomsListData);
-        console.log('ClassroomListScreen newSearchedClassroomsListData', newSearchedClassroomsListData);
+        // console.log('ClassroomListScreen categoriesQuery', newSearchedClassroomsListData);
+        // console.log('ClassroomListScreen newSearchedClassroomsListData', newSearchedClassroomsListData);
         setSearchedClassroomsListData(newSearchedClassroomsListData);
     }, [searchClassroomByNameQuery, categoriesQuery])
 
     React.useEffect(async () => {
         const fetchAllClassrooms = async () => {
             const loadTokenResponse = await loadToken();
-            console.log('ClassroomsListScreen Tokens:', loadTokenResponse);
             const fetchAllClassroomsResponse = await ClassroomService.getAllClassrooms(loadTokenResponse);
             const AllClassroomsData = fetchAllClassroomsResponse.data;
             // console.log('AllClassroomsData', AllClassroomsData);
@@ -64,13 +63,12 @@ export default function ClassroomsListScreen({ navigation, route }) {
     }, []);
 
     const handleAccessToClassroomDetailScreen = async (classroomDetailData) => {
-        console.log(classroomDetailData);
+        // console.log(classroomDetailData);
         const classId = classroomDetailData._id;
-        console.log('classId', classId);
         const getClassroomDetailInfoResponse = await ClassroomService.getClassroomDetailInfo(classId);
         const getClassroomDetailInfoData = getClassroomDetailInfoResponse.data;
         const classroomStudentIdList = getClassroomDetailInfoData['students_list'].map(student_info => student_info._id);
-        console.log("classroomStudentIdList", classroomStudentIdList);
+        // console.log("classroomStudentIdList", classroomStudentIdList);
         if (classroomStudentIdList.includes(profileId)) {
             navigation.navigate("ClassroomDetailScreen", { ...classroomDetailData });
         } else {

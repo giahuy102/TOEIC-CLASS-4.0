@@ -10,12 +10,9 @@ import StartScreen from './pages/StartScreen';
 import Login from './pages/authenticate/Login';
 import Signup from './pages/authenticate/Signup';
 
-import NewSection from './pages/NewSection';
-
 // import Temp from './pages/application/challenge/ChallengeScreen';
 
 import ChallengeCreate from './pages/application/challenge/ChallengeCreate.js';
-import NewExam from "./pages/NewExam";
 import ChallengeResult from "./pages/application/challenge/ChallengeResult";
 import ChallengeTest from "./pages/application/challenge/ChallengeTest";
 import Challenge from './pages/application/challenge/Challenge';
@@ -36,7 +33,6 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import TabSectionNavigator from './components/TabSectionNavigator';
 import ChallengeUpcoming from './pages/application/challenge/ChallengeUpcoming';
 import ChallengeChallenging from './pages/application/challenge/ChallengeChallenging';
-import ChallengeDoingSection from './pages/application/challenge/ChallengeDoingSection';
 
 // import 'react-native-gesture-handler';
 
@@ -69,12 +65,6 @@ export default function App({ navigation }) {
             <Stack.Group screenOptions={{ headerShown: false }}>
               <Stack.Screen name="ApplicationStackScreen" component={ApplicationStackScreen} />
             </Stack.Group>
-
-            <Stack.Screen
-              name="NewSection"
-              component={NewSection}
-              options={{ title: 'New section' }}
-            />
 
             {/* <Stack.Screen
               name="Challenge"
@@ -123,19 +113,6 @@ export default function App({ navigation }) {
               component={MainTabScreen}
               options={{ title: 'MainTabScreen' }}
             />
-
-            <Stack.Screen
-              name="NewExam"
-              component={NewExam}
-              options={{ title: 'Create new exam' }}
-            />
-
-            <Stack.Screen
-              name="ChallengeDoingSection"
-              component={ChallengeDoingSection}
-              options={{ title: 'Doing test challenge' }}
-            />
-
 
           </Stack.Navigator>
         </NavigationContainer>

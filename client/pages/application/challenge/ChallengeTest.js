@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import data from '../../Ignored_Challenge/TEST_DATA.json';
 
+
 export default function ChallengeTest({ navigation, route }) {
 
     const ChallengeItemData = route.params;
-    console.log('ChallengeTest.js ChallengeItemData', ChallengeItemData);
+    // console.log('ChallengeTest.js ChallengeItemData', ChallengeItemData);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -24,12 +25,22 @@ export default function ChallengeTest({ navigation, route }) {
 
     const handleStartChallengeFeature = async () => {
         const ChallengeTestId = ChallengeItemData.test_id;
+        const ChallengeClassId = ChallengeItemData.class_id;
+        const ChallengeId = ChallengeItemData._id;
         try {
             // const ChallengeTestDetailInfoResponse = await TestService.getTestDetailById(ChallengeTestId);
             // const ChallengeTestDetailInfoData = ChallengeTestDetailInfoResponse.data;
             // console.log('ChallengeTest.js ChallengeTestDetailInfo', JSON.stringify(ChallengeTestDetailInfoData));
-            // alert('To the Test');
-            navigation.navigate('ChallengeDoingSection')
+
+
+            /**
+             * 
+             *              STARTING CHALLENGE FEATURE
+             * 
+             */
+            navigation.navigate('ChallengeRealTimeStackScreen', { ChallengeId, ChallengeTestId, ChallengeClassId });
+
+
         } catch (err) {
             console.log('ChallengeTest.js: const ChallengeTestDetailInfo = await TestService.getTestDetailById(ChallengeTestId);', err)
         }

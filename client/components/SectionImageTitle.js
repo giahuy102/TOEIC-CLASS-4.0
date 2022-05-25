@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, ScrollView, ImageStore } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
 
-export default function SectionImageTitle({navigation}) {
+export default function SectionImageTitle({navigation, index, item, images, addImage, setNewImage, deleteImage}) {
 
     const [image, setImage] = useState(null);
 
@@ -18,28 +18,38 @@ export default function SectionImageTitle({navigation}) {
       }
       })();
     }, []);
+    const handleAddImage = () => {
+      if (!item.path) {
+        alert('Please choose your image before inserting new one');
+      }
+      else {
+        addImage();
+      }
+      // addImage();
+    }
 
 
     const chooseImg = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
-        aspect: [4, 3],
+        // aspect: [4, 3],
         quality: 1,			
         allowsEditing: true,
       });
     
-      console.log(result);
+      // console.log(result);
     
       if (!result.cancelled) {
-         setImage(result.uri);
+        //  setImage(result.uri);
+        setNewImage(result);
       }
     };
 
     return (
         <View style={styles.container}>
             {
-              image 
-              ? <Image source={{ uri: image }} style={{ width: '40%', aspectRatio: 1.5, }} />
+              item.path 
+              ? <Image source={{ uri: item.path.uri }} style={{ width: '40%', aspectRatio: 1.5, }} />
               : <Image source={require('../assets/temp_image.png')} />
             }
             <TouchableOpacity
@@ -52,7 +62,51 @@ export default function SectionImageTitle({navigation}) {
             </TouchableOpacity>
             
             {/* <Button title="Choose image from camera roll" onPress={chooseImg} /> */}
-            
+            {
+              index == images.length - 1
+              && 
+              <View
+                style={
+                  {
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    right: 10,
+                    bottom: 10
+                  }
+                
+                }
+              >
+
+                <TouchableOpacity
+                  onPress={handleAddImage}
+                  
+                >
+                    <Image
+                        
+                        // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
+                        // source={IMAGENAME}
+                        source={require('../assets/add_image.png')}
+                    />
+
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={deleteImage}
+                  style={
+                    {
+                      marginLeft: 12
+                    }
+                  }
+                >
+                    <Image
+                        
+                        // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
+                        // source={IMAGENAME}
+                        source={require('../assets/delete_image.png')}
+                    />
+
+                </TouchableOpacity>
+              </View>
+            }
         </View>
     );
 }

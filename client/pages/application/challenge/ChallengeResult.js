@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
-import data from '../../Ignored_Challenge/RESULT_DATA.json'
+import { useSelector } from 'react-redux';
 
-export default function ChallengeResult({ navigation }) {
+export default function ChallengeResult({ navigation, route }) {
+    const rankingChart = useSelector(state => state.challengeRealTime.rankingChart);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -22,10 +23,9 @@ export default function ChallengeResult({ navigation }) {
     const FlatListItem = (item, index) => {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', width: '95%', marginTop: 20 }}>
-                <Text style={{ color: 'red', fontWeight: 'bold', textAlign: 'center', width: '10%' }} >{item.key}</Text>
-                <Text style={{ textAlign: 'center', width: '45%' }}>{item.name}</Text>
-                <Text style={{ textAlign: 'center', width: '35%' }}>{item.id}</Text>
-                <Text style={{ textAlign: 'center', width: '10%' }}>{item.score}</Text>
+                <Text style={{ color: 'red', fontWeight: 'bold', textAlign: 'center', width: '20%' }} >{index}</Text>
+                <Text style={{ textAlign: 'center', width: '60%' }}>{item.username}</Text>
+                <Text style={{ textAlign: 'center', width: '20%' }}>{item.score}</Text>
             </View>
         );
     }
@@ -33,15 +33,14 @@ export default function ChallengeResult({ navigation }) {
     const FlatListHeader = (item, index) => {
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', width: '95%', marginTop: 20 }}>
-                <Text style={{ textAlign: 'center', width: '15%', color: '#1570EF', fontWeight: 'bold', fontSize: 17 }}>{item.key}</Text>
-                <Text style={{ textAlign: 'center', width: '40%', color: '#1570EF', fontWeight: 'bold', fontSize: 17 }}>{item.name}</Text>
-                <Text style={{ textAlign: 'center', width: '30%', color: '#1570EF', fontWeight: 'bold', fontSize: 17 }}>{item.id}</Text>
-                <Text style={{ textAlign: 'center', width: '15%', color: '#1570EF', fontWeight: 'bold', fontSize: 17 }}>{item.score}</Text>
+                <Text style={{ textAlign: 'center', width: '20%', color: '#1570EF', fontWeight: 'bold', fontSize: 17 }}>{item.index}</Text>
+                <Text style={{ textAlign: 'center', width: '60%', color: '#1570EF', fontWeight: 'bold', fontSize: 17 }}>{item.username}</Text>
+                <Text style={{ textAlign: 'center', width: '20%', color: '#1570EF', fontWeight: 'bold', fontSize: 17 }}>{item.score}</Text>
             </View>
         );
     }
 
-    const header_data = [{ "key": "Rank", "name": "Name", "id": "ID", "score": "Score" }];
+    const header_data = [{ "index": "Rank", "username": "Name", "score": "Score" }];
 
     return (
         <View style={styles.container}>
@@ -60,18 +59,20 @@ export default function ChallengeResult({ navigation }) {
                         FlatListHeader(item, index)
                     );
                 }}
+                keyExtractor={(item) => item.username}
             >
 
             </FlatList>
 
             <FlatList
-                data={data}
+                data={rankingChart}
                 renderItem={({ item, index }) => {
                     // console.log(`item = ${JSON.stringify(item)}, index = ${index}`)
                     return (
                         FlatListItem(item, index)
                     );
                 }}
+                keyExtractor={(item) => item.username}
             >
 
             </FlatList>

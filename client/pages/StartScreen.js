@@ -56,10 +56,10 @@ export default function StartScreen({ navigation }) {
 
       if (loadTokenResponse) {
         try {
-          console.log("load token in try: ", loadTokenResponse)
+          // console.log("load token in try: ", loadTokenResponse)
           const authServiceResponse = await AuthService.getUser(loadTokenResponse);
           const userData = authServiceResponse.data;
-          console.log("user data: ", userData)
+          // console.log("user data: ", userData)
           dispatch(updateProfileState(userData));
           navigation.dispatch(state => {
             return CommonActions.reset({
@@ -82,7 +82,7 @@ export default function StartScreen({ navigation }) {
           })
           return;
         } catch (err) {
-          console.log("Error caught successfully");
+          // console.log("JWT Token invalid, must relogin");
           await isOnboardingScreenOpen();
         }
       } else {
@@ -92,7 +92,7 @@ export default function StartScreen({ navigation }) {
 
     const isOnboardingScreenOpen = async () => {
       const isOnboardingTriggered = await isApplicationVisited();
-      console.log("isOnboardingScreenOpen visited answer", isOnboardingTriggered);
+      // console.log("isOnboardingScreenOpen visited answer", isOnboardingTriggered);
       if (!isOnboardingTriggered) {
         navigation.navigate('Onboarding1')
       }
@@ -167,6 +167,20 @@ export default function StartScreen({ navigation }) {
         <Button
           title="Doing test"
           onPress={() => navigation.navigate('ChallengeDoingSection')}
+        />
+      </View> */}
+
+      {/* <View style={styles.button}>
+        <Button
+          title="Exams"
+          onPress={() => navigation.navigate('Exams')}
+        />
+      </View> */}
+
+      {/* <View style={styles.button}>
+        <Button
+          title="NewQuestion"
+          onPress={() => navigation.navigate('NewQuestion')}
         />
       </View> */}
 

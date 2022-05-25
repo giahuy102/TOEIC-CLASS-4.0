@@ -9,7 +9,7 @@ export default function Profile({ navigation, route }) {
 		email: email,
 		username: username,
 	}
-	console.log("user: ", userData);
+	// console.log("user: ", userData);
 
 	return (
 		<View style={styles.container}>

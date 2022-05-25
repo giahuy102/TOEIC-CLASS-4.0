@@ -117,18 +117,16 @@ router.post('/join', tokenValidation, async function (req, res) {
 })
 
 router.post('/all', tokenValidation, async function (req, res) {
-    console.log('Server /api/classroom/all reached');
-
     let AllClassrooms = await ClassroomModel.find({});
     AllClassrooms = JSON.parse(JSON.stringify(AllClassrooms));
     let responseBody = [];
     const userId = req.user.user_id;
     for (let ClassroomInfo of AllClassrooms) {
         const { _id: classroomId } = ClassroomInfo;
-        console.log(`userId: ${userId}, classroomId: ${classroomId}`);
+        // console.log(`userId: ${userId}, classroomId: ${classroomId}`);
         try {
             const findUserJoinClassroomModel = await UserJoinClassroomModel.find({ classroom: classroomId, user: userId })
-            console.log('/api/classroom/all', findUserJoinClassroomModel);
+            // console.log('/api/classroom/all', findUserJoinClassroomModel);
             responseBody.push({ ...ClassroomInfo, isJoined: findUserJoinClassroomModel.length !== 0 })
         } catch (err) {
             console.log('find UserJoinClassroomModel error', err);
@@ -139,7 +137,6 @@ router.post('/all', tokenValidation, async function (req, res) {
 
 router.get('/:class_id/get_basic_info_all_member', async function (req, res) {
     const classId = req.params.class_id;
-    console.log('/api/classroom/:class_id/get_basic_info_all_member class_id params', classId);
     try {
         await UserJoinClassroomModel
             .find({ classroom: classId })

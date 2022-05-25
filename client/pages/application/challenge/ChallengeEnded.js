@@ -17,7 +17,7 @@ export default function ChallengeEnded({ navigation, route }) {
     useEffect(async () => {
         await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_ended/${classId}`)
             .then(res => {
-                console.log('Challenge Ended load challenges list response data', res.data);
+                // console.log('Challenge Ended load challenges list response data', res.data);
                 dispatch(loadEndedChallengesList(res.data))
             })
             .catch((err) => {
