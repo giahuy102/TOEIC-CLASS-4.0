@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
-
 import data from './Participate.json';
 
-export default function Result({ navigation, route }) {
+export default function ResultAll({ navigation, route }) {
 
 	const class_id = route.params["class_id"]
 	const type = route.params["type"]
-	console.log("in result page: ", class_id)
-	console.log("in result page, type: ", type)
+	// console.log("in result page: ", class_id)
+	// console.log("in result page, type: ", type)
 
 	React.useLayoutEffect(() => {																			// return button
 		navigation.setOptions({
@@ -23,6 +21,11 @@ export default function Result({ navigation, route }) {
 			},
 		});
 	}, [navigation]);
+
+	useEffect(async () => {
+		console.log("class_id: ", class_id)
+		console.log("type: ", type)
+    }, [])
 
 	const FlatListItem = (item, index) => {
 		return (

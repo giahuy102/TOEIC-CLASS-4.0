@@ -37,12 +37,14 @@ const classroomRoute = require('./routes/classroomRoute');
 const challengeRoute = require('./routes/challengeRoute');
 const testRoute = require('./routes/testRoute');
 const profileRoute = require('./routes/profileRoute')
+const challengeJoinRoute = require('./routes/challengeJoinRoute')
 
 app.use('/api/classroom', classroomRoute);
 app.use('/api/user', authRoute);
 app.use('/api/challenge', challengeRoute);
 app.use('/api/test', testRoute);
 app.use('/api/profile', profileRoute);
+app.use('/api/challengeJoin', challengeJoinRoute);
 
 /*
     * * * * * *

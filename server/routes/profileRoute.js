@@ -38,9 +38,6 @@ router.put('/change_info', async (req, res) => {
 
     let foundUser = await UserModel.findOne({ email: email })
 
-    console.log("test: ", foundUser['fullname'])
-    console.log("test: ", foundUser['birthdate'])
-
     foundUser['fullname'] = newFullName
     foundUser['birthdate'] = newBirthDate
 

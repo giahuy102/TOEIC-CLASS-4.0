@@ -4,11 +4,18 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import Result from './Result';
+import ResultAll from './ResultAll';
+import ResultMonth from './ResultMonth';
+import ResultWeek from './ResultWeek'
+
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function YourResult ({ navigation, route }) {
+export default function YourResult({ navigation, route }) {
+
+
+	const class_id = route.params
+	console.log("in personal result, class id: ", class_id)
 
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
@@ -35,10 +42,10 @@ export default function YourResult ({ navigation, route }) {
 					fontWeight: 'bold',
 				},
 			}}
-		>            
-			<Tab.Screen name="ClassroomsListScreen" component={Result} options={{ title: "All" }} />
-			<Tab.Screen name="Profile" component={Result} options={{ title: "Month" }} />
-			<Tab.Screen name="MoreSettingsScreen" component={Result} options={{ title: "Week" }} />
+		>
+			<Tab.Screen name="All" component={ResultAll} initialParams={{ class_id, 'type': 'all' }} options={{ title: "All" }} />
+			<Tab.Screen name="Month" component={ResultMonth} initialParams={{ class_id, 'type': 'month' }} options={{ title: "Month" }} />
+			<Tab.Screen name="Week" component={ResultWeek} initialParams={{ class_id, 'type': 'week' }} options={{ title: "Week" }} />
 		</Tab.Navigator>
 
 	);

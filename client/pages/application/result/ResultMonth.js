@@ -1,38 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
-import data from '../../Ignored_Challenge/DATA.json'
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { loadEndedChallengesList } from './slice/challengesListSlice';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
 
-const BASE_API_URL = `http://10.0.2.2:${3001}`;
-const CHALLENGE_PREFIX = '/api/challenge';
+import data from './Participate.json';
 
-export default function ChallengeEnded({ navigation, route }) {
-    const dispatch = useDispatch();
-    const { classId } = route.params;
-    const challengesList = useSelector(state => state.challengesList.endedChallengesList);
+export default function ResultMonth({ navigation, route }) {
 
-    useEffect(async () => {
-        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_ended/${classId}`)
-            .then(res => {
-                console.log('Challenge Ended load challenges list response data', res.data);
-                dispatch(loadEndedChallengesList(res.data))
-            })
-            .catch((err) => {
-                console.log("Error: ", err)
-            })
-    }, [])
+    const class_id = route.params["class_id"]
+    const type = route.params["type"]
+    // console.log("in result page: ", class_id)
+    // console.log("in result page, type: ", type)
 
-    React.useLayoutEffect(() => {
+    React.useLayoutEffect(() => {																			// return button
         navigation.setOptions({
             headerLeft: () => {
-                // <Button onPress={() => setCount(c => c + 1)} title="Update count" />
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../../../assets/back_arrow.png')} />
-
                     </TouchableOpacity>
                 );
 
@@ -40,9 +24,14 @@ export default function ChallengeEnded({ navigation, route }) {
         });
     }, [navigation]);
 
+    useEffect(async () => {
+        console.log("class_id: ", class_id)
+        console.log("type: ", type)
+    }, [])
+
     const FlatListItem = (item, index) => {
         return (
-            <View style={styles.member}>
+            <TouchableOpacity style={styles.member} onPress={() => navigation.navigate('DetailResult')}>
                 <View style={styles.left}>
                     <View style={{
                         width: '80%',
@@ -55,51 +44,49 @@ export default function ChallengeEnded({ navigation, route }) {
                         <Text style={styles.name_text}>
                             T
                         </Text>
-
                     </View>
                 </View>
 
                 <View style={styles.right}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: '-2%' }}>
-                        <Text>{item.name}</Text>
-                        <Text onPress={() => navigation.navigate('ChallengeResult')} style={{ color: '#1570EF', textDecorationLine: 'underline' }}>
-                            View result
-                        </Text>
+                        <Text>{item.challenge.name}</Text>
                     </View>
 
-                    <Text style={{ paddingTop: 10 }}>ID: {item._id}</Text>
-                    <Text>Created by: {item.created_by}</Text>
-                    <Text>Will end: {new Date(item.end).toLocaleString()}</Text>
+                    <Text style={{ paddingTop: 10 }}>ID: {item.user.key}</Text>
+                    <Text>End: {item.challenge.end}</Text>
                 </View>
 
-            </View>
+                <View style={styles.left}>
+                    <View style={{
+                        width: '80%',
+                        aspectRatio: 1,
+                        backgroundColor: '#1570EF',
+                        borderRadius: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Text style={styles.name_text}>
+                            {item.score}
+                        </Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
         );
     }
 
     return (
         <View style={styles.container}>
             <FlatList
-                data={challengesList}
+                data={data}
                 renderItem={({ item, index }) => {
-                    // console.log(`item = ${JSON.stringify(item)}, index = ${index}`)
-                    return (
-                        FlatListItem(item, index)
-                    );
+                    if (item.user.key == 1910402) {					// filter the id --> remember to handle 
+                        return (
+                            FlatListItem(item, index)
+                        );
+                    }
                 }}
-                keyExtractor={(item, index) => index.toString()}
             >
             </FlatList>
-
-            <TouchableOpacity
-                style={styles.touchableOpacity}
-                onPress={() => navigation.navigate('ChallengeCreate', { type: 'ended', classId })}
-            >
-                <Image
-                    style={styles.floatingButton}
-                    source={require('../../Ignored_Challenge/assets/plus.png')}
-                />
-
-            </TouchableOpacity>
         </View>
     );
 }
