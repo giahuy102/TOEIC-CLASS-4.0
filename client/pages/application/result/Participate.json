@@ -4,11 +4,14 @@
         "user": {
             "key": 1910402,
             "username": "minhnhan",
-            "email": "myemail@gmail.com",
+            "email": "nhanvo@gmail.com",
             "password": "123456",
             "fullname": "Le Ngoc Minh Nhan",
             "birthday": "21/07/2001",
             "create_at": "18/05/2018"
+        },
+        "classroom": {
+            "id": "6288a49d7e3bb065e5bdeff2"
         },
         "challenge": {
             "name": "Toeic 200+",
@@ -36,6 +39,9 @@
             "birthday": "21/07/2001",
             "create_at": "18/05/2018"
         },
+        "classroom": {
+            "id": "6288a6e57e3bb065e5bdf791"
+        },
         "challenge": {
             "name": "Toeic 200+",
             "status": 2,
@@ -61,6 +67,9 @@
             "fullname": "Le Ngoc Minh Nhan",
             "birthday": "21/07/2001",
             "create_at": "18/05/2018"
+        },
+        "classroom": {
+            "id": "6288a49d7e3bb065e5bdeff2"
         },
         "challenge": {
             "name": "Toeic 500+",
@@ -88,6 +97,9 @@
             "birthday": "21/07/2001",
             "create_at": "18/05/2018"
         },
+        "classroom": {
+            "id": "6288a6e57e3bb065e5bdf791"
+        },
         "challenge": {
             "name": "Toeic 400+",
             "status": 2,
@@ -113,6 +125,9 @@
             "fullname": "Le Ngoc Minh Nhan",
             "birthday": "21/07/2001",
             "create_at": "18/05/2018"
+        },
+        "classroom": {
+            "id": "6288a6e57e3bb065e5bdf791"
         },
         "challenge": {
             "name": "Toeic 700+",
