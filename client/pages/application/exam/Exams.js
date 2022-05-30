@@ -7,6 +7,24 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function Exams({ navigation }) {
+    const handleNavigation = (key = null) => {
+        if (!key) {
+            navigation.navigate('NewExam', {
+                testData: {
+                    type: 'Reading',
+                    audio: '',
+                    title: '',
+                    duration: '',
+                    score: '',
+                    sections: [
+
+                    ]
+                },
+                keyStack: [null]
+            })
+        }
+    }
+
     React.useLayoutEffect(() => {
 
         navigation.setOptions({
@@ -27,7 +45,7 @@ export default function Exams({ navigation }) {
 
             <TouchableOpacity
                 style={styles.touchableOpacity}
-                onPress={() => navigation.navigate('NewExam')}
+                onPress={() => handleNavigation()}
             >
                 <Image
                     style={styles.floatingButton}

@@ -19,7 +19,7 @@ export default function SectionImageTitle({navigation, index, item, images, addI
       })();
     }, []);
     const handleAddImage = () => {
-      if (!item.path) {
+      if (!item.localPath) {
         alert('Please choose your image before inserting new one');
       }
       else {
@@ -31,9 +31,9 @@ export default function SectionImageTitle({navigation, index, item, images, addI
 
     const chooseImg = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        // mediaTypes: ImagePicker.MediaTypeOptions.All,
         // aspect: [4, 3],
-        quality: 1,			
+        // quality: 1,			
         allowsEditing: true,
       });
     
@@ -48,9 +48,15 @@ export default function SectionImageTitle({navigation, index, item, images, addI
     return (
         <View style={styles.container}>
             {
-              item.path 
-              ? <Image source={{ uri: item.path.uri }} style={{ width: '40%', aspectRatio: 1.5, }} />
-              : <Image source={require('../assets/temp_image.png')} />
+              item.localPath 
+              ? <Image source={{ uri: item.localPath }} style={{ width: '40%', aspectRatio: 1.5, }} />
+              : (
+              item.base64
+              ? <Image source={{ uri: 'data:' + item.type + ';base64,' + item.base64 }} style={{ width: '40%', aspectRatio: 1.5, }} />
+              :
+              <Image source={require('../assets/temp_image.png')} />
+              
+              )
             }
             <TouchableOpacity
               style={{

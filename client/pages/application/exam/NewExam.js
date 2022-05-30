@@ -127,46 +127,76 @@ export default function NewExam({ navigation, route }) {
 
     const handleChangeData = (field, value) => {
         if (field == 'type') {
-            if (route.params) navigation.setParams({
+            // if (route.params) navigation.setParams({
+            //     ...route.params,
+            //     type: value
+            // })
+            // else setTestData({
+            //     ...testData,
+            //     type: value
+            // })
+            navigation.setParams({
                 ...route.params,
-                type: value
-            })
-            else setTestData({
-                ...testData,
-                type: value
-            })
+                testData: {
+                    ...route.params.testData,
+                    type: value
+                }
+            });
         }
         else if (field == 'title') {
-            if (route.params) navigation.setParams({
+            // if (route.params) navigation.setParams({
+            //     ...route.params,
+            //     title: value
+            // })
+            // else setTestData({
+            //     ...testData,
+            //     title: value
+            // })
+            navigation.setParams({
                 ...route.params,
-                title: value
-            })
-            else setTestData({
-                ...testData,
-                title: value
-            })
+                testData: {
+                    ...route.params.testData,
+                    title: value
+                }
+            });
+
             // console.log(testData.title)
         }
         else if (field == 'duration') {
-            if (route.params) navigation.setParams({
+            // if (route.params) navigation.setParams({
+            //     ...route.params,
+            //     duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+            // })
+            // else setTestData({
+            //     ...testData,
+            //     duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+            // })
+
+            navigation.setParams({
                 ...route.params,
-                duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
-            })
-            else setTestData({
-                ...testData,
-                duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
-            })
+                testData: {
+                    ...route.params.testData,
+                    duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+                }
+            });
             // console.log(testData.duration)
         }
         else if (field == 'score') {
-            if (route.params) navigation.setParams({
+            // if (route.params) navigation.setParams({
+            //     ...route.params,
+            //     score: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+            // })
+            // else setTestData({
+            //     ...testData,
+            //     score: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+            // })
+            navigation.setParams({
                 ...route.params,
-                score: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
-            })
-            else setTestData({
-                ...testData,
-                score: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
-            })
+                testData: {
+                    ...route.params.testData,
+                    score: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
+                }
+            });
         }
     }
 
@@ -176,7 +206,7 @@ export default function NewExam({ navigation, route }) {
             <View style={{ marginTop: 30, width: 350 }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Title</Text>
                 <TextInput
-                    value={route.params ? route.params.title : testData.title}
+                    value={route.params.testData.title}
                     onChangeText={(text) => handleChangeData('title', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter title'
@@ -187,7 +217,7 @@ export default function NewExam({ navigation, route }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Duration (mins)</Text>
                 <TextInput
                     keyboardType='numeric'
-                    value={route.params ? route.params.duration : testData.duration}
+                    value={route.params.testData.duration}
                     onChangeText={(text) => handleChangeData('duration', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter duration'
@@ -198,7 +228,7 @@ export default function NewExam({ navigation, route }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Score</Text>
                 <TextInput
                     keyboardType='numeric'
-                    value={route.params ? route.params.score : testData.score}
+                    value={route.params.testData.score}
                     onChangeText={(text) => handleChangeData('score', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter score'
@@ -209,7 +239,7 @@ export default function NewExam({ navigation, route }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Skill</Text>
                 <Picker
                     style={styles.picker}
-                    selectedValue={route.params ? route.params.type : testData.type}
+                    selectedValue={route.params.testData.type}
                     onValueChange={(itemValue) => handleChangeData('type', itemValue)}
                 >
                     <Picker.Item label="Reading" value="reading"></Picker.Item>
@@ -227,7 +257,10 @@ export default function NewExam({ navigation, route }) {
             </View> */}
             <TouchableOpacity
                 style={styles.touchableOpacity}
-                onPress={() => navigation.navigate('Sections', route.params ? route.params : testData)}
+                onPress={() => navigation.navigate('Sections', {
+                    ...route.params,
+                
+                })}
             >
                 <Text
                     style={

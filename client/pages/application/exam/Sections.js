@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, Alert, ScrollView } from 'react-native';
 
 import { NavigationContainer, NavigationHelpersContext } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,7 +15,10 @@ export default function Exams({ navigation, route }) {
                 return (
                     <TouchableOpacity onPress={() => navigation.navigate({
                         name: 'NewExam',
-                        params: route.params,
+                        params: {
+                            ...route.params,
+                            // keyStack: route.params.keyStack.splice(-1)
+                        },
                         merge: true
                     })}>
                         <Image source={require('../../../assets/back_arrow.png')} />
@@ -50,23 +53,160 @@ export default function Exams({ navigation, route }) {
         //       }
         //     ]
         //   });
-        navigation.navigate('NewSection', route.params);
+        navigation.navigate('NewSection', {
+            testData: {
+                ...route.params.testData,
+                sections: [
+                    ...route.params.testData.sections,
+                    {
+                        key: route.params.testData.sections.length,
+                        section_question: '',
+                        images: [
+                            {
+                                key: 0,
+                                remotePath: null,
+                                localPath: null,
+                                type: null,
+                                base64: null
+                            }
+                        ],
+                        questions: [
+
+                        ]
+                        
+                    }
+                ]
+            },
+            keyStack: [...route.params.keyStack, route.params.testData.sections.length]
+        });
 
     }
-    const test = () => {
+    // const test = () => {
+    //     navigation.setParams({
+    //         ...route.params,
+    //         score: 67
+    //     })
+    // }
+
+    const handleUpdate = (key) => {
+        navigation.navigate('NewSection', {
+            ...route.params,
+            keyStack: [...route.params.keyStack, key]
+        });
+    }
+
+    const handleDelete = (key) => {
+        let newSections = [...route.params.testData.sections];
+        newSections.splice(key, 1);
+        for (let i = key; i < newSections.length; i++) {
+            newSections[i].key = i;
+        } 
         navigation.setParams({
             ...route.params,
-            score: 67
+            testData: {
+                ...route.params.testData,
+                sections: newSections
+            }
         })
     }
 
     return (
         <View style={styles.container}>
-            {
-                route.params.sections.map((item, index) => {
-                    return <Text key={item.key}>{item.key}</Text>
-                })
-            }
+            <ScrollView
+                contentContainerStyle={
+                    {
+                        alignItems: 'center'
+                    }
+                }
+            >
+                {
+                    route.params.testData.sections.map((item, index) => {
+                        return <View
+
+                            key={item.key}
+                            style={
+                                {
+                                    backgroundColor: 'white',
+                                    height: 80,
+                                    justifyContent: 'center',
+                                    padding: 5,
+                                    marginTop: 5,
+                                    marginBottom: 5,
+                                    width: '85%'
+                                }
+                            }
+
+                        >
+                            <View
+                            style={
+                                {
+                                    flexDirection: 'row',
+                                    alignItems: 'center'
+                                }
+                            }
+                            
+                            >
+                            <Image
+                                source={require('../../../assets/globe.png')}
+                            />
+
+                            <View>
+                                <Text
+                                style={
+                                    {
+                                        marginLeft: 10
+                                    }
+                                }
+                                
+                                >
+                                Section {item.key + 1}
+                                
+                                </Text>
+                            </View>
+                            </View>
+                            <View
+                            style={
+                                {
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-end'
+                                }
+                            }
+                            
+                            >
+                            <TouchableOpacity
+                                onPress={() => handleUpdate(item.key)}
+                            >
+                                <Text
+                                style={
+                                    {
+                                    marginRight: 25
+                                    }
+                                }
+                                
+                                >
+                                Edit
+                                </Text>
+                            </TouchableOpacity>
+                            
+                            <TouchableOpacity
+                                onPress={() => handleDelete(item.key)}
+                            >
+                                <Text
+                                style={
+                                    {
+                                    marginRight: 20
+                                    }
+                                }
+                                >
+                                Delete
+                                </Text>
+                            </TouchableOpacity>
+                            </View>
+                        </View>
+                    })
+                }
+            </ScrollView>
+
 
             <TouchableOpacity
                 style={styles.touchableOpacity}
@@ -74,8 +214,6 @@ export default function Exams({ navigation, route }) {
             >
                 <Image
                     style={styles.floatingButton}
-                    // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
-                    // source={IMAGENAME}
                     source={require('../../../assets/plus.png')}
                 />
 
@@ -87,7 +225,7 @@ export default function Exams({ navigation, route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
         // justifyContent: 'center'
         // width: 100
     },
