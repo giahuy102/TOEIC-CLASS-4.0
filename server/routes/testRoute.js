@@ -20,7 +20,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post('/create_test', upload.any(), async function (req, res) {
-    
+
     // console.log(req.files[0])
     formData = await req.body;
     let examJSON = await JSON.parse(formData.new_exam);
@@ -33,13 +33,14 @@ router.post('/create_test', upload.any(), async function (req, res) {
 
 
         if (req.files[i].mimetype.split('/')[0] != 'image') {
+            console.log("HEREREREREREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             examJSON.audio.remotePath = req.files[i].path;
             examJSON.audio.localPath = '';
         }
         else {
             let s = req.files[i].originalname.split('.')[0].split('_');
 
-            
+
 
             const sectionIdx = parseInt(s[s.length - 2]);
             const imgIdx = parseInt(s[s.length - 1]);
@@ -67,49 +68,49 @@ router.post('/create_test', upload.any(), async function (req, res) {
     }
     const newTestModel = new TestModel(examJSON);
 
-    
-    
+
+
     try {
         const saveExam = await newTestModel.save();
         res.status(201).send('Success');
-        
+
     } catch (err) {
         console.log(err)
         res.status(409).send(err);
     }
 })
 
-router.get('/get_all_test', async function(req, res) {
+router.get('/get_all_test', async function (req, res) {
     try {
-        TestModel.find({}).exec(function(err, result) {
+        TestModel.find({}).exec(function (err, result) {
             res.status(200).send(result);
         });
         // console.log(allTest)
-        
-        
+
+
     }
     catch (err) {
         console.log(err);
         res.status(404).send(err);
     }
-    
+
 
 })
 
-router.post('/:test_id/delete', async function(req, res) {
-    
+router.post('/:test_id/delete', async function (req, res) {
+
 
     const { test_id } = req.params;
     try {
-        await TestModel.deleteOne({_id: test_id});
+        await TestModel.deleteOne({ _id: test_id });
         // console.log(99999)
         res.status(200).send('Success');
     }
-    catch(err) {
+    catch (err) {
         console.log(err)
         res.status(409).send(err);
     }
-    
+
 
 })
 
@@ -137,17 +138,17 @@ let clearId = examJSON => {
         }
     }
 
-    
+
 }
 
-router.post('/:test_id/update', upload.any(), async function(req, res) {
-    
+router.post('/:test_id/update', upload.any(), async function (req, res) {
+
 
     const { test_id } = req.params;
     // console.log(req.files[0])
     formData = await req.body;
     let examJSON = await JSON.parse(formData.new_exam);
-    
+
     clearId(examJSON);
 
     // console.log(examJSON)
@@ -161,13 +162,14 @@ router.post('/:test_id/update', upload.any(), async function(req, res) {
 
 
         if (req.files[i].mimetype.split('/')[0] != 'image') {
+            console.log("HEREREREREREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             examJSON.audio.remotePath = req.files[i].path;
             examJSON.audio.localPath = '';
         }
         else {
             let s = req.files[i].originalname.split('.')[0].split('_');
 
-            
+
 
             const sectionIdx = parseInt(s[s.length - 2]);
             const imgIdx = parseInt(s[s.length - 1]);
@@ -194,22 +196,22 @@ router.post('/:test_id/update', upload.any(), async function(req, res) {
     }
     // const newTestModel = new TestModel(examJSON);
 
-    
-    
+
+
     try {
         // const saveExam = await newTestModel.save();
-        let t = await TestModel.findOneAndUpdate({_id: test_id}, examJSON, {
+        let t = await TestModel.findOneAndUpdate({ _id: test_id }, examJSON, {
             new: true
         })
 
 
         res.status(201).send('Success');
-        
+
     } catch (err) {
         console.log(err)
         res.status(409).send(err);
     }
-    
+
 
 })
 
