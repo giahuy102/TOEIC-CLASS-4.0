@@ -12,6 +12,8 @@ app.use(cors())
 dbConnection.connect();
 app.use(express.json());
 
+app.use(express.static('uploads'))
+
 /**
  *      Socket IO 
  */
