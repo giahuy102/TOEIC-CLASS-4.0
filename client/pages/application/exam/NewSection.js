@@ -62,7 +62,7 @@ export default function Login({ navigation, route }) {
     //     }
     //   ]
     // });
-    console.log(route.params)
+    // console.log(route.params)
   }, [])
 
   const handleAddImage = () => {
@@ -73,10 +73,10 @@ export default function Login({ navigation, route }) {
 
     newSections[idx].images = [...newSections[idx].images, {
       key: newSections[idx].images.length,
-      remotePath: null,
-      localPath: null,
-      type: null,
-      base64: null
+      remotePath: '',
+      localPath: '',
+      type: '',
+      base64: ''
     }];
     navigation.setParams({
       ...route.params,
@@ -97,7 +97,10 @@ export default function Login({ navigation, route }) {
 
     newSections[idx].images = [...newSections[idx].images];
     if (newSections[idx].images.length > 1) newSections[idx].images.pop();
-    else newSections[idx].images[0].localPath = null;
+    else {
+      newSections[idx].images[0].localPath = '';
+      newSections[idx].images[0].base64 = '';
+    } 
     navigation.setParams({
       ...route.params,
       testData: {
@@ -117,8 +120,10 @@ export default function Login({ navigation, route }) {
     
     let temp = ob.uri.split('.');
     let imgExtension = temp[temp.length - 1];
-    newSections[idx].images[idxImg].type = 'image/' + imgExtension;
-    newSections[idx].images[idxImg].base64 = null;
+    let jpeg = ['jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp']
+    if (jpeg.includes(imgExtension)) newSections[idx].images[idxImg].type = 'image/' + 'jpeg';
+    else newSections[idx].images[idxImg].type = 'image/' + imgExtension;
+    newSections[idx].images[idxImg].base64 = '';
 
 
     // console.log(ob);

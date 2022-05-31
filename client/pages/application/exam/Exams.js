@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, Alert, ScrollView } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import axios from 'axios';
+
 export default function Exams({ navigation }) {
-    const handleNavigation = (key = null) => {
-        if (!key) {
+    const [testData, setTestData] = useState(null);
+
+    const handleNavigation = (item = null) => {
+        if (!item) {
             navigation.navigate('NewExam', {
                 testData: {
                     type: 'Reading',
-                    audio: '',
+                    audio: null,
                     title: '',
                     duration: '',
                     score: '',
@@ -23,6 +27,22 @@ export default function Exams({ navigation }) {
                 keyStack: [null]
             })
         }
+        else {
+            navigation.navigate('NewExam', {
+                testData: {...item},
+                keyStack: [item._id]
+            })
+        }
+    }
+
+    const handleDelete = (id) => {
+        axios.post('http://192.168.1.37:3001/api/test/' + id + '/delete')
+        .then(res => {
+            getTestData();
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     React.useLayoutEffect(() => {
@@ -40,17 +60,127 @@ export default function Exams({ navigation }) {
             },
         });
     }, [navigation]);
+
+    const getTestData = () => {
+        axios.get('http://192.168.1.37:3001/api/test/get_all_test')
+        .then(function(res) {
+            setTestData(res.data);
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+    }
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getTestData();
+        });
+        return unsubscribe;
+    }, [navigation])
+
     return (
         <View style={styles.container}>
+            <ScrollView
+                contentContainerStyle={
+                    {
+                        alignItems: 'center'
+                    }
+                }
+            >
+                {
+                    testData &&
+                    testData.map((item, index) => {
+                        return <View
 
+                            key={item._id}
+                            style={
+                                {
+                                    backgroundColor: 'white',
+                                    height: 80,
+                                    justifyContent: 'center',
+                                    padding: 5,
+                                    marginTop: 5,
+                                    marginBottom: 5,
+                                    width: '85%'
+                                }
+                            }
+
+                        >
+                            <View
+                            style={
+                                {
+                                    flexDirection: 'row',
+                                    alignItems: 'center'
+                                }
+                            }
+                            
+                            >
+                            <Image
+                                source={require('../../../assets/globe.png')}
+                            />
+
+                            <View>
+                                <Text
+                                style={
+                                    {
+                                        marginLeft: 10
+                                    }
+                                }
+                                
+                                >
+                                {item.title}
+                                
+                                </Text>
+                            </View>
+                            </View>
+                            <View
+                            style={
+                                {
+                                    flexDirection: 'row',
+                                    justifyContent: 'flex-end'
+                                }
+                            }
+                            
+                            >
+                            <TouchableOpacity
+                                onPress={() => handleNavigation(item)}
+                            >
+                                <Text
+                                style={
+                                    {
+                                    marginRight: 25
+                                    }
+                                }
+                                
+                                >
+                                Edit
+                                </Text>
+                            </TouchableOpacity>
+                            
+                            <TouchableOpacity
+                                onPress={() => handleDelete(item._id)}
+                            >
+                                <Text
+                                style={
+                                    {
+                                    marginRight: 20
+                                    }
+                                }
+                                >
+                                Delete
+                                </Text>
+                            </TouchableOpacity>
+                            </View>
+                        </View>
+                    })
+                }
+            </ScrollView>
             <TouchableOpacity
                 style={styles.touchableOpacity}
                 onPress={() => handleNavigation()}
             >
                 <Image
                     style={styles.floatingButton}
-                    // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
-                    // source={IMAGENAME}
                     source={require('../../../assets/plus.png')}
                 />
 
@@ -62,7 +192,7 @@ export default function Exams({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
+        // alignItems: 'center',
         // justifyContent: 'center'
         // width: 100
     },

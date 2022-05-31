@@ -2,7 +2,12 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     type: String, //Reading or Listening
-    audio_path: String,
+    audio: new mongoose.Schema({
+        name: String,
+        type: String,
+        localPath: String,
+        remotePath: String,
+    }),
     title: String,
     duration: Number,
     score: Number,
@@ -12,14 +17,28 @@ const userSchema = new mongoose.Schema({
             section_question: String,
             images: [{
                 key: Number,
-                path: Buffer
+                // type: String,
+                localPath: String,
+                remotePath: String,
+                
+                base64: {
+                    data: Buffer,
+                    contentType: String
+                },
+                type: String
             }],
             questions: [
                 {
                     key: Number,
                     question: String,
-                    answerState: String, //'NG','WA','AC'
-                    chosenAnswer: String,
+                    answerState: {
+                        $type: String,
+                        default: 'NG'
+                    }, //'NG','WA','AC'
+                    chosenAnswer: {
+                        $type: String,
+                        default: ''
+                    },
                     answers: [
                         {
                             key: Number,
@@ -30,7 +49,8 @@ const userSchema = new mongoose.Schema({
                 }
             ]
         }
-    ]
-});
+    ],
+    
+}, { typeKey: '$type' });
 
 module.exports = mongoose.model('TestModel', userSchema);

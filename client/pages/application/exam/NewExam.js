@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, Alert, ScrollView } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -11,8 +11,10 @@ import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 
+import * as DocumentPicker from 'expo-document-picker';
+
 export default function NewExam({ navigation, route }) {
-    const handleSaveData = () => {
+    const handleSaveData = async() => {
         // console.log(route.params.type)
         // console.log(route.params)
         if (route.params) {
@@ -31,52 +33,68 @@ export default function NewExam({ navigation, route }) {
             // })
 
             // data.append('sections', JSON.stringify(newSections));
-            data.append('new_exam', JSON.stringify(route.params));
-            route.params.sections.map((item, index) => {
+            await data.append('new_exam', JSON.stringify(route.params.testData));
+
+            console.log(route.params.testData)
+
+            await route.params.testData.sections.map((item, index) => {
                 // if (index == 0) {
                 item.images.map((img, idx) => {
                     // console.log(img)
-                    data.append('images_' + item.key, {
-                        name: 'image_' + item.key + "_" + img.key + '.jpg',
-                        type: 'image/jpeg',
-                        uri: img.path.uri
-                    })
+                    if (img.localPath) {
+                        data.append('images_' + item.key, {
+                            name: 'image_' + item.key + "_" + img.key + '.jpg',
+                            type: img.type,
+                            uri: img.localPath
+                        })
+                    }
+
                     // console.log(img)
                 })
+                if (item.audio) {
+                    data.append('audio_' + item.key, item.audio)
+                }
                 // }
 
 
             })
             console.log("NewExam submit data", data);
-            // return axios.post('http://192.168.1.37:3001/api/exam/create_new_exam', data,
-            //     {
-            //         headers:{
-            //             Accept: 'application/json',
-            //             'Content-Type':'multipart/form-data'
-            //         }
-            //     }
-            // )
-            //         .then(res => {
-            //             console.log(res)
-            //         })
-            //         .catch(err => {
-
-            //         })
-            axios({
-                method: 'post',
-                url: 'http://10.0.0.2:3001/api/test/create_test',
-                data: data,
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'multipart/form-data'
+            axios.post('http://192.168.1.37:3001/api/test/create_test', data,
+                {
+                    headers:{
+                        Accept: 'application/json',
+                        'Content-Type':'multipart/form-data'
+                    }
                 }
-            })
-                .then(res => {
-                })
-                .catch(err => {
+            )
+                    .then(res => {
+                        console.log('Success')
+                    })
+                    .catch(err => {
+                        alert(err);
+                    })
+            // axios({
+            //     method: 'post',
+            //     url: 'http://10.0.0.2:3001/api/test/create_test',
+            //     data: data,
+            //     headers: {
+            //         Accept: 'application/json',
+            //         'Content-Type': 'multipart/form-data'
+            //     }
+            // })
+            //     .then(res => {
+            //     })
+            //     .catch(err => {
 
-                })
+            //     })
         }
+    }
+
+    const saveOrUpdate = () => {
+        if (route.params.keyStack[0]) {
+            handleUpdateData(route.params.keyStack[0]);
+        }
+        else handleSaveData();
     }
 
     React.useLayoutEffect(() => {
@@ -111,21 +129,21 @@ export default function NewExam({ navigation, route }) {
 
             },
         });
-    }, [navigation]);
+    }, [navigation, route.params]);
 
-    const [testData, setTestData] = useState({
-        type: 'Reading',
-        audio: '',
-        title: '',
-        duration: '',
-        score: '',
-        sections: [
+    // const [testData, setTestData] = useState({
+    //     type: 'Reading',
+    //     audio: '',
+    //     title: '',
+    //     duration: '',
+    //     score: '',
+    //     sections: [
 
-        ]
+    //     ]
 
-    });
+    // });
 
-    const handleChangeData = (field, value) => {
+    const handleChangeData = async (field, value) => {
         if (field == 'type') {
             // if (route.params) navigation.setParams({
             //     ...route.params,
@@ -135,7 +153,9 @@ export default function NewExam({ navigation, route }) {
             //     ...testData,
             //     type: value
             // })
-            navigation.setParams({
+            // newTestData = {...route.params.testData};
+
+            await navigation.setParams({
                 ...route.params,
                 testData: {
                     ...route.params.testData,
@@ -152,7 +172,7 @@ export default function NewExam({ navigation, route }) {
             //     ...testData,
             //     title: value
             // })
-            navigation.setParams({
+            await navigation.setParams({
                 ...route.params,
                 testData: {
                     ...route.params.testData,
@@ -172,7 +192,7 @@ export default function NewExam({ navigation, route }) {
             //     duration: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
             // })
 
-            navigation.setParams({
+            await navigation.setParams({
                 ...route.params,
                 testData: {
                     ...route.params.testData,
@@ -190,7 +210,7 @@ export default function NewExam({ navigation, route }) {
             //     ...testData,
             //     score: (isNaN(value) || value == '') ? '' : String(parseInt(value, 10))
             // })
-            navigation.setParams({
+            await navigation.setParams({
                 ...route.params,
                 testData: {
                     ...route.params.testData,
@@ -200,8 +220,48 @@ export default function NewExam({ navigation, route }) {
         }
     }
 
+    const handleSelectDocument = async () => {
+        let result = await DocumentPicker.getDocumentAsync({
+            // type:'image/*'
+        });
+        console.log(result);
+        if (result.type != 'cancel') {
+            navigation.setParams({
+                ...route.params,
+                testData: {
+                    ...route.params.testData,
+                    audio: {
+                        type: result.mimeType,
+                        name: result.name,
+                        localPath: result.uri,
+                        remotePath: ''
+                    }
+                }
+            })
+        }
+    }
+
+    const handleDeleteDocument = () => {
+        navigation.setParams({
+            ...route.params,
+            testData: {
+                ...route.params.testData,
+                audio: null
+            }
+        })
+    }
+
     return (
-        <View style={styles.container}>
+    <View
+        style={
+            {
+                flex: 1
+            }
+        }
+    >
+        <ScrollView
+            contentContainerStyle={styles.container}
+        >
             {/* <Text>{route.params?.score}</Text> */}
             <View style={{ marginTop: 30, width: 350 }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Title</Text>
@@ -217,7 +277,7 @@ export default function NewExam({ navigation, route }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Duration (mins)</Text>
                 <TextInput
                     keyboardType='numeric'
-                    value={route.params.testData.duration}
+                    value={route.params.testData.duration ? route.params.testData.duration.toString() : route.params.testData.duration}
                     onChangeText={(text) => handleChangeData('duration', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter duration'
@@ -228,7 +288,7 @@ export default function NewExam({ navigation, route }) {
                 <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Score</Text>
                 <TextInput
                     keyboardType='numeric'
-                    value={route.params.testData.score}
+                    value={route.params.testData.score ? route.params.testData.score.toString() : route.params.testData.score}
                     onChangeText={(text) => handleChangeData('score', text)}
                     style={{ width: 350, backgroundColor: '#E4E7EC', height: 50, paddingLeft: 10, fontSize: 15 }}
                     placeholder='Enter score'
@@ -242,47 +302,90 @@ export default function NewExam({ navigation, route }) {
                     selectedValue={route.params.testData.type}
                     onValueChange={(itemValue) => handleChangeData('type', itemValue)}
                 >
-                    <Picker.Item label="Reading" value="reading"></Picker.Item>
-                    <Picker.Item label="Listening" value="listening"></Picker.Item>
+                    <Picker.Item label="Reading" value="Reading"></Picker.Item>
+                    <Picker.Item label="Listening" value="Listening"></Picker.Item>
                 </Picker>
             </View>
-
-            {/* <View style={{ width: '25%', marginTop: 30 }}>
-                <Button
-                    onPress={onPressHandler}
-                    title='Create'
-                    color='#1570EF'
-                >
-                </Button>
-            </View> */}
-            <TouchableOpacity
-                style={styles.touchableOpacity}
-                onPress={() => navigation.navigate('Sections', {
-                    ...route.params,
-                
-                })}
+            {
+            route.params.testData.type == 'Listening' &&
+            <View
+                style={
+                    {
+                        alignItems: 'center'
+                    }
+                }
             >
-                <Text
+                <TouchableOpacity
+                    onPress={handleSelectDocument}
                     style={
                         {
-                            color: '#1570EF',
-                            fontWeight: 'bold'
+                            marginTop: 25
                         }
                     }
                 >
-                    Next
-                </Text>
-                <Image
-                    style={styles.floatingButton}
-                    // source={{ uri: 'https://github.com/tranhonghan/images/blob/main/plus_icon.png?raw=true' }}
-                    // source={IMAGENAME}
-                    source={require('../../../assets/next.png')}
-                />
+                    <Image
+                        source={require('../../../assets/audio.png')}
+                    
+                    />
+                </TouchableOpacity>
+                
+                <View
+                    style={
+                        {
+                            backgroundColor: '#E4E7EC',
+                            flexDirection: 'row',
+                            width: 250,
+                            height: 70,
+                            justifyContent: 'space-around',
+                            alignItems: 'center'
+                        }
+                    }
+                >
+                    {
+                        route.params.testData.audio &&
+                        <Text>{route.params.testData.audio.name}</Text>
+                    }
+                    
+                    <TouchableOpacity
+                        onPress={handleDeleteDocument}
+                    >
+                        <Image
+                            source={require('../../../assets/trash.png')}
+                        
+                        />
+                    </TouchableOpacity>
+                </View>
+            </View>
+            
+            }
 
-            </TouchableOpacity>
 
 
-        </View >
+        </ScrollView >
+        <TouchableOpacity
+            style={styles.touchableOpacity}
+            onPress={() => navigation.navigate('Sections', {
+                ...route.params,
+            
+        })}
+        >
+            <Text
+                style={
+                    {
+                        color: '#1570EF',
+                        fontWeight: 'bold'
+                    }
+                }
+            >
+                Next
+            </Text>
+            <Image
+                style={styles.floatingButton}
+                source={require('../../../assets/next.png')}
+            />
+
+        </TouchableOpacity>
+    </View>
     );
 }
 
