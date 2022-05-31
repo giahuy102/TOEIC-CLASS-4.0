@@ -76,7 +76,7 @@ export default function Login({ navigation, route }) {
       remotePath: '',
       localPath: '',
       type: '',
-      base64: ''
+      // base64: ''
     }];
     navigation.setParams({
       ...route.params,
@@ -99,7 +99,8 @@ export default function Login({ navigation, route }) {
     if (newSections[idx].images.length > 1) newSections[idx].images.pop();
     else {
       newSections[idx].images[0].localPath = '';
-      newSections[idx].images[0].base64 = '';
+      // newSections[idx].images[0].base64 = '';
+      newSections[idx].images[0].remotePath = '';
     } 
     navigation.setParams({
       ...route.params,
@@ -123,7 +124,7 @@ export default function Login({ navigation, route }) {
     let jpeg = ['jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp']
     if (jpeg.includes(imgExtension)) newSections[idx].images[idxImg].type = 'image/' + 'jpeg';
     else newSections[idx].images[idxImg].type = 'image/' + imgExtension;
-    newSections[idx].images[idxImg].base64 = '';
+    newSections[idx].images[idxImg].remothPath = '';
 
 
     // console.log(ob);
