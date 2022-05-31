@@ -110,7 +110,7 @@ export default function ChallengeCreate({ navigation, route }) {
 
     const onPressHandler = async () => {
 
-        var challenge = { pickerValue, title, startDate, timeStart, endDate, timeEnd }
+        var challenge = { type: pickerValue, title, startDate, timeStart, endDate, timeEnd }
 
 
         // console.log("client email: ", emailUser)
@@ -129,27 +129,33 @@ export default function ChallengeCreate({ navigation, route }) {
                     console.log('Invalid Challenge Type in ChallengeCreate');
                 }
                 // console.log("send post request to create challenge")
+
+                setPickerValue('Reading')
+                setTitle('')
+                setStartDate(new Date())
+                setEndDate(new Date())
+                setMode('date');
+                setShowStart(false);
+                setShowEnd(false);
+                setDateStart('Select date');
+                setTimeStart('Select time');
+                setDateEnd('Select date');
+                setTimeEnd('Select time');
+
+                Alert.alert('Congratulation!', 'Create new challenge successfully', [
+                    // { text: 'OK', onPress: () => navigation.pop() }
+                    { text: 'OK', onPress: () => navigation.pop() }
+                ]);
             })
             .catch((err) => {
-                console.log("err: ", err)
+                const { data, status, headers } = err.response;
+                const { message: errorMessage } = data;
+                console.log("/create_challenge err.response.data.message", errorMessage);
+                Alert.alert('Create Challenge Not Success!', `${errorMessage}`, [
+                    // { text: 'OK', onPress: () => navigation.pop() }
+                    { text: 'OK', onPress: () => navigation.pop() }
+                ]);
             })
-
-        setPickerValue('Reading')
-        setTitle('')
-        setStartDate(new Date())
-        setEndDate(new Date())
-        setMode('date');
-        setShowStart(false);
-        setShowEnd(false);
-        setDateStart('Select date');
-        setTimeStart('Select time');
-        setDateEnd('Select date');
-        setTimeEnd('Select time');
-
-        Alert.alert('Congratulation!', 'Create new challenge successfully', [
-            // { text: 'OK', onPress: () => navigation.pop() }
-            { text: 'OK', onPress: () => navigation.pop() }
-        ]);
     }
 
     return (

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+    classroom_id: {
+        $type: mongoose.Schema.Types.ObjectId,
+        ref: 'ClassroomModel',
+    },
     type: String, //Reading or Listening
     audio: new mongoose.Schema({
         name: String,
@@ -20,7 +24,7 @@ const userSchema = new mongoose.Schema({
                 // type: String,
                 localPath: String,
                 remotePath: String,
-                
+
                 // base64: Buffer,
                 type: String
             }],
@@ -47,7 +51,7 @@ const userSchema = new mongoose.Schema({
             ]
         }
     ],
-    
+
 }, { typeKey: '$type' });
 
 module.exports = mongoose.model('TestModel', userSchema);

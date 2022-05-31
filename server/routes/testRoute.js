@@ -33,7 +33,6 @@ router.post('/create_test', upload.any(), async function (req, res) {
 
 
         if (req.files[i].mimetype.split('/')[0] != 'image') {
-            console.log("HEREREREREREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             examJSON.audio.remotePath = req.files[i].path;
             examJSON.audio.localPath = '';
         }
@@ -86,15 +85,23 @@ router.get('/get_all_test', async function (req, res) {
             res.status(200).send(result);
         });
         // console.log(allTest)
-
-
     }
     catch (err) {
         console.log(err);
         res.status(404).send(err);
     }
+})
 
-
+router.get('/all_classroom_test/:classroom_id', async function (req, res) {
+    try {
+        const { classroom_id } = req.params;
+        TestModel.find({ classroom_id: classroom_id }).exec(function (err, result) {
+            res.status(200).send(result);
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(404).send(err);
+    }
 })
 
 router.post('/:test_id/delete', async function (req, res) {
@@ -162,7 +169,6 @@ router.post('/:test_id/update', upload.any(), async function (req, res) {
 
 
         if (req.files[i].mimetype.split('/')[0] != 'image') {
-            console.log("HEREREREREREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             examJSON.audio.remotePath = req.files[i].path;
             examJSON.audio.localPath = '';
         }
@@ -211,21 +217,26 @@ router.post('/:test_id/update', upload.any(), async function (req, res) {
         console.log(err)
         res.status(409).send(err);
     }
-
-
 })
 
 router.post('/createFakeTestModelData', async function (req, res) {
     const requestBody = req.body;
     const newFakeTestData = {
+        /**
+         * The classroom_id field must be observed every time calling /createFakeTestModelData
+         */
+        "classroom_id": "628ca9fabe5bca565a739fe8",
         "is_used": false,
-        "type": 1,
-        "audio_path": "",
+        "type": "Reading",
+        "audio": null,
+        "title": "Reading Test Sample 1",
+        "duration": 60,
+        "score": 50,
         "sections": [
             {
                 "key": 0,
                 "section_questions": "I. Sections I Reading Pargraph Blah Blah",
-                "image_path": "",
+                "images": [],
                 "questions": [
                     {
                         "key": 0,
@@ -234,19 +245,22 @@ router.post('/createFakeTestModelData', async function (req, res) {
                         "chosenAnswer": "",
                         "answers": [
                             {
+                                "key": 0,
                                 "answer": "AAAA",
                                 "is_correct": true,
-
                             },
                             {
+                                "key": 1,
                                 "answer": "BBBB",
                                 "is_correct": false
                             },
                             {
+                                "key": 2,
                                 "answer": "CCCC",
                                 "is_correct": false
                             },
                             {
+                                "key": 3,
                                 "answer": "DDDD",
                                 "is_correct": false
                             }
@@ -259,18 +273,22 @@ router.post('/createFakeTestModelData', async function (req, res) {
                         "chosenAnswer": "",
                         "answers": [
                             {
+                                "key": 0,
                                 "answer": "AAAA",
                                 "is_correct": false
                             },
                             {
+                                "key": 1,
                                 "answer": "BBBB",
                                 "is_correct": true
                             },
                             {
+                                "key": 2,
                                 "answer": "CCCC",
                                 "is_correct": false
                             },
                             {
+                                "key": 3,
                                 "answer": "DDDD",
                                 "is_correct": false
                             }
@@ -290,18 +308,22 @@ router.post('/createFakeTestModelData', async function (req, res) {
                         "chosenAnswer": "",
                         "answers": [
                             {
+                                "key": 0,
                                 "answer": "AAAA",
                                 "is_correct": true
                             },
                             {
+                                "key": 1,
                                 "answer": "BBBB",
                                 "is_correct": false
                             },
                             {
+                                "key": 2,
                                 "answer": "CCCC",
                                 "is_correct": false
                             },
                             {
+                                "key": 3,
                                 "answer": "DDDD",
                                 "is_correct": false
                             }
@@ -314,18 +336,22 @@ router.post('/createFakeTestModelData', async function (req, res) {
                         "chosenAnswer": "",
                         "answers": [
                             {
+                                "key": 0,
                                 "answer": "AAAA",
                                 "is_correct": false
                             },
                             {
+                                "key": 1,
                                 "answer": "BBBB",
                                 "is_correct": true
                             },
                             {
+                                "key": 2,
                                 "answer": "CCCC",
                                 "is_correct": false
                             },
                             {
+                                "key": 3,
                                 "answer": "DDDD",
                                 "is_correct": false
                             }

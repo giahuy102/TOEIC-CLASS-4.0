@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
         ref: 'TestModel',
     },
 
+    type: String, // "Reading", "Listening"
     status: Number, //0: ongoing, 1: upcoming, 2: finish
     title: String,
     start: Date,
