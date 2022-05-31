@@ -51,13 +51,22 @@ export default function NewExam({ navigation, route }) {
 
                     // console.log(img)
                 })
-                if (item.audio) {
-                    data.append('audio_' + item.key, item.audio)
-                }
+                // if (item.audio) {
+                //     data.append('audio_' + item.key, item.audio)
+                // }
                 // }
 
 
             })
+
+            if (route.params.testData.audio) {
+                data.append('audio', {
+                    name: route.params.testData.audio.name,
+                    type: route.params.testData.audio.type,
+                    uri: route.params.testData.audio.localPath,
+                })
+            }
+
             console.log("NewExam submit data", data);
             axios.post('http://10.0.2.2:3001/api/test/create_test', data,
                 {
@@ -114,18 +123,27 @@ export default function NewExam({ navigation, route }) {
 
                     // console.log(img)
                 })
-                if (item.audio) {
-                    console.log('[NewExam.js] handleUpdateData: item.audio', item.audio);
-                    data.append('audio_' + item.key, {
-                        name: item.name,
-                        type: item.type,
-                        uri: item.localPath
-                    })
-                }
+                // if (item.audio) {
+                //     console.log('[NewExam.js] handleUpdateData: item.audio', item.audio);
+                //     data.append('audio_' + item.key, {
+                //         name: item.name,
+                //         type: item.type,
+                //         uri: item.localPath
+                //     })
+                // }
                 // }
 
 
             })
+
+            if (route.params.testData.audio) {
+                data.append('audio', {
+                    name: route.params.testData.audio.name,
+                    type: route.params.testData.audio.type,
+                    uri: route.params.testData.audio.localPath,
+                })
+            }
+
             // console.log("NewExam submit data", data);
             axios.post('http://10.0.2.2:3001/api/test/' + id + '/update', data,
                 {
