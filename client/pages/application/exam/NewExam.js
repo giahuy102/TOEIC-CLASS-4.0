@@ -145,6 +145,7 @@ export default function NewExam({ navigation, route }) {
             handleUpdateData(route.params.keyStack[0]);
         }
         else handleSaveData();
+        navigation.pop();
     }
 
     React.useLayoutEffect(() => {
