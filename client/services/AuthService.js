@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = "http://192.168.1.37:3001/api/user/";
+const API_URL = "http://10.0.2.2:3001/api/user/";
 
 // import { useNavigate } from "react-router-dom";
 
