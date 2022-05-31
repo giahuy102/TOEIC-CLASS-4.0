@@ -90,6 +90,56 @@ export default function NewExam({ navigation, route }) {
         }
     }
 
+    const handleUpdateData = async(id) => {
+        // console.log(route.params.type)
+        // console.log(route.params)
+        if (route.params) {
+            const data = new FormData();
+
+            await data.append('new_exam', JSON.stringify(route.params.testData));
+
+            // console.log(route.params.testData)
+
+            await route.params.testData.sections.map((item, index) => {
+                // if (index == 0) {
+                item.images.map((img, idx) => {
+                    // console.log(img)
+                    if (img.localPath) {
+                        data.append('images_' + item.key, {
+                            name: 'image_' + item.key + "_" + img.key + '.jpg',
+                            type: img.type,
+                            uri: img.localPath
+                        })
+                    }
+
+                    // console.log(img)
+                })
+                if (item.audio) {
+                    data.append('audio_' + item.key, item.audio)
+                }
+                // }
+
+
+            })
+            // console.log("NewExam submit data", data);
+            axios.post('http://192.168.1.37:3001/api/test/' + id + '/update', data,
+                {
+                    headers:{
+                        Accept: 'application/json',
+                        'Content-Type':'multipart/form-data'
+                    }
+                }
+            )
+                    .then(res => {
+                        console.log('Success')
+                    })
+                    .catch(err => {
+                        alert(err);
+                    })
+
+        }        
+    }
+
     const saveOrUpdate = () => {
         if (route.params.keyStack[0]) {
             handleUpdateData(route.params.keyStack[0]);
@@ -110,7 +160,7 @@ export default function NewExam({ navigation, route }) {
             },
             headerRight: () => {
                 return (
-                    <TouchableOpacity onPress={() => handleSaveData()}>
+                    <TouchableOpacity onPress={() => saveOrUpdate()}>
                         {/* <Image source={require('../../../assets/back_arrow.png')} /> */}
                         <Text
                             style={

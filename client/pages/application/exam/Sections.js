@@ -67,7 +67,7 @@ export default function Exams({ navigation, route }) {
                                 remotePath: null,
                                 localPath: null,
                                 type: null,
-                                base64: null
+                                // base64: null
                             }
                         ],
                         questions: [

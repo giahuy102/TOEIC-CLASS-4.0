@@ -18,7 +18,7 @@ export default function SectionImageTitle({navigation, index, item, images, addI
       }
       })();
 
-      // console.log(item.base64)
+      // console.log(item.base64.toString('base64'))
       // console.log(item.base64.data.toString('base64'))
     }, []);
     const handleAddImage = () => {
@@ -54,8 +54,9 @@ export default function SectionImageTitle({navigation, index, item, images, addI
               item.localPath 
               ? <Image source={{ uri: item.localPath }} style={{ width: '40%', aspectRatio: 1.5, }} />
               : (
-              item.base64
-              ? <Image source={{ uri: 'data:' + item.type + ';base64,' + item.base64.toString('base64') }} style={{ width: '40%', aspectRatio: 1.5, }} />
+              item.remotePath
+              // ? <Image source={{ uri: 'data:' + item.type + ';base64,' + item.base64.toString('base64') }} style={{ width: '40%', aspectRatio: 1.5, }} />
+              ? <Image source={{ uri: 'http://192.168.1.37:3001/' + item.remotePath.split('/')[1] }} style={{ width: '40%', aspectRatio: 1.5, }} />
               :
               <Image source={require('../assets/temp_image.png')} />
               

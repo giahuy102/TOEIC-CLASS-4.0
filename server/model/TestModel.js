@@ -21,10 +21,7 @@ const userSchema = new mongoose.Schema({
                 localPath: String,
                 remotePath: String,
                 
-                base64: {
-                    data: Buffer,
-                    contentType: String
-                },
+                // base64: Buffer,
                 type: String
             }],
             questions: [
