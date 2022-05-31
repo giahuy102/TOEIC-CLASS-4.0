@@ -153,6 +153,7 @@ router.get('/:class_id/get_basic_info_all_member', async function (req, res) {
                     const responseData = { classroom: queryResultList[0]["classroom"], students_list: [] };
                     for (const UserJoinClassroomModelItem of queryResultList) {
                         let newUser = UserJoinClassroomModelItem["user"];
+                        console.log("test: ", UserJoinClassroomModelItem["rank"], newUser)
                         newUser['rank'] = UserJoinClassroomModelItem["rank"];
                         newUser['role'] = UserJoinClassroomModelItem["role"];
                         newUser['accumulate_score'] = UserJoinClassroomModelItem["accumulate_score"];

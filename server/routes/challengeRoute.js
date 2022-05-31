@@ -48,7 +48,7 @@ router.post('/create_challenge', async (req, res) => {
             challenge_id: Date.now(),
             create_user_id: userId,
             classroom_id: classId,
-            test_id: RandomTestModel._id,
+            // test_id: RandomTestModel._id,
             status: status_check,
             title: req.body['challenge']['title'],
             start: req.body['challenge']['startDate'],

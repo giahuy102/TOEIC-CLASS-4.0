@@ -1,9 +1,17 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
 import data from './Participate.json';
+import { useSelector, useDispatch } from 'react-redux';
+import { loadResultList } from './slice/resultSlice';
+import axios from 'axios';
+
+const BASE_API_URL = `http://10.0.2.2:${3001}`;
+const CHALLENGE_PREFIX = '/api/personal_result';
 
 export default function ResultAll({ navigation, route }) {
-
+	// const dispatch = useDispatch();
+	// const resultList = useSelector(state => state.result.resultList);
+	// console.log("Get result list: ", resultList);
 	const class_id = route.params["class_id"]
 	const type = route.params["type"]
 	// console.log("in result page: ", class_id)
@@ -23,8 +31,8 @@ export default function ResultAll({ navigation, route }) {
 	}, [navigation]);
 
 	useEffect(async () => {
-		console.log("class_id: ", class_id)
-		console.log("type: ", type)
+		console.log("==> class_id: ", class_id)
+		console.log("==> type: ", type)
     }, [])
 
 	const FlatListItem = (item, index) => {
@@ -69,6 +77,19 @@ export default function ResultAll({ navigation, route }) {
 					</View>
 				</View>
 			</TouchableOpacity>
+		);
+	}
+	var _data = []; console.log("data: ", _data)
+
+	if (data.length === 0) {
+		return (
+			<View style={styles.container}>
+				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: '4%', marginBottom: '-4%', width: '90%' }}>
+				<Text style={{ fontStyle: 'italic', fontSize: 18 }}>
+					{"No challenge result"}
+				</Text>
+				</View>
+			</View>
 		);
 	}
 

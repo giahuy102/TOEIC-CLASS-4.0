@@ -34,7 +34,7 @@ export default function ChangeInformation({ navigation, route }) {
 	}, [navigation]);
 
 	const showDatePicker = () => {
-		setShowCalendar(true);
+		setShowCalendar (true);
 		setMaxDate(new Date());
 	}
 	const onChangeDate = (event, selectedValue) => {

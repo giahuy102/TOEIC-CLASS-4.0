@@ -25,7 +25,7 @@ export default function ResultMonth({ navigation, route }) {
     }, [navigation]);
 
     useEffect(async () => {
-        console.log("class_id: ", class_id)
+        console.log("=== class_id: ", class_id)
         console.log("type: ", type)
     }, [])
 
@@ -73,6 +73,18 @@ export default function ResultMonth({ navigation, route }) {
             </TouchableOpacity>
         );
     }
+
+    if (data.length === 0) {
+		return (
+			<View style={styles.container}>
+				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginTop: '4%', marginBottom: '-4%', width: '90%' }}>
+				<Text style={{ fontStyle: 'italic', fontSize: 18 }}>
+					{"No challenge result"}
+				</Text>
+				</View>
+			</View>
+		);
+	}
 
     return (
         <View style={styles.container}>

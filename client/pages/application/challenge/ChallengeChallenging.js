@@ -6,7 +6,7 @@ import data from '../../Ignored_Challenge/DATA.json'
 import axios from 'axios';
 
 const BASE_API_URL = `http://10.0.2.2:${3001}`;
-const CHALLENGE_PREFIX = '/api/challenge';
+const CHALLENGE_PREFIX = '/api/challenge';    
 
 export default function ChallengeChallenging({ navigation, route }) {
     const dispatch = useDispatch();

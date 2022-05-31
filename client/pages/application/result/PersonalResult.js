@@ -15,7 +15,7 @@ export default function YourResult({ navigation, route }) {
 
 
 	const class_id = route.params
-	console.log("in personal result, class id: ", class_id)
+	console.log("In personal result -> class id: ", class_id)
 
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
