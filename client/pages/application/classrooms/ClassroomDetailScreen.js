@@ -41,7 +41,7 @@ export default function ClassroomDetailScreen({ navigation, route }) {
     const buttonInfoList = [
         { buttonName: 'Challenge', buttonDescription: 'Challenge Classmate\nRandom Test', routeName: 'ClassroomChallengesStackScreen', params: { classId } },
         { buttonName: 'Student List', buttonDescription: 'Class Members\nStudent Details', routeName: 'ClassMember', params: { classId } },
-        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'YourResult', params: { classId } },
+        { buttonName: 'Your Result', buttonDescription: 'Each Tests Result\nReview', routeName: 'Result', params: { classId } },
         { buttonName: 'Test Lists', buttonDescription: 'Create View Test\nTeacher Only', routeName: 'Exams', params: { classId } },
         { buttonName: 'Monthly Record', buttonDescription: 'View Monthly\nRanking', routeName: 'MonthlyRecordsListScreen', params: { classId } }
     ]

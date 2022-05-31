@@ -69,11 +69,9 @@ export default function Result({ navigation }) {
 			<FlatList
 				data={data}
 				renderItem={({ item, index }) => {
-					if (item.user.key == 1910402) {					// filter the id --> remember to handle 
-						return (
-							FlatListItem(item, index)
-						);
-					}
+					return (
+						FlatListItem(item, index)
+					);
 				}}
 			>
 			</FlatList>

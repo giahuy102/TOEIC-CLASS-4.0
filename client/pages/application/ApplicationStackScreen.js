@@ -11,7 +11,7 @@ import MonthlyRecordsListScreen from "./monthly/MonthlyRecordsListScreen";
 import MonthlyRecordDetailScreen from "./monthly/MonthlyRecordDetailScreen";
 import ClassMember from "./classmember/ClassMember";
 import Result from './result/Result.js'
-import YourResult from './result/PersonalResult.js';
+import YourResult from './result/YourResult.js';
 import DetailResult from './result/DetailResult.js';
 import Profile from './profile/Profile.js';
 import UpdateAccount from './profile/UpdateAccount.js';
