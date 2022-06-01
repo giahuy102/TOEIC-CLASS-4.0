@@ -5,7 +5,9 @@ import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, Touchab
 import data from './Participate.json'
 
 
-export default function DetailResult ({ navigation }) {
+export default function DetailResult({ navigation, route }) {
+
+	const { item: data } = route.params;
 
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
@@ -23,16 +25,16 @@ export default function DetailResult ({ navigation }) {
 		<View style={styles.container}>
 			<View style={{ marginTop: 20, padding: 15, width: '95%' }}>
 				<Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-					Challenge: {data[0].challenge.name} 
+					Challenge: {data.challenge.title}
 				</Text>
 				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					ID: {data[0].user.key}
+					ID: {data.challenge._id}
 				</Text>
 				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Started: {data[0].challenge.create_at}
+					Started: {data.challenge.start}
 				</Text>
 				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					End: {data[0].challenge.end_at}
+					End: {data.challenge.end}
 				</Text>
 			</View>
 
@@ -44,19 +46,10 @@ export default function DetailResult ({ navigation }) {
 
 			<View style={{ marginTop: 20, padding: 15, width: '95%' }}>
 				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Started on: {data[0].challenge.start}
+					Correct answer: {data.score}
 				</Text>
 				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Completed on: {data[0].challenge.end}
-				</Text>
-				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Taken: {} minutes
-				</Text>
-				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Correct answer: {data[0].correct_answer}/{data[0].challenge.test.length}
-				</Text>
-				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Grade: {data[0].score}
+					Grade: {data.score}
 				</Text>
 			</View>
 		</View>

@@ -2,15 +2,17 @@
 1. [OK] Update ChallengeResult get real data, using two different screen for two case:
 	- Case 1: Navigate to ChallengeResult after ChallengeDoingSections ended, using route.params to get rankingChart
 	- Case 2: Navigate to ChallengeResult by clicking 'View Result' button in EndedChallengeScreen, calling API in useEffect to setRankingChart
-2. Fix backend To actually update ChallengeParticipationModel when 'UserChooseAnAnswer' Event Triggered, not only ChallengeEventsRecordModel
+2. [OK] Fix backend To actually update ChallengeParticipationModel when 'UserChooseAnAnswer' Event Triggered, not only ChallengeEventsRecordModel
 rankingChart 
-3. Update API for getting ChallengeParticipationModel by User's _id, Add real data to DetailResult Screen using data from ChallengeParticipationModel
+3. [OK] Update API for getting ChallengeParticipationModel by User's _id, Add real data to DetailResult Screen using data from ChallengeParticipationModel
 
-4. Adding Crontab to create an Monthly Record Once a month, query every ChallengeEventsRecordModel (must Populate/Join by challenge_id)
+4. Handle ChallengeTest Screen after finish Challenge and navigate back from ChallengeResult Screen, MUST find a way to hide the start button.
+
+5. Adding Crontab to create an Monthly Record Once a month, query every ChallengeEventsRecordModel (must Populate/Join by challenge_id)
 limit by its Date must be in same month (Must Carefully Research Google for comparing new Date() to a Date String getting from an Mongo JS Object)
 then adding all the ranking Score then divide by number then generated an MonthlyRecordModel, create MonthlyRecordModel Model
 
-5. Adding real Data to MonthlyRecordsScreen and MonthlyRecordDetailScreen using data from MonthlyRecordModel
+6. Adding real Data to MonthlyRecordsScreen and MonthlyRecordDetailScreen using data from MonthlyRecordModel
 
 # Client 
 * npm run android or expo start (need for scss support installed package)

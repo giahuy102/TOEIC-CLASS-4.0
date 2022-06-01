@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'ClassroomModel'
     },
-    score: mongoose.Schema.Types.Decimal128,
+    score: Number,
     status: Number, //0: Not done, 1: Done
     examState: [
         {

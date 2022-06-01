@@ -6,6 +6,7 @@ const UserModel = require('../model/UserModel');
 const TestModel = require('../model/TestModel');
 const ChallengeModel = require('../model/ChallengeModel');
 const ChallengeEventsRecordModel = require('../model/ChallengeEventsRecordModel');
+const ChallengeParticipationModel = require('../model/ChallengeParticipationModel');
 
 router.post('/create_challenge', async (req, res) => {
     try {
@@ -142,5 +143,26 @@ router.get('/get_challenge/:challenge_id', async (req, res) => {
         res.status(400).send(err);
     }
 });
+
+router.get('/get_challenge_participation_detail/:challenge_id/:user_id', async (req, res) => {
+    try {
+        const { challenge_id, user_id } = req.params;
+        let challengeParticipationModelQuery = await ChallengeParticipationModel.findOne({ user: user_id, challenge: challenge_id });
+        console.log(`[challengeRoute.js] /get_challenge_participation_detail/:challenge_id/:user_id challengeParticipationModelQuery`, challengeParticipationModelQuery);
+        res.status(200).send(challengeParticipationModelQuery);
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+
+router.get('/get_challenge_partipations_list_by_user_id/:user_id', async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        let challengeParticipationModelsListQuery = await ChallengeParticipationModel.find({ user: user_id }).populate('user').populate('challenge').populate('classroom');
+        res.status(200).send(challengeParticipationModelsListQuery);
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
 
 module.exports = router;

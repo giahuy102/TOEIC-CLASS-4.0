@@ -9,6 +9,7 @@ const initialState = challengeRealTimeAdapter.getInitialState({
     socketOwnerId: null,
     rankingChart: [],
     examState: [],
+    currentTimeLeft: 0,
 })
 
 /**
@@ -38,6 +39,10 @@ const challengeRealTimeSlice = createSlice({
         updateRankingChartFromServerData(state, action) {
             const { ChallengeEventsRecordModelQuery } = action.payload;
             state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart
+        },
+        updateCurrentTimeLeftFromServerData(state, action) {
+            const { newCurrentTimeLeft } = action.payload;
+            state.currentTimeLeft = newCurrentTimeLeft;
         }
     },
     extraReducers: builder => {
@@ -63,7 +68,11 @@ const challengeRealTimeSlice = createSlice({
     }
 })
 
-export const { initChallengeRealTimeSlice, addNewUserParticipateChallenge, updateRankingChartFromServerData, endingChallengeRealTimeEvent } = challengeRealTimeSlice.actions;
+export const { initChallengeRealTimeSlice,
+    addNewUserParticipateChallenge,
+    updateRankingChartFromServerData,
+    endingChallengeRealTimeEvent,
+    updateCurrentTimeLeftFromServerData } = challengeRealTimeSlice.actions;
 
 export default challengeRealTimeSlice.reducer;
 
@@ -138,12 +147,19 @@ export const initiateEventListeners = createAsyncThunk('challengeRealTime/initia
         navigation.pop(); /**Since navigation belongs to ClassroomChallengesStackScreen, the current top of the stack 
         * is the whole ChallengeRealTimeStackScreen Stack Navigator -> pop() the whole Stack.Navigator and all of its sub history tree
         */
-        navigation.navigate('ChallengeResult');
+        navigation.navigate('ChallengeResult', {
+            dataSource: "challengeRealTime Redux RankingChart"
+        });
     })
 
     await socket.on('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', (data) => {
         const { ChallengeEventsRecordModelQuery } = data;
         thunkAPI.dispatch(updateRankingChartFromServerData({ ChallengeEventsRecordModelQuery }));
+    })
+
+    await socket.on('serverEmitBackChallengeEventsRecordModelCurrentTimeLeftToClientForUpdate', (data) => {
+        const { newCurrentTimeLeft } = data;
+        thunkAPI.dispatch(updateCurrentTimeLeftFromServerData({ newCurrentTimeLeft }));
     })
 })
 

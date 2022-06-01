@@ -34,6 +34,8 @@ export default function ChallengeRealTimeStackScreen({ navigation, route }) {
     const dispatch = useDispatch();
     const examState = useSelector(state => state.challengeRealTime.examState);
 
+    console.log(`[ChallengeRealTimeStackScreen.js] examState`, examState);
+
     const { ChallengeId: challenge_id, ChallengeClassId: class_id } = route.params;
     const user_id = useSelector(state => state.profile._id);
 

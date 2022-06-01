@@ -12,6 +12,7 @@ export default function ChallengeDoingSection({ navigation, route }) {
     const examState = useSelector(state => state.challengeRealTime.examState);
     const user_id = useSelector(state => state.profile._id);
     const challenge_id = useSelector(state => state.challengeRealTime.challenge_id);
+    const currentTimeLeft = useSelector(state => state.challengeRealTime.currentTimeLeft);
 
     const { sectionIndex, lastSectionIndex } = route.params;
     const examStateSectionInfo = examState[sectionIndex]
@@ -69,7 +70,7 @@ export default function ChallengeDoingSection({ navigation, route }) {
 
             navigation.popToTop(); /* Pop until the last screen left in ChallengeRealTimeStackScreen Stack.Navigator */
             navigation.pop(); /* Pop that final last Screen, ReactNavigation will trigger the pop() of the whole Stack.Navigator of ChallengeRealTimeStackScreen */
-            navigation.navigate("ChallengeResult", {dataSource: "challengeRealTime Redux RankingChart"}); /* Now the nearest parent navigator is in ClassroomChallengesStackScreen */
+            navigation.navigate("ChallengeResult", { dataSource: "challengeRealTime Redux RankingChart" }); /* Now the nearest parent navigator is in ClassroomChallengesStackScreen */
         }
     }
 
@@ -135,7 +136,7 @@ export default function ChallengeDoingSection({ navigation, route }) {
 
                 <View style={styles.right}>
                     <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                        Time left:  <Text style={{ fontWeight: 'normal' }}>59:01</Text>
+                        Time left:  <Text style={{ fontWeight: 'normal' }}>{`${(currentTimeLeft / 1000)}s`}</Text>
                     </Text>
                 </View>
             </View>

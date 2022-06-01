@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
+
+import axios from "axios";
 
 import data from './Participate.json';
 
 export default function Result({ navigation }) {
+	const currentUserId = useSelector(state => state.profile._id);
+
+	const [userChallengeParticipationsListData, setUserChallengeParticipationsListData] = useState([]);
 
 	React.useLayoutEffect(() => {																			// return button
 		navigation.setOptions({
@@ -19,9 +24,19 @@ export default function Result({ navigation }) {
 		});
 	}, [navigation]);
 
+	React.useEffect(async () => {
+		try {
+			const userChallengeParticipationModelsFetch = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}`);
+			console.log('[Result.js] userChallengeParticipationModelsFetch', userChallengeParticipationModelsFetch.data);
+			setUserChallengeParticipationsListData(userChallengeParticipationModelsFetch.data)
+		} catch (err) {
+			console.log('[Result.js] const userChallengeParticipationModelsFetch = axios.get(`http//10.0.2.2:3001/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}`); Error', err);
+		}
+	}, [])
+
 	const FlatListItem = (item, index) => {
 		return (
-			<TouchableOpacity style={styles.member} onPress={() => navigation.navigate('DetailResult')}>
+			<TouchableOpacity style={styles.member} onPress={() => navigation.navigate('DetailResult', { item })}>
 				<View style={styles.left}>
 					<View style={{
 						width: '80%',
@@ -39,10 +54,10 @@ export default function Result({ navigation }) {
 
 				<View style={styles.right}>
 					<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: '-2%' }}>
-						<Text>{item.challenge.name}</Text>
+						<Text>{item.challenge.title}</Text>
 					</View>
 
-					<Text style={{ paddingTop: 10 }}>ID: {item.user.key}</Text>
+					<Text style={{ paddingTop: 10 }}>ChallengeID: {item.challenge._id}</Text>
 					<Text>End: {item.challenge.end}</Text>
 				</View>
 
@@ -67,12 +82,13 @@ export default function Result({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={data}
+				data={userChallengeParticipationsListData}
 				renderItem={({ item, index }) => {
 					return (
 						FlatListItem(item, index)
 					);
 				}}
+				keyExtractor={(item, index) => index.toString()}
 			>
 			</FlatList>
 		</View>
