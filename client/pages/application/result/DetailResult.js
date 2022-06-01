@@ -21,6 +21,15 @@ export default function DetailResult({ navigation, route }) {
 		});
 	}, [navigation]);
 
+	const showTime = (timeInput) => {
+		let str = "";
+		let time = new Date(timeInput);
+
+		str += (time.getHours().toString().length == 2 ? time.getHours() : "0" + time.getHours()) + ":" + (time.getMinutes().toString().length == 2 ? time.getMinutes() : "0" + time.getMinutes()) + ", " + time.getDate() + "/" + time.getMonth() + "/" + time.getFullYear();
+
+		return str;
+	}
+
 	return (
 		<View style={styles.container}>
 			<View style={{ marginTop: 20, padding: 15, width: '95%' }}>
@@ -31,10 +40,10 @@ export default function DetailResult({ navigation, route }) {
 					ID: {data.challenge._id}
 				</Text>
 				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Started: {data.challenge.start}
+					Started: {showTime(data.challenge.start)}
 				</Text>
 				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					End: {data.challenge.end}
+					End: {showTime(data.challenge.end)}
 				</Text>
 			</View>
 

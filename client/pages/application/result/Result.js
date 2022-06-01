@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import axios from "axios";
 
-import data from './Participate.json';
+// import data from './Participate.json';
 
 export default function Result({ navigation }) {
 	const currentUserId = useSelector(state => state.profile._id);
@@ -34,6 +34,15 @@ export default function Result({ navigation }) {
 		}
 	}, [])
 
+	const showTime = (timeInput) => {
+		let str = "";
+		let time = new Date(timeInput);
+
+		str += (time.getHours().toString().length == 2 ? time.getHours() : "0" + time.getHours()) + ":" + (time.getMinutes().toString().length == 2 ? time.getMinutes() : "0" + time.getMinutes()) + ", " + time.getDate() + "/" + time.getMonth() + "/" + time.getFullYear();
+
+		return str;
+	}
+
 	const FlatListItem = (item, index) => {
 		return (
 			<TouchableOpacity style={styles.member} onPress={() => navigation.navigate('DetailResult', { item })}>
@@ -58,7 +67,7 @@ export default function Result({ navigation }) {
 					</View>
 
 					<Text style={{ paddingTop: 10 }}>ChallengeID: {item.challenge._id}</Text>
-					<Text>End: {item.challenge.end}</Text>
+					<Text>End: {showTime(item.challenge.end)}</Text>
 				</View>
 
 				<View style={styles.left}>
