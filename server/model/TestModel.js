@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
                         {
                             key: Number,
                             answer: String,
-                            isCorrect: Boolean
+                            is_correct: Boolean
                         }
                     ]
                 }

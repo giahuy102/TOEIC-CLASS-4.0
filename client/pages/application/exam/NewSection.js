@@ -167,22 +167,22 @@ export default function Login({ navigation, route }) {
             {
                 key: 0,
                 answer: '', 
-                isCorrect: true
+                is_correct: true
             },
             {
                 key: 1,
                 answer: '', 
-                isCorrect: false
+                is_correct: false
             },
             {
                 key: 2,
                 answer: '', 
-                isCorrect: false
+                is_correct: false
             },
             {
                 key: 3,
                 answer: '', 
-                isCorrect: false
+                is_correct: false
             }
         ]
     }]; 
