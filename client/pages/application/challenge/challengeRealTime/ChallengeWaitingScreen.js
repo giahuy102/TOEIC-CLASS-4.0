@@ -8,7 +8,7 @@ export default function ChallengeWaitingScreen({ navigation, route }) {
         <View style={AppStyles.ChallengeWaitingScreenContainer}>
             <Pressable
                 style={AppStyles.ChallengeWaitingScreenStartTestButton}
-                onPress={() => { navigation.navigate('ChallengeDoingSection0') }}
+                onPress={() => { navigation.navigate('ChallengeDoingSection') }}
             >
                 <Text style={AppStyles.ChallengeWaitingScreenStartTestButtonText}>Proceed To First Section</Text>
             </Pressable>
