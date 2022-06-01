@@ -8,11 +8,15 @@ rankingChart
 
 4. Handle ChallengeTest Screen after finish Challenge and navigate back from ChallengeResult Screen, MUST find a way to hide the start button.
 
-5. Adding Crontab to create an Monthly Record Once a month, query every ChallengeEventsRecordModel (must Populate/Join by challenge_id)
+5. Sort All rankingChart in every Screen, or sort in Database
+
+6. Run function to scale the score to 10 scale after user finish challenge or challenge end time reached
+
+7. Adding Crontab to create an Monthly Record Once a month, query every ChallengeEventsRecordModel (must Populate/Join by challenge_id)
 limit by its Date must be in same month (Must Carefully Research Google for comparing new Date() to a Date String getting from an Mongo JS Object)
 then adding all the ranking Score then divide by number then generated an MonthlyRecordModel, create MonthlyRecordModel Model
 
-6. Adding real Data to MonthlyRecordsScreen and MonthlyRecordDetailScreen using data from MonthlyRecordModel
+8. Adding real Data to MonthlyRecordsScreen and MonthlyRecordDetailScreen using data from MonthlyRecordModel
 
 # Client 
 * npm run android or expo start (need for scss support installed package)
