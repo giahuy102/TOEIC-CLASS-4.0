@@ -1,5 +1,14 @@
 import { createAsyncThunk, createSelector, createEntityAdapter, createSlice, useSelector, current } from "@reduxjs/toolkit";
 
+function compareRankingChartItemByScore(a, b) {
+    if (a.score < b.score) {
+        return 1; /** Above 0 number means must swap */
+    } else if (a.score > b.score) {
+        return -1;
+    }
+    return 0;
+}
+
 const challengeRealTimeAdapter = createEntityAdapter();
 
 const initialState = challengeRealTimeAdapter.getInitialState({
@@ -23,22 +32,22 @@ const challengeRealTimeSlice = createSlice({
         initChallengeRealTimeSlice(state, action) {
             const { newChallengeParticipationModel, ChallengeEventsRecordModelQuery } = action.payload;
             state.examState = newChallengeParticipationModel.examState;
-            state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart;
+            state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart.sort(compareRankingChartItemByScore);
         },
         addNewUserParticipateChallenge(state, action) {
             const { user_id, score } = action.payload;
             let newRankingChart = state.rankingChart;
             newRankingChart.push({ user_id, score });
             newRankingChart.sort((user1, user2) => user1.score - user2.score);
-            state.rankingChart = newRankingChart;
+            state.rankingChart = newRankingChart.sort(compareRankingChartItemByScore);
         },
         endingChallengeRealTimeEvent(state, action) {
             const { ChallengeModelItem, ChallengeEventsRecordModelQuery } = action.payload;
-            state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart;
+            state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart.sort(compareRankingChartItemByScore);
         },
         updateRankingChartFromServerData(state, action) {
             const { ChallengeEventsRecordModelQuery } = action.payload;
-            state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart
+            state.rankingChart = ChallengeEventsRecordModelQuery.rankingChart.sort(compareRankingChartItemByScore)
         },
         updateCurrentTimeLeftFromServerData(state, action) {
             const { newCurrentTimeLeft } = action.payload;
