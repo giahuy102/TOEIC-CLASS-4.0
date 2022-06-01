@@ -120,13 +120,24 @@ router.get('/get_challenges_ended/:class_id', async (req, res) => {
     }
 });
 
+router.get('/get_challenge_events_record_detail/:challenge_id', async (req, res) => {
+    try {
+        const { challenge_id } = req.params;
+        let challengeEventsRecordModelQuery = await ChallengeEventsRecordModel
+            .findOne({ challenge_id })
+            .populate('challenge_id')
+        // .exec()
+        res.status(200).send(challengeEventsRecordModelQuery);
+    } catch (err) {
+        res.status(400).send(err);
+    }
+});
+
 router.get('/get_challenge/:challenge_id', async (req, res) => {
     try {
-        console.log(req.params.challenge_id)
-        // let challenges = await ChallengeModel.find({})
-        // console.log("challenges list: ", challenges)
-        // res.status(200).send(challenges);
-        res.status(200).send('get a single challenge');
+        const { challenge_id } = req.params;
+        let challengeModelQuery = await ChallengeModel.findOne({ _id: challenge_id });
+        res.status(200).send(challengeModelQuery);
     } catch (err) {
         res.status(400).send(err);
     }

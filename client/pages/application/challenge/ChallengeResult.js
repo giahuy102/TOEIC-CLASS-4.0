@@ -1,9 +1,60 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
+// fetchChallengeDataById Object {
+//     "__v": 2,
+//     "_id": "629625ed9cc9feea2194f662",
+//     "challenge_id": Object {
+//       "__v": 0,
+//       "_id": "629625ec9cc9feea2194f652",
+//       "challenge_id": 1654007276248,
+//       "classroom_id": "628ca9fabe5bca565a739fe8",
+//       "create_user_id": "628ca9dbbe5bca565a739fa6",
+//       "created_at": "2022-05-31T14:27:56.221Z",
+//       "created_by": "hdthinh01",
+//       "end": "2022-05-31T14:30:11.887Z",
+//       "start": "2022-05-31T14:27:11.887Z",
+//       "status": 2,
+//       "test_id": "628ccdd19cf450d2896472ab",
+//       "title": "Reading Test 100",
+//     },
+//     "classroom_id": "628ca9fabe5bca565a739fe8",
+//     "currentTime": "2022-05-31T14:30:09.531Z",
+//     "currentTimeLeft": 2356,
+//     "end": "2022-05-31T14:30:11.887Z",
+//     "rankingChart": Array [
+//       Object {
+//         "_id": "629625fb9cc9feea2194f6e4",
+//         "answers": 2,
+//         "score": 2,
+//         "user_id": "628ca9dbbe5bca565a739fa6",
+//         "username": "hdthinh01",
+//       },
+//       Object {
+//         "_id": "629625fc9cc9feea2194f716",
+//         "answers": 4,
+//         "score": 3,
+//         "user_id": "628cd8ee8401efecab84ccb2",
+//         "username": "hdthinh1012",
+//       },
+//     ],
+//     "start": "2022-05-31T14:27:11.887Z",
+//     "status": 0,
+//     "test_id": "628ccdd19cf450d2896472ab",
+//     "title": "Reading Test 100",
+//   }
+
 export default function ChallengeResult({ navigation, route }) {
-    const rankingChart = useSelector(state => state.challengeRealTime.rankingChart);
+    console.log("[ChallengeResult.js] route.params", route.params);
+    const [displayRankingChart, setDisplayRankingChart] = useState([]);
+    const [challengeTitle, setChallengeTitle] = useState("");
+    const [challengeId, setChallengeId] = useState("");
+    const [challengeEndDate, setChallengeEndDate] = useState("");
+
+    const challengeRealTimeRankingChart = useSelector(state => state.challengeRealTime.rankingChart);
+    const challengeRealTimeChallengeId = useSelector(state => state.challengeRealTime.challenge_id);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -12,13 +63,35 @@ export default function ChallengeResult({ navigation, route }) {
                 return (
                     <TouchableOpacity onPress={() => navigation.pop()}>
                         <Image source={require('../../../assets/back_arrow.png')} />
-
                     </TouchableOpacity>
                 );
-
             },
         });
     }, [navigation]);
+
+    React.useEffect(async () => {
+        if (route.params.dataSource === "challengeRealTime Redux RankingChart") {
+            console.log('UseEffect challengeRealTime Redux RankingChart case, challengeId: ', challengeRealTimeChallengeId);
+            try {
+                const fetchChallengeById = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge/${challengeRealTimeChallengeId}`);
+                console.log('[ChallengeResult.js, challengeRealTime Redux RankingChart Case] fetchChallengeById', fetchChallengeById.data);
+                setDisplayRankingChart(challengeRealTimeRankingChart);
+                setChallengeTitle(fetchChallengeById.data.title);
+                setChallengeId(challengeRealTimeChallengeId);
+                setChallengeEndDate('Not yet ended');
+            } catch (err) {
+                console.log('[ChallengeResult.js] const fetchChallengeById = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge/${challengeId}`); ERROR', err.response);
+            }
+        } else if (route.params.dataSource === "/get_challenge_events_record_detail/:challenge_id API") {
+            const fetchChallengeDataById = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_events_record_detail/${route.params.challenge_id}`);
+            console.log('[ChallengeResult.js] fetchChallengeDataById', fetchChallengeDataById.data);
+            setDisplayRankingChart(fetchChallengeDataById.data.rankingChart);
+            const { challenge_id: challengeData } = fetchChallengeDataById.data;
+            setChallengeTitle(challengeData.title);
+            setChallengeId(challengeData._id);
+            setChallengeEndDate(challengeData.end);
+        }
+    }, [])
 
     const FlatListItem = (item, index) => {
         return (
@@ -45,9 +118,9 @@ export default function ChallengeResult({ navigation, route }) {
     return (
         <View style={styles.container}>
             <View style={{ marginTop: 10, }}>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Challenge: <Text style={{ fontWeight: 'normal' }}>Toiec 500+</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>1910409</Text> </Text>
-                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Ended: <Text style={{ fontWeight: 'normal' }}>23h59, 23rd March 2022</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Challenge: <Text style={{ fontWeight: 'normal' }}>{challengeTitle}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>ID: <Text style={{ fontWeight: 'normal' }}>{challengeId}</Text> </Text>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Ended: <Text style={{ fontWeight: 'normal' }}>{challengeEndDate}</Text> </Text>
             </View>
 
             <FlatList
@@ -60,12 +133,10 @@ export default function ChallengeResult({ navigation, route }) {
                     );
                 }}
                 keyExtractor={(item) => item.username}
-            >
-
-            </FlatList>
+            />
 
             <FlatList
-                data={rankingChart}
+                data={displayRankingChart}
                 renderItem={({ item, index }) => {
                     // console.log(`item = ${JSON.stringify(item)}, index = ${index}`)
                     return (
@@ -73,9 +144,7 @@ export default function ChallengeResult({ navigation, route }) {
                     );
                 }}
                 keyExtractor={(item) => item.username}
-            >
-
-            </FlatList>
+            />
         </View>
     );
 }

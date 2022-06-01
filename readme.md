@@ -1,5 +1,5 @@
 # Task Left
-1. Update ChallengeResult get real data, using two different screen for two case:
+1. [OK] Update ChallengeResult get real data, using two different screen for two case:
 	- Case 1: Navigate to ChallengeResult after ChallengeDoingSections ended, using route.params to get rankingChart
 	- Case 2: Navigate to ChallengeResult by clicking 'View Result' button in EndedChallengeScreen, calling API in useEffect to setRankingChart
 2. Fix backend To actually update ChallengeParticipationModel when 'UserChooseAnAnswer' Event Triggered, not only ChallengeEventsRecordModel
