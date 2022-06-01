@@ -100,6 +100,7 @@ const socketIOConfig = (io, challenge_id) => {
                         const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({
                             challenge_id: challenge_id,
                         })
+                        console.log(`[SocketIOConfig.js] socketIOServerDedicatedNamespaceByChallengeId.on("connection",...) ChallengePariticipationModelQueryToCheckIfUserHasParticipateAlready`, ChallengePariticipationModelQueryToCheckIfUserHasParticipateAlready);
                         socket.emit('initChallengeRealTimeSliceDataEmitted', {
                             newChallengeParticipationModel: ChallengePariticipationModelQueryToCheckIfUserHasParticipateAlready,
                             ChallengeEventsRecordModelQuery
@@ -139,6 +140,7 @@ const socketIOConfig = (io, challenge_id) => {
                 else {
                     ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].chosenAnswer = theAnswer;
                     ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].answerState = 'AC';
+                    ChallengeParticipationModelQuery.score += 1;
                     for (const rankingChartItemPointer of ChallengeEventsRecordModelQuery.rankingChart) {
                         if (rankingChartItemPointer.user_id == user_id) {
                             rankingChartItemPointer.answers += 1;
@@ -230,7 +232,7 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                     try {
                         await ChallengeEventsRecordModelQuery.save();
                         const socketIOServerDedicatedNamespaceByChallengeId = io.of(`/${ChallengeModelItem._id}`);
-                        // socketIOServerDedicatedNamespaceByChallengeId.emit('serverEmitBackChallengeEventsRecordModelDataToClientForUpdate', { ChallengeEventsRecordModelQuery });
+                        socketIOServerDedicatedNamespaceByChallengeId.emit('serverEmitBackChallengeEventsRecordModelCurrentTimeLeftToClientForUpdate', { newCurrentTimeLeft: ChallengeEventsRecordModelQuery.end - currentDate });
                     } catch (err) {
                         console.log("checkAndUpdateAllChallengeStatus await ChallengeEventsRecordModelQuery.save(); Error", err);
                     }

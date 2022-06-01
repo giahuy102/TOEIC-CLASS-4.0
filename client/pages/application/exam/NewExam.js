@@ -14,6 +14,8 @@ import axios from 'axios';
 import * as DocumentPicker from 'expo-document-picker';
 
 export default function NewExam({ navigation, route }) {
+    const { classId } = route.params;
+
     const handleSaveData = async () => {
         // console.log(route.params.type)
         // console.log(route.params)
@@ -34,7 +36,7 @@ export default function NewExam({ navigation, route }) {
 
             // data.append('sections', JSON.stringify(newSections));
             await data.append('new_exam', JSON.stringify(route.params.testData));
-
+            await data.append('classroom_id', classId);
             // console.log(route.params.testData)
 
             await route.params.testData.sections.map((item, index) => {

@@ -62,7 +62,7 @@ export default function ChallengeEnded({ navigation, route }) {
                 <View style={styles.right}>
                     <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: '-2%' }}>
                         <Text>{item.name}</Text>
-                        <Text onPress={() => navigation.navigate('ChallengeResult')} style={{ color: '#1570EF', textDecorationLine: 'underline' }}>
+                        <Text onPress={() => navigation.navigate('ChallengeResult', { dataSource: "/get_challenge_events_record_detail/:challenge_id API", challenge_id: item._id })} style={{ color: '#1570EF', textDecorationLine: 'underline' }}>
                             View result
                         </Text>
                     </View>

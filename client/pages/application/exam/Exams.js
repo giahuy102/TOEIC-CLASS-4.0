@@ -8,7 +8,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import axios from 'axios';
 
-export default function Exams({ navigation }) {
+export default function Exams({ navigation, route }) {
+    const { classId } = route.params;
     const [testData, setTestData] = useState(null);
 
     const handleNavigation = (item = null) => {
@@ -24,7 +25,8 @@ export default function Exams({ navigation }) {
 
                     ]
                 },
-                keyStack: [null]
+                keyStack: [null],
+                classId,
             })
         }
         else {
@@ -62,7 +64,7 @@ export default function Exams({ navigation }) {
     }, [navigation]);
 
     const getTestData = () => {
-        axios.get('http://10.0.2.2:3001/api/test/get_all_test')
+        axios.get(`http://10.0.2.2:3001/api/test/all_classroom_test/${classId}`)
             .then(function (res) {
                 setTestData(res.data);
             })
