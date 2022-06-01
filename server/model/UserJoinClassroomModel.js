@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    accumulate_score: mongoose.Schema.Types.Decimal128,
-    rank: Number,
+    average_score: Number,
     role: String, // 'Teacher' / 'Student'
     user: {
         type: mongoose.Schema.Types.ObjectId,

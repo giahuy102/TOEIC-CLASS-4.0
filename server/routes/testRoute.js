@@ -25,6 +25,10 @@ router.post('/create_test', upload.any(), async function (req, res) {
     formData = await req.body;
     let examJSON = await JSON.parse(formData.new_exam);
 
+    let classroom_id = formData.classroom_id;
+
+    console.log('[testRoute.js] create test route examJSON', examJSON);
+
 
     for (let i = 0; i < req.files.length; i++) {
 
@@ -65,6 +69,7 @@ router.post('/create_test', upload.any(), async function (req, res) {
 
         }
     }
+    examJSON['classroom_id'] = classroom_id;
     const newTestModel = new TestModel(examJSON);
 
 
@@ -231,7 +236,7 @@ router.post('/createFakeTestModelData', async function (req, res) {
         "audio": null,
         "title": "Reading Test Sample 1",
         "duration": 60,
-        "score": 50,
+        "score": 4,
         "sections": [
             {
                 "key": 0,

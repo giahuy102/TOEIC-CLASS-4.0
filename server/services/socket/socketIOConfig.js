@@ -7,6 +7,7 @@ const TestModel = require("../../model/TestModel");
 const ChallengeParticipationModel = require("../../model/ChallengeParticipationModel");
 const ChallengeEventsRecordModel = require("../../model/ChallengeEventsRecordModel");
 const ClassroomModel = require("../../model/ClassroomModel");
+const UserJoinClassroomModel = require("../../model/UserJoinClassroomModel");
 
 const socketIOConfig = (io, challenge_id) => {
     /**
@@ -122,6 +123,10 @@ const socketIOConfig = (io, challenge_id) => {
             const ChallengeParticipationModelQuery = await ChallengeParticipationModel.findOne({ user: user_id, challenge: challenge_id });
             const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge_id: challenge_id });
 
+            const ChallengeModelAndTestModelDataQuery = await ChallengeModel.findOne({ _id: challenge_id }).populate('test_id');
+
+            const totalTestScore = ChallengeModelAndTestModelDataQuery.test_id.score;
+
             /**
              * Only if the question state is still 'NG' shall we update examStatew
              */
@@ -144,7 +149,7 @@ const socketIOConfig = (io, challenge_id) => {
                     for (const rankingChartItemPointer of ChallengeEventsRecordModelQuery.rankingChart) {
                         if (rankingChartItemPointer.user_id == user_id) {
                             rankingChartItemPointer.answers += 1;
-                            rankingChartItemPointer.score += 1;
+                            rankingChartItemPointer.score += (1 / totalTestScore) * 10;
                             break;
                         }
                     }
@@ -248,12 +253,29 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                      *      - Broadcast Changing Status Event to all Client to move all of them to Final Result Screen
                      *      - From each of them client will send back an event to normalize (scale 10) the ChallengeParticipationModel score
                      *      - Then finally Run normalization in All Of ChallengeEventsRecordModel rankingChart scores
+                     * 
+                     *      - THEN: Update the all time accumulated scored in UserJoinClassroomModel
                      *
                      */
                     ChallengeModelItem.status = 2;
                     const ChallengeEventsRecordModelQuery = await ChallengeEventsRecordModel.findOne({ challenge_id: ChallengeModelItem._id });
                     try {
                         await ChallengeEventsRecordModelQuery.save();
+                        const classroom_id = ChallengeEventsRecordModelQuery.classroom_id;
+                        const rankingChart = ChallengeEventsRecordModelQuery.rankingChart;
+
+                        const ClassroomModelQuery = await ClassroomModel.findOne({ _id: classroom_id });
+                        const currentClassroomNumberOfCompletedChallenge = ClassroomModelQuery.number_of_completed_challenge;
+                        for (const rankingChartItem of rankingChart) {
+                            const user_id = rankingChartItem.user_id;
+                            const newScore = rankingChartItem.score;
+                            const UserJoinClassroomModelQuery = await UserJoinClassroomModel.findOne({ user: user_id, classroom: classroom_id });
+                            const currentUserAverageScoreInClass = UserJoinClassroomModelQuery.average_score;
+                            UserJoinClassroomModelQuery.average_score = (currentUserAverageScoreInClass * currentClassroomNumberOfCompletedChallenge + newScore) / (currentClassroomNumberOfCompletedChallenge + 1);
+                            await UserJoinClassroomModelQuery.save();
+                            ClassroomModelQuery.number_of_completed_challenge += 1;
+                            await ClassroomModelQuery.save();
+                        }
                         /**
                          * Get the namespace by ChallengeModelItem._id to broadcast 'endingChallengeRealTimeEvent'event
                          * to all the sockets belongs to that namespace IO Server only

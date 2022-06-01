@@ -63,14 +63,14 @@ router.post('/create', tokenValidation, async function (req, res) {
         start_date: startDateValue,
         end_date: endDateValue,
         password: classroomPassword,
-        status: status_check
+        status: status_check,
+        number_of_completed_challenge: 0,
     });
 
     try {
         await newClassroomModel.save();
         const newUserJoinClassroomModel = new UserJoinClassroomModel({
-            accumulate_score: 0.0,
-            rank: 0,
+            average_score: 0.0,
             role: 'Teacher',
             user: req.user.user_id,
             classroom: newClassroomModel._id,
@@ -97,8 +97,7 @@ router.post('/join', tokenValidation, async function (req, res) {
     let requestedClassroom = await ClassroomModel.findOne({ _id: classId });
     if (password === requestedClassroom['password']) {
         const newJoin = new UserJoinClassroomModel({
-            accumulate_score: 0.0,
-            rank: 0,
+            average_score: 0.0,
             role: 'Student',
             user: userId,
             classroom: classId,
@@ -153,10 +152,8 @@ router.get('/:class_id/get_basic_info_all_member', async function (req, res) {
                     const responseData = { classroom: queryResultList[0]["classroom"], students_list: [] };
                     for (const UserJoinClassroomModelItem of queryResultList) {
                         let newUser = UserJoinClassroomModelItem["user"];
-                        console.log("test: ", UserJoinClassroomModelItem["rank"], newUser)
-                        newUser['rank'] = UserJoinClassroomModelItem["rank"];
                         newUser['role'] = UserJoinClassroomModelItem["role"];
-                        newUser['accumulate_score'] = UserJoinClassroomModelItem["accumulate_score"];
+                        newUser['average_score'] = UserJoinClassroomModelItem["average_score"];
                         responseData.students_list.push(newUser)
                     }
                     res.status(200).json(responseData);

@@ -11,6 +11,15 @@ import AuthService from '../../../services/AuthService';
 import ClassroomService from "../../../services/ClassroomService";
 import { storeToken } from '../../../services/JWTStorage';
 
+function compareRankingChartItemByAverageScore(a, b) {
+    if (a.average_score < b.average_score) {
+        return 1; /** Above 0 number means must swap */
+    } else if (a.average_score > b.average_score) {
+        return -1;
+    }
+    return 0;
+}
+
 export default function Login({ navigation, route }) {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -24,9 +33,9 @@ export default function Login({ navigation, route }) {
         const fetchClassroomDetailInfo = async () => {
             const getClassroomDetailInfoResponse = await ClassroomService.getClassroomDetailInfo(classId);
             const getClassroomDetailInfoData = getClassroomDetailInfoResponse.data;
-            const newMemberList = getClassroomDetailInfoData['students_list'];
+            const newMemberList = [...getClassroomDetailInfoData['students_list']];
             console.log('newMemberList', newMemberList);
-            setMemberList(newMemberList);
+            setMemberList(newMemberList.sort(compareRankingChartItemByAverageScore));
         };
         await fetchClassroomDetailInfo();
     }, []);
@@ -78,7 +87,7 @@ export default function Login({ navigation, route }) {
                         <Image
                             source={require('../../../assets/rank_member_icon.png')}
                         />
-                        <Text style={styles.sub_content}>{item.rank}</Text>
+                        <Text style={styles.sub_content}>{item.average_score}</Text>
                     </View>
                 </View>
 

@@ -46,6 +46,15 @@ import { useSelector } from 'react-redux';
 //     "title": "Reading Test 100",
 //   }
 
+function compareRankingChartItemByScore(a, b) {
+    if (a.score < b.score) {
+        return 1; /** Above 0 number means must swap */
+    } else if (a.score > b.score) {
+        return -1;
+    }
+    return 1;
+}
+
 export default function ChallengeResult({ navigation, route }) {
     console.log("[ChallengeResult.js] route.params", route.params);
     const [displayRankingChart, setDisplayRankingChart] = useState([]);
@@ -53,7 +62,7 @@ export default function ChallengeResult({ navigation, route }) {
     const [challengeId, setChallengeId] = useState("");
     const [challengeEndDate, setChallengeEndDate] = useState("");
 
-    const challengeRealTimeRankingChart = useSelector(state => state.challengeRealTime.rankingChart);
+    let challengeRealTimeRankingChart = useSelector(state => state.challengeRealTime.rankingChart);
     const challengeRealTimeChallengeId = useSelector(state => state.challengeRealTime.challenge_id);
 
     React.useLayoutEffect(() => {
@@ -75,17 +84,27 @@ export default function ChallengeResult({ navigation, route }) {
             try {
                 const fetchChallengeById = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge/${challengeRealTimeChallengeId}`);
                 console.log('[ChallengeResult.js, challengeRealTime Redux RankingChart Case] fetchChallengeById', fetchChallengeById.data);
-                setDisplayRankingChart(challengeRealTimeRankingChart);
+                /**
+                 * checking why challengeRealTimeRankingChart.sort(compareRankingChartItemByScore) error
+                 * Because challengeRealTimeRankingChart was actually an MongoBSON Object has been freezed using
+                 * Javascript built-in Object.freeze() 
+                 * 
+                 * Solution: Using ArrCopy = [...oldArr] to create new version
+                 */
+                // console.log('[ChallengeResult.js] challengeRealTimeRankingChart', challengeRealTimeRankingChart);
+                // setDisplayRankingChart(challengeRealTimeRankingChart.sort(compareRankingChartItemByScore));
+                let sortedChallengeRealTimeRankingChart = [...challengeRealTimeRankingChart];
+                setDisplayRankingChart(sortedChallengeRealTimeRankingChart.sort(compareRankingChartItemByScore));
                 setChallengeTitle(fetchChallengeById.data.title);
                 setChallengeId(challengeRealTimeChallengeId);
                 setChallengeEndDate('Not yet ended');
             } catch (err) {
-                console.log('[ChallengeResult.js] const fetchChallengeById = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge/${challengeId}`); ERROR', err.response);
+                console.log(`[ChallengeResult.js] const fetchChallengeById = await axios.get(http://10.0.2.2:3001/api/challenge/get_challenge/${challengeRealTimeChallengeId}); ERROR`, err);
             }
         } else if (route.params.dataSource === "/get_challenge_events_record_detail/:challenge_id API") {
             const fetchChallengeDataById = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_events_record_detail/${route.params.challenge_id}`);
             console.log('[ChallengeResult.js] fetchChallengeDataById', fetchChallengeDataById.data);
-            setDisplayRankingChart(fetchChallengeDataById.data.rankingChart);
+            setDisplayRankingChart(fetchChallengeDataById.data.rankingChart.sort(compareRankingChartItemByScore));
             const { challenge_id: challengeData } = fetchChallengeDataById.data;
             setChallengeTitle(challengeData.title);
             setChallengeId(challengeData._id);
