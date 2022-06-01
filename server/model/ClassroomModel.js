@@ -4,6 +4,7 @@ const Schema = mongoose;
 const userSchema = new mongoose.Schema({
     classname: String,
     number_student: Number,
+    number_of_completed_challenge: Number,
     level: Number,
     start_date: Date,
     end_date: Date,
