@@ -5,7 +5,10 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadUpcomingChallengesList } from './slice/challengesListSlice';
 
-const BASE_API_URL = `http://10.0.2.2:${3001}`;
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
 const CHALLENGE_PREFIX = '/api/challenge';
 
 export default function ChallengeUpcoming({ navigation, route }) {
@@ -14,7 +17,7 @@ export default function ChallengeUpcoming({ navigation, route }) {
     const challengesList = useSelector(state => state.challengesList.upcomingChallengesList);
 
     useEffect(async () => {
-        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_upcoming/${classId}`)
+        await axios.get(API_URL + CHALLENGE_PREFIX + `/get_challenges_upcoming/${classId}`)
             .then(res => {
                 // console.log('Challenge Upcoming load challenges list response data', res.data);
                 dispatch(loadUpcomingChallengesList(res.data));

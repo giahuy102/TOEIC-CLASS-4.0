@@ -6,7 +6,10 @@ import Profile from './Profile';
 import { useDispatch } from 'react-redux';
 import { updateProfileState } from './slice/profileSlice';
 
-const BASE_API_URL = `http://10.0.2.2:${3001}`;
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
 const PROFILE_PREFIX = '/api/profile';
 
 export default function UpdateAccount({ navigation, route }) {
@@ -36,7 +39,7 @@ export default function UpdateAccount({ navigation, route }) {
 
 
 		const newAccountData = { newUsername, newEmail, oldEmail }
-		await axios.put(BASE_API_URL + PROFILE_PREFIX + '/update_account', newAccountData)
+		await axios.put(API_URL + PROFILE_PREFIX + '/update_account', newAccountData)
 			.then(res => {
 				const updateAccount = res.data
 				dispatch(updateProfileState(updateAccount))

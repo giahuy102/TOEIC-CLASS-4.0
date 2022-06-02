@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import Constants from 'expo-constants';
 
-const BASE_API_URL = Constants.manifest.extra.API_URL;
+const API_URL = Constants.manifest.extra.API_URL;
 
 const CHALLENGE_PREFIX = '/api/challenge';
 
@@ -19,7 +19,7 @@ export default function ChallengeChallenging({ navigation, route }) {
     // const [challengesList, setChallengesList] = useState([])
 
     useEffect(async () => {
-        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_challenging/${classId}`)
+        await axios.get(API_URL + CHALLENGE_PREFIX + `/get_challenges_challenging/${classId}`)
             .then(res => {
                 // console.log('Challenge Challenging load challenges list response data', res.data);
                 dispatch(loadChallengingChallengesList(res.data));

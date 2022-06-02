@@ -6,6 +6,11 @@ import axios from "axios";
 
 import data from './Participate.json';
 
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
+
 export default function Result({ navigation, route }) {
 	const { classId } = route.params;
 	const currentUserId = useSelector(state => state.profile._id);
@@ -27,12 +32,12 @@ export default function Result({ navigation, route }) {
 
 	React.useEffect(async () => {
 		try {
-			console.log(`[Result.js] Calling API: http://10.0.2.2:3001/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}/${classId}`);
-			const userChallengeParticipationModelsFetch = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}/${classId}`);
+			console.log(`[Result.js] Calling API: ${API_URL}/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}/${classId}`);
+			const userChallengeParticipationModelsFetch = await axios.get(`${API_URL}/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}/${classId}`);
 			console.log('[Result.js] userChallengeParticipationModelsFetch', userChallengeParticipationModelsFetch.data);
 			setUserChallengeParticipationsListData(userChallengeParticipationModelsFetch.data)
 		} catch (err) {
-			console.log('[Result.js] const userChallengeParticipationModelsFetch = axios.get(`http//10.0.2.2:3001/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}`); Error', err);
+			console.log('[Result.js] const userChallengeParticipationModelsFetch = axios.get(`${API_URL}/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}`); Error', err);
 		}
 	}, [])
 

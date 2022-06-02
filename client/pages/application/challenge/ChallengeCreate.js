@@ -8,7 +8,10 @@ import axios from 'axios';
 import { useSelector, useDispatch } from "react-redux";
 import { addNewChallenge } from './slice/challengesListSlice';
 
-const BASE_API_URL = `http://10.0.2.2:${3001}`;
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
 const CHALLENGE_PREFIX = '/api/challenge';
 
 export default function ChallengeCreate({ navigation, route }) {
@@ -115,7 +118,7 @@ export default function ChallengeCreate({ navigation, route }) {
 
         // console.log("client email: ", emailUser)
 
-        await axios.post(BASE_API_URL + CHALLENGE_PREFIX + '/create_challenge', { userId, classId, challenge })
+        await axios.post(API_URL + CHALLENGE_PREFIX + '/create_challenge', { userId, classId, challenge })
             .then(res => {
                 const newlyAddedChallenge = res.data;
                 // console.log(newlyAddedChallenge);

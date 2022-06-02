@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
+
 // fetchChallengeDataById Object {
 //     "__v": 2,
 //     "_id": "629625ed9cc9feea2194f662",
@@ -82,7 +87,7 @@ export default function ChallengeResult({ navigation, route }) {
         if (route.params.dataSource === "challengeRealTime Redux RankingChart") {
             console.log('UseEffect challengeRealTime Redux RankingChart case, challengeId: ', challengeRealTimeChallengeId);
             try {
-                const fetchChallengeById = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge/${challengeRealTimeChallengeId}`);
+                const fetchChallengeById = await axios.get(`${API_URL}/api/challenge/get_challenge/${challengeRealTimeChallengeId}`);
                 console.log('[ChallengeResult.js, challengeRealTime Redux RankingChart Case] fetchChallengeById', fetchChallengeById.data);
                 /**
                  * checking why challengeRealTimeRankingChart.sort(compareRankingChartItemByScore) error
@@ -99,10 +104,10 @@ export default function ChallengeResult({ navigation, route }) {
                 setChallengeId(challengeRealTimeChallengeId);
                 setChallengeEndDate('Not yet ended');
             } catch (err) {
-                console.log(`[ChallengeResult.js] const fetchChallengeById = await axios.get(http://10.0.2.2:3001/api/challenge/get_challenge/${challengeRealTimeChallengeId}); ERROR`, err);
+                console.log(`[ChallengeResult.js] const fetchChallengeById = await axios.get(${API_URL}/api/challenge/get_challenge/${challengeRealTimeChallengeId}); ERROR`, err);
             }
         } else if (route.params.dataSource === "/get_challenge_events_record_detail/:challenge_id API") {
-            const fetchChallengeDataById = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_events_record_detail/${route.params.challenge_id}`);
+            const fetchChallengeDataById = await axios.get(`${API_URL}/api/challenge/get_challenge_events_record_detail/${route.params.challenge_id}`);
             console.log('[ChallengeResult.js] fetchChallengeDataById', fetchChallengeDataById.data);
             setDisplayRankingChart(fetchChallengeDataById.data.rankingChart.sort(compareRankingChartItemByScore));
             const { challenge_id: challengeData } = fetchChallengeDataById.data;

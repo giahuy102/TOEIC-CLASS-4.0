@@ -6,7 +6,10 @@ import { useDispatch } from 'react-redux';
 import { updateProfileState } from './slice/profileSlice';
 import axios from 'axios';
 
-const BASE_API_URL = `http://10.0.2.2:${3001}`;
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
 const PROFILE_PREFIX = '/api/profile';
 
 export default function ChangeInformation({ navigation, route }) {
@@ -51,7 +54,7 @@ export default function ChangeInformation({ navigation, route }) {
 	const onPressHandler = async () => {
 
 		const newInfoData = { newFullName, newBirthDate, email }
-		await axios.put(BASE_API_URL + PROFILE_PREFIX + '/change_info', newInfoData)
+		await axios.put(API_URL + PROFILE_PREFIX + '/change_info', newInfoData)
 			.then(res => {
 				const updateInfo = res.data
 				dispatch(updateProfileState(updateInfo))

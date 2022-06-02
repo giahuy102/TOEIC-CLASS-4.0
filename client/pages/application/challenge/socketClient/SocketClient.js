@@ -2,18 +2,21 @@ import { io } from "socket.io-client";
 import { initiateEventListeners } from '../slice/challengeRealTimeSlice';
 import { loadToken } from "../../../../services/JWTStorage";
 
-const ServerURI = 'http://10.0.2.2:3001';
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
 
 
 
 export const createSocket = (user_id, challenge_id, classroom_id) => {
 
     /**
-     * Connecting to the namespace `${challenge_id}` of the URL `${ServerURI}`,
+     * Connecting to the namespace `${challenge_id}` of the URL `${API_URL}`,
      * still only One Socket created
      */
-    console.log(`Socket namespace ${ServerURI}/${challenge_id}`,)
-    const socket = io(`${ServerURI}/${challenge_id}`, {
+    console.log(`Socket namespace ${API_URL}/${challenge_id}`,)
+    const socket = io(`${API_URL}/${challenge_id}`, {
         autoConnect: false,
         withCredentials: false,
     })

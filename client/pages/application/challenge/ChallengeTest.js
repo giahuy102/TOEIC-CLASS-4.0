@@ -5,6 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import data from '../../Ignored_Challenge/TEST_DATA.json';
 
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
+
 export default function ChallengeTest({ navigation, route }) {
 
     const ChallengeItemData = route.params;
@@ -15,8 +20,8 @@ export default function ChallengeTest({ navigation, route }) {
 
     React.useEffect(async () => {
         try {
-            console.log(`Calling Api: http://10.0.2.2:3001/get_challenge_participation_detail/${ChallengeItemData._id}/${currentUserId}`)
-            const fetchChallengeParticipationModelData = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_participation_detail/${ChallengeItemData._id}/${currentUserId}`);
+            console.log(`Calling Api: ${API_URL}/get_challenge_participation_detail/${ChallengeItemData._id}/${currentUserId}`)
+            const fetchChallengeParticipationModelData = await axios.get(`${API_URL}/api/challenge/get_challenge_participation_detail/${ChallengeItemData._id}/${currentUserId}`);
             console.log('[ChallengeTest.js] fetchChallengeParticipationModelData', fetchChallengeParticipationModelData.data.score);
             if (fetchChallengeParticipationModelData.data.score) {
                 setChallengeParticipationScore(fetchChallengeParticipationModelData.data.score.toFixed(2));

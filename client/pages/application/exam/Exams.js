@@ -8,6 +8,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import axios from 'axios';
 
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
+
 export default function Exams({ navigation, route }) {
     const { classId } = route.params;
     const [testData, setTestData] = useState(null);
@@ -38,7 +43,7 @@ export default function Exams({ navigation, route }) {
     }
 
     const handleDelete = (id) => {
-        axios.post('http://10.0.2.2:3001/api/test/' + id + '/delete')
+        axios.post(`${API_URL}/api/test/` + id + '/delete')
             .then(res => {
                 getTestData();
             })
@@ -64,7 +69,7 @@ export default function Exams({ navigation, route }) {
     }, [navigation]);
 
     const getTestData = () => {
-        axios.get(`http://10.0.2.2:3001/api/test/all_classroom_test/${classId}`)
+        axios.get(`${API_URL}/api/test/all_classroom_test/${classId}`)
             .then(function (res) {
                 setTestData(res.data);
             })

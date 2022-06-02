@@ -1,5 +1,11 @@
 import axios from 'axios';
-const API_URL = "http://10.0.2.2:3001/api/user/";
+
+import Constants from 'expo-constants';
+
+const NAH_API_URL = Constants.manifest.extra.API_URL;
+
+
+const API_URL = `${NAH_API_URL}/api/user/`;
 
 // import { useNavigate } from "react-router-dom";
 

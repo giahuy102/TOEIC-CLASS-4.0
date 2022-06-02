@@ -7,6 +7,11 @@ import { CommonActions } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { socketEmitUserChooseAnAnswerEvent } from '../slice/challengeRealTimeSlice';
 
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
+
 export default function ChallengeDoingSection({ navigation, route }) {
     const dispatch = useDispatch();
     const examState = useSelector(state => state.challengeRealTime.examState);
@@ -122,7 +127,7 @@ export default function ChallengeDoingSection({ navigation, route }) {
 
     const images = examStateSectionInfo.images.map(imageInfo => {
         return {
-            url: `http://10.0.2.2:3001/${imageInfo.remotePath}`
+            url: `${API_URL}/${imageInfo.remotePath}`
         }
     })
 

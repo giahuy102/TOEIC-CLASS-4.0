@@ -59,7 +59,7 @@ export default function SectionImageTitle({ navigation, index, item, images, add
           : (
             item.remotePath
               // ? <Image source={{ uri: 'data:' + item.type + ';base64,' + item.base64.toString('base64') }} style={{ width: '40%', aspectRatio: 1.5, }} />
-              ? <Image source={{ uri: `${API_URL}` + item.remotePath.split('/')[1] }} style={{ width: '40%', aspectRatio: 1.5, }} />
+              ? <Image source={{ uri: `${API_URL}/` + item.remotePath.split('/')[1] }} style={{ width: '40%', aspectRatio: 1.5, }} />
               :
               <Image source={require('../assets/temp_image.png')} />
 

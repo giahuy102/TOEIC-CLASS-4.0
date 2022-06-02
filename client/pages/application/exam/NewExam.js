@@ -13,6 +13,11 @@ import axios from 'axios';
 
 import * as DocumentPicker from 'expo-document-picker';
 
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
+
 export default function NewExam({ navigation, route }) {
 
     const { classId } = route.params;
@@ -73,7 +78,7 @@ export default function NewExam({ navigation, route }) {
             }
 
             console.log("NewExam submit data", data);
-            axios.post('http://10.0.2.2:3001/api/test/create_test', data,
+            axios.post(`${API_URL}/api/test/create_test`, data,
                 {
                     headers: {
                         Accept: 'application/json',
@@ -150,7 +155,7 @@ export default function NewExam({ navigation, route }) {
             }
 
             // console.log("NewExam submit data", data);
-            axios.post('http://10.0.2.2:3001/api/test/' + id + '/update', data,
+            axios.post(`${API_URL}/api/test/` + id + '/update', data,
                 {
                     headers: {
                         Accept: 'application/json',

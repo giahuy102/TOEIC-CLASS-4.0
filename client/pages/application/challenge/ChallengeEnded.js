@@ -6,7 +6,11 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadEndedChallengesList } from './slice/challengesListSlice';
 
-const BASE_API_URL = `http://10.0.2.2:${3001}`;
+
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
 const CHALLENGE_PREFIX = '/api/challenge';
 
 export default function ChallengeEnded({ navigation, route }) {
@@ -15,7 +19,7 @@ export default function ChallengeEnded({ navigation, route }) {
     const challengesList = useSelector(state => state.challengesList.endedChallengesList);
 
     useEffect(async () => {
-        await axios.get(BASE_API_URL + CHALLENGE_PREFIX + `/get_challenges_ended/${classId}`)
+        await axios.get(API_URL + CHALLENGE_PREFIX + `/get_challenges_ended/${classId}`)
             .then(res => {
                 // console.log('Challenge Ended load challenges list response data', res.data);
                 dispatch(loadEndedChallengesList(res.data))
