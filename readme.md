@@ -1,3 +1,6 @@
+# Heroku Monorepo Guide
+Heroku Monorepo Deploy Guide: https://blog.softup.co/how-to-deploy-a-monorepo-to-multiple-heroku-apps-using-github-actions/
+
 # Task Left
 1. [OK] Update ChallengeResult get real data, using two different screen for two case:
 	- Case 1: Navigate to ChallengeResult after ChallengeDoingSections ended, using route.params to get rankingChart
