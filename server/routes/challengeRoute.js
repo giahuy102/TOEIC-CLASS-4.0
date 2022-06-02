@@ -155,10 +155,11 @@ router.get('/get_challenge_participation_detail/:challenge_id/:user_id', async (
     }
 })
 
-router.get('/get_challenge_partipations_list_by_user_id/:user_id', async (req, res) => {
+router.get('/get_challenge_partipations_list_by_user_id/:user_id/:class_id', async (req, res) => {
     try {
-        const { user_id } = req.params;
-        let challengeParticipationModelsListQuery = await ChallengeParticipationModel.find({ user: user_id }).populate('user').populate('challenge').populate('classroom');
+        const { user_id, class_id } = req.params;
+        console.log(`/get_challenge_partipations_list_by_user_id/:user_id/:class_id, user_id, class_id: ${user_id}, ${class_id}`)
+        let challengeParticipationModelsListQuery = await ChallengeParticipationModel.find({ user: user_id, classroom: class_id }).populate('user').populate('challenge').populate('classroom');
         res.status(200).send(challengeParticipationModelsListQuery);
     } catch (err) {
         res.status(400).send(err);

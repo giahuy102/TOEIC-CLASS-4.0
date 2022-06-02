@@ -54,6 +54,8 @@ const socketIOConfig = (io, challenge_id) => {
                         challenge: challenge_id,
                     });
 
+                    const anotherChallengeModelQuery = await ChallengeModel.findOne({ _id: challenge_id });
+
                     if (!ChallengePariticipationModelQueryToCheckIfUserHasParticipateAlready) {
                         /**
                          * New User Participate Challenge -> create new ChallengeParticipationModel()
@@ -61,7 +63,7 @@ const socketIOConfig = (io, challenge_id) => {
                         const newChallengeParticipationModel = new ChallengeParticipationModel({
                             user: user_id,
                             challenge: challenge_id,
-                            classroom: classroom_id,
+                            classroom: anotherChallengeModelQuery.classroom_id,
                             score: 0,
                             status: 0,
                             examState: TestModelQuerySections,

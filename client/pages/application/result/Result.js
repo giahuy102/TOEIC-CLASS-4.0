@@ -6,12 +6,13 @@ import axios from "axios";
 
 import data from './Participate.json';
 
-export default function Result({ navigation }) {
+export default function Result({ navigation, route }) {
+	const { classId } = route.params;
 	const currentUserId = useSelector(state => state.profile._id);
 
 	const [userChallengeParticipationsListData, setUserChallengeParticipationsListData] = useState([]);
 
-	React.useLayoutEffect(() => {																			// return button
+	React.useLayoutEffect(() => {		// return button
 		navigation.setOptions({
 			headerLeft: () => {
 				return (
@@ -26,7 +27,8 @@ export default function Result({ navigation }) {
 
 	React.useEffect(async () => {
 		try {
-			const userChallengeParticipationModelsFetch = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}`);
+			console.log(`[Result.js] Calling API: http://10.0.2.2:3001/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}/${classId}`);
+			const userChallengeParticipationModelsFetch = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_partipations_list_by_user_id/${currentUserId}/${classId}`);
 			console.log('[Result.js] userChallengeParticipationModelsFetch', userChallengeParticipationModelsFetch.data);
 			setUserChallengeParticipationsListData(userChallengeParticipationModelsFetch.data)
 		} catch (err) {
