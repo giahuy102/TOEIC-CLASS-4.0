@@ -19,7 +19,7 @@ export default function ChallengeTest({ navigation, route }) {
             const fetchChallengeParticipationModelData = await axios.get(`http://10.0.2.2:3001/api/challenge/get_challenge_participation_detail/${ChallengeItemData._id}/${currentUserId}`);
             console.log('[ChallengeTest.js] fetchChallengeParticipationModelData', fetchChallengeParticipationModelData.data.score);
             if (fetchChallengeParticipationModelData.data.score) {
-                setChallengeParticipationScore(fetchChallengeParticipationModelData.data.score);
+                setChallengeParticipationScore(fetchChallengeParticipationModelData.data.score.toFixed(2));
             }
         } catch (err) {
             console.log(`[ChallengeTest.js] useEffect error: ${err}`);

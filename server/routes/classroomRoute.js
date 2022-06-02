@@ -74,6 +74,7 @@ router.post('/create', tokenValidation, async function (req, res) {
             role: 'Teacher',
             user: req.user.user_id,
             classroom: newClassroomModel._id,
+            number_of_test_done: 0,
         })
 
         try {
@@ -101,6 +102,7 @@ router.post('/join', tokenValidation, async function (req, res) {
             role: 'Student',
             user: userId,
             classroom: classId,
+            number_of_test_done: 0,
         })
         try {
             newJoin.save();

@@ -10,11 +10,11 @@ const ChallengeParticipationModel = require('../model/ChallengeParticipationMode
 
 router.post('/create_challenge', async (req, res) => {
     try {
-        console.log("[challengeRoute.js] /create_challenge req.body: ", req.body)
+        // console.log("[challengeRoute.js] /create_challenge req.body: ", req.body)
         const { userId, classId, challenge } = req.body;
         const { type } = challenge;
         const user = await UserModel.findOne({ _id: userId });
-        console.log("user: ", user)
+        // console.log("user: ", user)
         var currentDate = new Date()
         var startDate = new Date(req.body['challenge']['startDate'])
         var endDate = new Date(req.body['challenge']['endDate'])
@@ -148,7 +148,7 @@ router.get('/get_challenge_participation_detail/:challenge_id/:user_id', async (
     try {
         const { challenge_id, user_id } = req.params;
         let challengeParticipationModelQuery = await ChallengeParticipationModel.findOne({ user: user_id, challenge: challenge_id });
-        console.log(`[challengeRoute.js] /get_challenge_participation_detail/:challenge_id/:user_id challengeParticipationModelQuery`, challengeParticipationModelQuery);
+        // console.log(`[challengeRoute.js] /get_challenge_participation_detail/:challenge_id/:user_id challengeParticipationModelQuery`, challengeParticipationModelQuery);
         res.status(200).send(challengeParticipationModelQuery);
     } catch (err) {
         res.status(400).send(err);

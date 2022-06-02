@@ -43,7 +43,7 @@ export default function ChallengeRanking({ navigation, route }) {
                 <View style={styles.right}>
                     <Text style={{ paddingTop: 10 }}>{item.username}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <Text>Score: <Text style={{ fontWeight: 'bold', color: '#1849A9' }}> {item.score} </Text> </Text>
+                        <Text>Score: <Text style={{ fontWeight: 'bold', color: '#1849A9' }}> {item.score.toFixed(2)} </Text> </Text>
                         <Text>Answer: <Text style={{ fontWeight: 'bold', color: '#1849A9' }}> {item.answers} </Text> </Text>
                     </View>
                     {/* <Text>Will end: {new Date(item.end).toLocaleString()}</Text> */}

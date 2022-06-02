@@ -100,25 +100,31 @@ export default function ChallengeDoingSection({ navigation, route }) {
         );
     }
 
-    const images = [{
-        // Simplest usage.
-        url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
+    // const images = [{
+    //     // Simplest usage.
+    //     url: 'https://avatars2.githubusercontent.com/u/7970947?v=3&s=460',
 
-        // width: number
-        // height: number
-        // Optional, if you know the image size, you can set the optimization performance
+    //     // width: number
+    //     // height: number
+    //     // Optional, if you know the image size, you can set the optimization performance
 
-        // You can pass props to <Image />.
-        props: {
-            // headers: ...
+    //     // You can pass props to <Image />.
+    //     props: {
+    //         // headers: ...
+    //     }
+    // }, {
+    //     url: '',
+    //     props: {
+    //         // Or you can set source directory.
+    //         source: require('../images/ex1.png')
+    //     }
+    // }]
+
+    const images = examStateSectionInfo.images.map(imageInfo => {
+        return {
+            url: `http://10.0.2.2:3001/${imageInfo.remotePath}`
         }
-    }, {
-        url: '',
-        props: {
-            // Or you can set source directory.
-            source: require('../images/ex1.png')
-        }
-    }]
+    })
 
     const pressImageHandler = () => {
         setShow(!show)

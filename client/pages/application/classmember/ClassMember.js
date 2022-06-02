@@ -87,7 +87,7 @@ export default function Login({ navigation, route }) {
                         <Image
                             source={require('../../../assets/rank_member_icon.png')}
                         />
-                        <Text style={styles.sub_content}>{item.average_score}</Text>
+                        <Text style={styles.sub_content}>{item.average_score.toFixed(2)}</Text>
                     </View>
                 </View>
 

@@ -71,7 +71,7 @@ export default function Result({ navigation }) {
 						alignItems: 'center'
 					}}>
 						<Text style={styles.name_text}>
-							{item.score}
+							{item.score.toFixed(2)}
 						</Text>
 					</View>
 				</View>

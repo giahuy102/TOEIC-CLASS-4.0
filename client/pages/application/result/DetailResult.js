@@ -45,11 +45,11 @@ export default function DetailResult({ navigation, route }) {
 			</View>
 
 			<View style={{ marginTop: 20, padding: 15, width: '95%' }}>
+				{/* <Text style={{ fontSize: 20, fontWeight: 'normal' }}>
+					Correct answer: {data.score.toFixed(2)}
+				</Text> */}
 				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Correct answer: {data.score}
-				</Text>
-				<Text style={{ fontSize: 20, fontWeight: 'normal' }}>
-					Grade: {data.score}
+					Grade: {data.score.toFixed(2)}
 				</Text>
 			</View>
 		</View>

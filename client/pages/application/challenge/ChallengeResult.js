@@ -117,7 +117,7 @@ export default function ChallengeResult({ navigation, route }) {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around', flexDirection: 'row', width: '95%', marginTop: 20 }}>
                 <Text style={{ color: 'red', fontWeight: 'bold', textAlign: 'center', width: '20%' }} >{index}</Text>
                 <Text style={{ textAlign: 'center', width: '60%' }}>{item.username}</Text>
-                <Text style={{ textAlign: 'center', width: '20%' }}>{item.score}</Text>
+                <Text style={{ textAlign: 'center', width: '20%' }}>{item.score.toFixed(2)}</Text>
             </View>
         );
     }

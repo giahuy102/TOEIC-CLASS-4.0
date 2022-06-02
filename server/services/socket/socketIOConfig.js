@@ -145,7 +145,7 @@ const socketIOConfig = (io, challenge_id) => {
                 else {
                     ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].chosenAnswer = theAnswer;
                     ChallengeParticipationModelQuery.examState[sectionIndex].questions[questionIndex].answerState = 'AC';
-                    ChallengeParticipationModelQuery.score += 1;
+                    ChallengeParticipationModelQuery.score += (1 / totalTestScore) * 10;
                     for (const rankingChartItemPointer of ChallengeEventsRecordModelQuery.rankingChart) {
                         if (rankingChartItemPointer.user_id == user_id) {
                             rankingChartItemPointer.answers += 1;
@@ -271,7 +271,9 @@ const checkAndUpdateAllChallengeStatus = async (io) => {
                             const newScore = rankingChartItem.score;
                             const UserJoinClassroomModelQuery = await UserJoinClassroomModel.findOne({ user: user_id, classroom: classroom_id });
                             const currentUserAverageScoreInClass = UserJoinClassroomModelQuery.average_score;
-                            UserJoinClassroomModelQuery.average_score = (currentUserAverageScoreInClass * currentClassroomNumberOfCompletedChallenge + newScore) / (currentClassroomNumberOfCompletedChallenge + 1);
+                            console.log("Current Average Score", (currentUserAverageScoreInClass * UserJoinClassroomModelQuery.number_of_test_done + newScore) / (UserJoinClassroomModelQuery.number_of_test_done + 1))
+                            UserJoinClassroomModelQuery.average_score = (currentUserAverageScoreInClass * UserJoinClassroomModelQuery.number_of_test_done + newScore) / (UserJoinClassroomModelQuery.number_of_test_done + 1);
+                            UserJoinClassroomModelQuery.number_of_test_done += 1;
                             await UserJoinClassroomModelQuery.save();
                             ClassroomModelQuery.number_of_completed_challenge += 1;
                             await ClassroomModelQuery.save();
