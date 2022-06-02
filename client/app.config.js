@@ -6,6 +6,6 @@ export default {
     // All values in extra will be passed to your app.
     extra: {
         fact: 'kittens are cool',
-        API_URL: 'http://10.0.2.2:3001'
+        API_URL: 'https://toeic-4-api.herokuapp.com'
     },
 };
