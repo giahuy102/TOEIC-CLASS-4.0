@@ -5,7 +5,10 @@ import { loadChallengingChallengesList } from './slice/challengesListSlice'
 import data from '../../Ignored_Challenge/DATA.json'
 import axios from 'axios';
 
-const BASE_API_URL = `http://10.0.2.2:${3001}`;
+import Constants from 'expo-constants';
+
+const BASE_API_URL = Constants.manifest.extra.API_URL;
+
 const CHALLENGE_PREFIX = '/api/challenge';
 
 export default function ChallengeChallenging({ navigation, route }) {

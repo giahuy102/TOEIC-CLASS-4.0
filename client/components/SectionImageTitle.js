@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, SafeAreaView, Image, TouchableOpacity, FlatList, ScrollView, ImageStore } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
 
 export default function SectionImageTitle({ navigation, index, item, images, addImage, setNewImage, deleteImage }) {
 
@@ -56,7 +59,7 @@ export default function SectionImageTitle({ navigation, index, item, images, add
           : (
             item.remotePath
               // ? <Image source={{ uri: 'data:' + item.type + ';base64,' + item.base64.toString('base64') }} style={{ width: '40%', aspectRatio: 1.5, }} />
-              ? <Image source={{ uri: 'http://10.0.2.2:3001/' + item.remotePath.split('/')[1] }} style={{ width: '40%', aspectRatio: 1.5, }} />
+              ? <Image source={{ uri: `${API_URL}` + item.remotePath.split('/')[1] }} style={{ width: '40%', aspectRatio: 1.5, }} />
               :
               <Image source={require('../assets/temp_image.png')} />
 

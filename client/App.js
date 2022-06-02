@@ -34,7 +34,11 @@ import TabSectionNavigator from './components/TabSectionNavigator';
 import ChallengeUpcoming from './pages/application/challenge/ChallengeUpcoming';
 import ChallengeChallenging from './pages/application/challenge/ChallengeChallenging';
 
-// import 'react-native-gesture-handler';
+import Constants from 'expo-constants';
+
+const API_URL = Constants.manifest.extra.API_URL;
+
+console.log('[App.js] API_URL', Constants.manifest.extra.API_URL);
 
 const Stack = createNativeStackNavigator();
 
